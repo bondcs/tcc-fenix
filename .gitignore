@@ -10,3 +10,5 @@ web/bundles/*
 
 # Configuration files
 app/config/parameters.ini
+/net-metadados/nbproject/private/
+/net-metadados/
