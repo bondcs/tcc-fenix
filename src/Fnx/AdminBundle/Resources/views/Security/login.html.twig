@@ -1,0 +1,29 @@
+{% extends "FnxAdminBundle::layout.html.twig" %} 
+
+{% block title %}Login{% endblock %}
+{% block menu %}{% endblock %}
+
+ 
+{% block conteudo %}
+    <div id="wrapper-login">
+        <div id="header-login">Fenix</div>
+        <div id="box-login">
+            {% if error %}
+            <div class="error">{{ error.message }}</div>
+            {% endif %}                 
+            <form action="{{ path('_security_check_a') }}" method="POST" class="cms">
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="_username" value="{{ last_username }}" />
+                </div>
+
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="_password" />
+                </div>
+
+                <input type="submit" name="login" value="Acessar" />
+            </form>
+        </div>
+    </div>
+{% endblock %}

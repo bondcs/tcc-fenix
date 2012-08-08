@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="shortcut icon" href="{{ asset('bundles/fnx/admin/images/faviconr.ico') }}" /> 
+        <meta http-equiv="Content-Type" content="text/html"; charset=utf-8" />
+        <title>{% block title %}Home{% endblock %} - Fenix</title>
+        <!--[if lt IE 9]>
+            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.js') }}"></script>
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
+	<script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.dataTables.js') }}"></script>
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/script.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+        
+        <link href="{{ asset('bundles/fnxadmin/css/style.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('bundles/fnxadmin/css/redmond/jquery-ui-1.8.22.custom.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('bundles/fnxadmin/table/css/jquery.dataTables_themeroller.css') }}" type="text/css" rel="stylesheet" />
+        {% block stylesheets %}{% endblock %}
+        
+        {% block javascripts %}{% endblock %}
+        
+        
+    </head>
+    <body>
+        <section id="wrapper">
+            <header id="header">
+                    <div><a href="{{ path('adminHome')}}">Administração</a></div>
+                    <div></div>
+            </header>
+            {% block menu %}
+                <div id='cssmenu'>
+                    <ul>
+                    <li class='has-sub '><a href='#'><span>Item</span></a>
+                        <ul>
+                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='#'><span>Item</span></a></li>
+                        </ul>
+                    </li>
+                    <li class='has-sub '><a href='#'><span>Item</span></a>
+                        <ul>
+                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='#'><span>Item</span></a></li>
+                        </ul>
+                    </li>
+                    <li class='has-sub '><a href='#'><span>Item</span></a>
+                        <ul>
+                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='#'><span>Item</span></a></li>
+                        </ul>
+                    </li>
+                    <li class='has-sub '><a href='#'><span>Item</span></a>
+                        <ul>
+                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='#'><span>Item</span></a></li>
+                        </ul>
+                    </li>
+                    </ul>
+                        <a id="logout" href="{{ path('_security_logout_a')}}"><span> </span></a>
+                </div>
+            {% endblock %} 
+                
+            {% block menuContent %}{% endblock %}    
+            
+            {% if app.session.hasFlash('success') %}
+                <div class="flash-success">
+                    {{ app.session.flash('success') }}
+                </div>
+            {% endif %}  
+            
+            {% if app.session.hasFlash('error') %}
+                <div class="flash-error">
+                    {{ app.session.flash('error') }}
+                    {{ app.session.removeFlash('error') }}
+                </div>
+            {% endif %}  
+                
+            <section class="main-col">
+                {% block conteudo %}{% endblock %}
+            </section>
+
+            <div id="footer">
+                {% block footer %}
+                    Fenix-System 1.0 - All right reserved
+                {% endblock %}
+            </div>
+        </section>
+
+    </body>
+</html>
