@@ -8,6 +8,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class PageController extends Controller
 {
+    
+    /**
+     * @Route("/", name="frontPage")
+     * @Template()
+     */
+    public function frontAction(){
+        
+        return array();
+    }
+
     /**
      * @Route("/adm", name="adminHome")
      * @Template()

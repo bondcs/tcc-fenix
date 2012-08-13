@@ -1,0 +1,43 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+{% block title %}Funcionário Manager{% endblock %}
+{% block menuContent %}
+
+    <div id="menuContent">
+        <h3>Funcionário Manager: Funcionários</h3>
+        <ul>
+            <li><a class="new-link" href="{{ path('funcionarioAdd')}}"><span ></span>Novo</a></li>
+            <li><a route="funcionarioEdit" class="edit-link" href="#"><span></span>Editar</a></li>
+            <li><a route="funcionarioShow" class="show-link" href="#"><span></span>Profile</a></li>
+            <li><a route="funcionarioRemove" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
+        </ul> 
+    </div>
+
+{% endblock %}
+{% block conteudo %}
+     
+    <div class="box-table">
+        <table id="table">
+            <thead>
+                <tr>
+                    <th class="left">Nome</th>
+                    <th>Telefone</th>
+                    <th>ID</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for funcionario in funcionarios %}
+                <tr{% if loop.index is even %} class="row0" {% else %} class="row1" {% endif %}>
+                    <td><a class="link-name" href="{{ path('funcionarioEdit', {'id': funcionario.id} )}}">{{ funcionario.nome }}</a></td>
+                    <td>{{ funcionario.telefone }}</td>
+                    <td class="id">{{ funcionario.id}}</td>
+                </tr>        
+        {% endfor %}
+            </tbody>  
+        </table>
+     </div>
+
+     <div id="dialog-confirm" title="Deletar este funcionário?">
+	<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Este funcinário será deletado. Você tem certeza?</p>
+     </div>
+
+{% endblock %}

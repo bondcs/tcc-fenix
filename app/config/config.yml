@@ -58,10 +58,3 @@ swiftmailer:
 jms_security_extra:
     secure_controllers:  true
     secure_all_services: false
-    
-fos_user:
-    db_driver: orm
-    firewall_name: admin, main
-    user_class: Fnx\UserBundle\Entity\User
-    group:
-        group_class: Fnx\UserBundle\Entity\Group

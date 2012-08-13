@@ -1,0 +1,43 @@
+{% extends 'FnxAdminBundle::layout.html.twig' %}
+
+{% block title %} Formulário {% endblock %}
+
+{% block menuContent %}
+    <div id="menuContent">
+        <h3>Funcionário Manager: Formulário</h3>
+        <ul>
+            <li><a class="back-link" href="{{ path('funcionarioHome')}}"><span></span>Voltar</a></li>
+        </ul> 
+    </div>
+{% endblock %}
+
+{% block conteudo %}
+<div id="box-form">
+    <form novalidate="" id="form" action="{{ funcionario.id ? path('funcionarioEdit', { 'id' : funcionario.id}) : path('funcionarioAdd')}}" method="post" class="cms">
+            
+            {{ form_errors(form) }}
+            
+            <fieldset>
+                <legend>Formulário</legend>
+                <div> 
+                    {{ form_errors(form.nome)}}
+                    {{ form_label(form.nome)}}    
+                    {{ form_widget(form.nome)}}
+                </div>
+
+                <div> 
+                    {{ form_errors(form.telefone)}}
+                    {{ form_label(form.telefone)}}    
+                    {{ form_widget(form.telefone)}}
+                </div>
+
+                {{ form_rest(form)}}
+            </fieldset>
+              
+
+            <input type="submit" value="Submit"/>
+    </form>
+</div>
+
+
+{% endblock %}

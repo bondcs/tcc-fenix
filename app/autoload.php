@@ -17,7 +17,7 @@ $loader->registerNamespaces(array(
     'FOS' => __DIR__.'/../vendor/bundles',
     'Doctrine\\Common\\DataFixtures' => __DIR__.'/../vendor/doctrine-fixtures/lib',
     'Doctrine\\Common' => __DIR__.'/../vendor/doctrine-common/lib',
-    'Fnx\UserBundle' => '/var/www/symfony/src',
+    'Yepsua' => __DIR__.'/../vendor/bundles',
 ));
 $loader->registerPrefixes(array(
     'Twig_Extensions_' => __DIR__.'/../vendor/twig-extensions/lib',
@@ -43,3 +43,5 @@ AnnotationRegistry::registerLoader(function($class) use ($loader) {
 AnnotationRegistry::registerFile(__DIR__.'/../vendor/doctrine/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php');
 
 require __DIR__.'/../vendor/swiftmailer/lib/swift_required.php';
+include_once __DIR__.'/../vendor/bundles/Yepsua/SmarTwigBundle/vendor/YepSua/Labs/RIA/jQuery4PHP/YsJQueryAutoloader.php';
+YsJQueryAutoloader::register();

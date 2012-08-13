@@ -1,63 +1,59 @@
 security:
-  
-    providers:
-        fos_userbundle:
-            id: fos_user.user_manager
-
     encoders:
-        FOS\UserBundle\Model\UserInterface: sha512
+        Fnx\AdminBundle\Entity\Usuario:
+            algorithm: sha512
+            encode-as-base64: true
+            iterations: 10
+    
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+    
+    providers:
+        entity_user:
+            entity: { class: FnxAdminBundle:Usuario, property: username }
 
     firewalls:
+            
+        login_user:
+            pattern:  ^/user/login$
+            security: false
+            anonymous: true
+            
         login_admin:
             pattern:  ^/adm/login$
             security: false
             anonymous: true
-            
-        admin:
-            pattern: ^/adm
+       
+        admin_secured_area:
+            pattern: ^/
+            anonymous: ~
             form_login:
-                provider: fos_userbundle
-                login_path: /adm/login
                 check_path: /adm/login_check
+                login_path: /adm/login
+                default_target_path: /adm
             logout:
                 path: /adm/logout
-         
-        public:
-            pattern: ^/
-            form_login:
-                provider: fos_userbundle
-                csrf_provider: form.csrf_provider
-            logout:       true
-            anonymous:    true
-            
-            
-        dev:
-            pattern:  ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        login:
-            pattern:  ^/demo/secured/login$
-            security: false
-
-        secured_area:
-            pattern:    ^/demo/secured/
-            form_login:
-                check_path: /demo/secured/login_check
-                login_path: /demo/secured/login
-            logout:
-                path:   /demo/secured/logout
-                target: /demo/
-            #anonymous: ~
-            #http_basic:
-            #    realm: "Secured Demo Area"
-
+                target: /adm
+       
+#        user_secured_area:
+#            pattern: ^/
+#            anonymous: true
+#            form_login:
+#                check_path: /user/login_check
+#                login_path: /user/login
+#            logout:
+#                path: /user/logout
+#                target: /
+#  
+  
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/adm/login/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/adm, role: ROLE_ADMIN }
-    
-    role_hierarchy:
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        - { path: ^/user, role: ROLE_USER }
+        - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /adm/login/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /user/login/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+
+    acl:
+        connection: default

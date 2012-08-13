@@ -7,7 +7,7 @@
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        
+        {% include 'YepsuaSmarTwigBundle::smartwigAssets.html.twig' %}
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
 	<script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.dataTables.js') }}"></script>
@@ -18,6 +18,7 @@
         <link href="{{ asset('bundles/fnxadmin/css/style.css') }}" type="text/css" rel="stylesheet" />
         <link href="{{ asset('bundles/fnxadmin/css/redmond/jquery-ui-1.8.22.custom.css') }}" type="text/css" rel="stylesheet" />
         <link href="{{ asset('bundles/fnxadmin/table/css/jquery.dataTables_themeroller.css') }}" type="text/css" rel="stylesheet" />
+        
         {% block stylesheets %}{% endblock %}
         
         {% block javascripts %}{% endblock %}
@@ -40,9 +41,9 @@
                             <li><a href='#'><span>Item</span></a></li>
                         </ul>
                     </li>
-                    <li class='has-sub '><a href='#'><span>Item</span></a>
+                    <li class='has-sub '><a href='#'><span>Manager</span></a>
                         <ul>
-                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='{{ path('funcionarioHome')}}'><span>Funcionário</span></a></li>
                             <li><a href='#'><span>Item</span></a></li>
                             <li><a href='#'><span>Item</span></a></li>
                         </ul>
@@ -91,6 +92,9 @@
                 {% endblock %}
             </div>
         </section>
-
+        <div id="dialogAction" title="Atenção">
+             <p><span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 10px 0;"></span>
+             Selecione um registro antes de efetuar esta ação.</p>
+       </div>    
     </body>
 </html>
