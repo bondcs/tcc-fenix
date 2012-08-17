@@ -5,6 +5,20 @@ $(document).ready(function() {
         onTable();
         onFnAction();
         simpleDialog();
+        populaCidade();
+        
+//        $("#user").click(function(){
+//        
+//        $.ajax({
+//            type: 'POST',
+//            url: Routing.generate('funcionarioAddUser', { "id": 3 }),
+//            success: function(result){
+//                    $(".main-col").append(result);
+//            }
+//        
+//        })
+//        })
+        
 } );
 
 function onTable(){
@@ -91,6 +105,31 @@ function simpleDialog(){
 	});        
        
     
+}
+
+function populaCidade(){
+    
+    $("#estado").change(function(){
+        
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('ajaxCidade', { estadoId: $('#estado').val() }),
+            success: function(valores){
+                $('#cidade').empty();
+                var options = "";
+                
+                $.each(valores,function(key,valor){
+                       options += '<option value="'+ valor['id']+ '">'+ valor['nome']+'</option>';
+                })
+                $("#cidade").html(options);  
+            }
+        
+        })
+        
+ 
+    
+    
+})
 }
 
     

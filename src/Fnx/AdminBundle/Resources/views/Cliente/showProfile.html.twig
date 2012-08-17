@@ -1,0 +1,11 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+{% block title %} {{ cliente.nome }} {% endblock %}
+{% block menuContent %}
+    <div id="menuContent">
+        <h3>Cliente : {{ cliente.nome }}</h3>
+        <ul>
+            <li><a class="addUser-link" href="{{ path('funcionarioAddUser', {'id' : cliente.id})}}"><span></span>Usuário</a></li>
+            <li><a class="back-link" href="{{ path('clienteHome')}}"><span></span>Voltar</a></li>
+        </ul> 
+    </div>
+{% endblock %}

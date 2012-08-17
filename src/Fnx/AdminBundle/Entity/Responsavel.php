@@ -3,15 +3,17 @@
 namespace Fnx\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Fnx\AdminBundle\Entity\Cliente;
+use Fnx\AdminBundle\Entity\Usuario;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Fnx\AdminBundle\Entity\Funcionario
+ * Fnx\AdminBundle\Entity\Responsavel
  *
- * @ORM\Table(name="funcionario")
- * @ORM\Entity(repositoryClass="Fnx\AdminBundle\Entity\FuncionarioRepository")
+ * @ORM\Table(name="responsavel")
+ * @ORM\Entity
  */
-class Funcionario
+class Responsavel
 {
     /**
      * @var integer $id
@@ -25,18 +27,12 @@ class Funcionario
     /**
      * @var string $nome
      *
-     * @ORM\Column(name="nome", type="string", length=255)
+     * @ORM\Column(name="nome", type="string", length=45)
+     * 
      * @Assert\NotBlank()
+     * @Assert\MinLength(5)
      */
     private $nome;
-    
-    /**
-     * @var object Usuario
-     * 
-     * @ORM\OneToOne(targetEntity="Fnx\AdminBundle\Entity\Usuario", cascade={"persist"})
-     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", onDelete="SET NULL")   
-     */
-    private $usuario;
 
     /**
      * @var string $telefone
@@ -45,10 +41,22 @@ class Funcionario
      * @Assert\NotBlank()
      */
     private $telefone;
-
     
-    public function __construct() {
-    }
+    /**
+     * @var objeto $cliente
+     * 
+     * @ORM\ManyToOne(targetEntity="Cliente", inversedBy="responsaveis")
+     * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
+     */
+    private $cliente;
+    
+    /**
+     * @var objeto $usuario
+     * 
+     * @ORM\OneToOne(targetEntity="Usuario", cascade={"persist"})
+     * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $usuario;
 
     /**
      * Get id
@@ -98,6 +106,26 @@ class Funcionario
     public function getTelefone()
     {
         return $this->telefone;
+    }
+
+    /**
+     * Set cliente
+     *
+     * @param Fnx\AdminBundle\Entity\Cliente $cliente
+     */
+    public function setCliente(\Fnx\AdminBundle\Entity\Cliente $cliente)
+    {
+        $this->cliente = $cliente;
+    }
+
+    /**
+     * Get cliente
+     *
+     * @return Fnx\AdminBundle\Entity\Cliente 
+     */
+    public function getCliente()
+    {
+        return $this->cliente;
     }
 
     /**

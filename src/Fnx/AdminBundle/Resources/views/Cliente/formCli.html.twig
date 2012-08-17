@@ -1,0 +1,83 @@
+{% extends 'FnxAdminBundle::layout.html.twig' %}
+
+{% block title %} Formulário {% endblock %}
+
+{% block menuContent %}
+    <div id="menuContent">
+        <h3>Cliente Manager: Formulário</h3>
+        <ul>
+            <li><a class="back-link" href="{{ path('clienteHome')}}"><span></span>Voltar</a></li>
+        </ul> 
+    </div>
+{% endblock %}
+
+{% block conteudo %}
+<div id="box-form">
+    <form novalidate="" id="form" action="{{ cliente.id ? path('clienteEdit', { 'id' : cliente.id}) : path('clienteAdd')}}" method="post" class="cms">
+            
+            {{ form_errors(form) }}
+            
+            <fieldset>
+                <legend>Cliente</legend>
+                <div> 
+                    {{ form_errors(form.nome)}}
+                    {{ form_label(form.nome)}}    
+                    {{ form_widget(form.nome)}}
+                </div>
+
+                <div> 
+                    {{ form_errors(form.telefone)}}
+                    {{ form_label(form.telefone)}}    
+                    {{ form_widget(form.telefone)}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.cnpj)}}
+                    {{ form_label(form.cnpj)}}    
+                    {{ form_widget(form.cnpj)}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.cep)}}
+                    {{ form_label(form.cep)}}    
+                    {{ form_widget(form.cep)}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.estado)}}
+                    {{ form_label(form.estado)}}    
+                    {{ form_widget(form.estado, {'id': 'estado'})}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.cidade)}}
+                    {{ form_label(form.cidade)}}    
+                    {{ form_widget(form.cidade, {'id': 'cidade'})}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.bairro)}}
+                    {{ form_label(form.bairro)}}    
+                    {{ form_widget(form.bairro)}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.rua)}}
+                    {{ form_label(form.rua)}}    
+                    {{ form_widget(form.rua)}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.numero)}}
+                    {{ form_label(form.numero)}}    
+                    {{ form_widget(form.numero)}}
+                </div>
+
+                {{ form_rest(form)}}
+            </fieldset>
+              
+
+            <input type="submit" value="Submit"/>
+    </form>
+</div>
+{% endblock %}

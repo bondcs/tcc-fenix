@@ -1,17 +1,8 @@
-{% extends 'FnxAdminBundle::layout.html.twig' %}
-{% block title %} Usuário {% endblock %}
-
-{% block menuContent %}
-    <div id="menuContent">
-        <h3>Funcinário: {{ funcionario.nome}}</h3>
-        <ul>  
-            <li><a class="back-link" href="{{ path('funcionarioShow', {'id' : funcionario.id})}}"><span></span>Voltar</a></li>
-        </ul> 
-    </div>
-{% endblock %}
-
-{% block conteudo %}
-<div id="box-form">
+{% ui_dialog id="myDialogId"
+               title="Hello World"
+               widgetVar="myDialog"
+               autoOpen=false 
+  %}
     
     <form novalidate="" id="form" action="{{ path('funcionarioAddUser', {'id' : funcionario.id})}}" method="post" class="cms">
             {{ form_errors(form) }}
@@ -45,8 +36,6 @@
 
             <input type="submit" value="Submit"/>
     </form>
+
     
-</div>
-
-
-{% endblock %}
+{% end_ui_dialog %}  

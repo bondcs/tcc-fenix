@@ -46,7 +46,7 @@ li{list-style: none;}
 
 /* menu conteudo */
 #menuContent{padding: 5px; background-color: #F4F4F4; margin: 8px; min-height: 80px; border: 1px solid #CCCCCC; border-radius: 10px}
-#menuContent > h3 {display: inline; vertical-align: middle; }
+#menuContent > h3, h2 {display: inline; vertical-align: middle; }
 #menuContent > ul {list-style: none; float:right}
 #menuContent > ul > li {text-align: center; display: block; float:left; margin-left: 5px; margin-right: 5px; width: 48px; height: 60px; padding: 10px}
 /*#menuContent > ul > li:hover {border-bottom: 1px solid gray; border-right: 1px solid gray; border-top: 1px solid white; border-left: 1px solid white;}*/
@@ -64,6 +64,7 @@ li{list-style: none;}
 .show-link > span{background-image: url("../images/profile-ico2.png");}
 .addUser-link > span{background-image: url("../images/adduser-ico.png");}
 .remove-user-link > span{background-image: url("../images/remove-user-ico.png");}
+.key-link > span{background-image: url("../images/key-ico.png");}
 
 /* forms */
 #box-form{border: 1px solid #CCCCCC; padding: 20px; margin: 10px; display: inline-block}
@@ -74,7 +75,9 @@ form.cms input[type="text"],
 form.cms input[type="email"],
 form.cms input[type="password"],
 form.cms input[type="checkbox"]
-    { width: 310px; line-height: 26px; font-size: 16px; min-height: 26px;} 
+    { width: 310px; line-height: 26px; font-size: 16px; min-height: 26px;}
+    
+form.cms select{min-height: 23px; padding-top: 0.5%}
     
 form.cms input[type="checkbox"] {margin-top: 2%}
 form.cms input[type="file"]
@@ -85,7 +88,7 @@ form.cms ul li { color: #ff0000; margin-bottom: 5px; }
 form.cms fieldset:first-child{padding: 15px;}
 
 /* fix checkbox */
-form.cms > .checkbox {margin-top: 30px;}
+form.cms > .checkbox {margin-top: 20px;}
 form.cms > .checkbox fieldset {padding: 10px;}
 form.cms > .checkbox fieldset input[type="checkbox"] {margin-top: 0.5%;}
 form.cms > .checkbox label {float: left; margin-right: 5px; font-weight: normal;text-align:left; vertical-align: auto; padding-top: 0} 
