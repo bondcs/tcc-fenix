@@ -1,23 +1,13 @@
 
 
 $(document).ready(function() {
-    
+  
         onTable();
         onFnAction();
+        actionDialog();
         simpleDialog();
         populaCidade();
-        
-//        $("#user").click(function(){
-//        
-//        $.ajax({
-//            type: 'POST',
-//            url: Routing.generate('funcionarioAddUser', { "id": 3 }),
-//            success: function(result){
-//                    $(".main-col").append(result);
-//            }
-//        
-//        })
-//        })
+        ajaxDialog()
         
 } );
 
@@ -41,6 +31,49 @@ function onTable(){
         });
     
 }
+
+
+function ajaxDialog(){
+    
+        $(".ajax-link").click(function(event){
+             event.preventDefault();
+             var url = $(this).attr("href");
+             $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function(result){
+                            $(".simpleDialog").html(result);
+                            $('.simpleDialog').dialog('open');
+                    }
+                })
+            
+        })
+             
+
+}
+
+function ajaxSubmit(){
+
+                var url = $('.ajaxForm').attr("action");
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: $('.ajaxForm').serialize(),
+                    success: function(result){
+                        
+                        if (result['success']){
+                            window.location.href = result['success'];
+                            return false;
+                        }
+                        
+                        $(".simpleDialog").html(result);
+                        $('.simpleDialog').dialog('close');
+                        $('.simpleDialog').dialog('open');
+                    }
+                })
+
+               
+}           
 
 
 function onFnAction(){
@@ -90,7 +123,7 @@ $(function(){
 });
 
 
-function simpleDialog(){
+function actionDialog(){
         $( "#dialogAction" ).dialog({
                 autoOpen: false,
 		resizable: false,
@@ -102,6 +135,18 @@ function simpleDialog(){
                                 return false;
 			}
 		}
+	});        
+       
+    
+}
+
+function simpleDialog(){
+        $( ".simpleDialog" ).dialog({
+                autoOpen: false,
+		resizable: false,
+                height:"auto",
+                width:"auto",
+		modal: true
 	});        
        
     

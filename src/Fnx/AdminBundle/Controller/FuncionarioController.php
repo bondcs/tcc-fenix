@@ -15,6 +15,7 @@ use Fnx\AdminBundle\Entity\Usuario;
 use Fnx\AdminBundle\Form\UsuarioType;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use Fnx\AdminBundle\Form\ChangePasswordType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Description of FuncionarioController
@@ -141,8 +142,7 @@ class FuncionarioController extends Controller{
            $form = $this->createForm(new UsuarioType, $funcionario->getUsuario(), array('validation_groups'=>'edit'));
            $password = $funcionario->getUsuario()->getPassword();
         }
-        
-        
+                
         $request = $this->getRequest();
         if ($request->getMethod() == "POST"){
             $form->bindRequest($request);
@@ -227,6 +227,7 @@ class FuncionarioController extends Controller{
             if ($request->getMethod() == "POST"){
                 $form->bindRequest($request);
                 if ($form->isValid()){
+                    
                     $usuario->setSalt(md5(time()));
                     $data = $form->getData();
                     $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
@@ -237,20 +238,25 @@ class FuncionarioController extends Controller{
                     $em->flush();
                     
                     $this->get('session')->setFlash("success","Senha alterada com sucesso.");
-                    return $this->redirect($this->generateUrl("funcionarioAddUser", array(
-                        "id" => $funcionario->getId(),
-                    )));
-                }else{
-                    $this->get('session')->setFlash("error","Fomulário não foi validado.");
+                    
+                    $responseSuccess = array('success' => $this->generateUrl("funcionarioAddUser", array(
+                                    "id" => $funcionario->getId(),
+                                )));
+                    $response = new Response(json_encode($responseSuccess));
+                    $response->headers->set('Content-Type', 'application/json');
+        
+                    return $response;
+                    
                 }
             }
          
         
-        return array(
+        return $this->render("FnxAdminBundle:Funcionario:changePassword.html.twig", array(
             "form" => $form->createView(),
             "usuario" => $usuario,
             "funcionario" => $funcionario,
-            ); 
+            ));
+
     }
 }
 

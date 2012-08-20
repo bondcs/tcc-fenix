@@ -50,8 +50,8 @@ li{list-style: none;}
 #menuContent > ul {list-style: none; float:right}
 #menuContent > ul > li {text-align: center; display: block; float:left; margin-left: 5px; margin-right: 5px; width: 48px; height: 60px; padding: 10px}
 /*#menuContent > ul > li:hover {border-bottom: 1px solid gray; border-right: 1px solid gray; border-top: 1px solid white; border-left: 1px solid white;}*/
-#menuContent > ul > li > a {font-size: 13px; text-decoration: none}
-#menuContent > ul > li > a > span{display: block; height: 48px;}
+#menuContent > ul > li > a {font-size: 13px; text-decoration: none; text-align: center}
+#menuContent > ul > li > a > span{display: block; height: 48px; width: 48px;}
 
 .new-link > span {background-image: url("../images/new-ico2.png");}
 .edit-link > span {background-image: url("../images/edit-ico2.png");}
@@ -65,6 +65,7 @@ li{list-style: none;}
 .addUser-link > span{background-image: url("../images/adduser-ico.png");}
 .remove-user-link > span{background-image: url("../images/remove-user-ico.png");}
 .key-link > span{background-image: url("../images/key-ico.png");}
+.respo-link > span{background-image: url("../images/respo4-ico.png");}
 
 /* forms */
 #box-form{border: 1px solid #CCCCCC; padding: 20px; margin: 10px; display: inline-block}
@@ -83,7 +84,9 @@ form.cms input[type="checkbox"] {margin-top: 2%}
 form.cms input[type="file"]
     { width: 250px; line-height: 20px; font-size: 12.5pt; min-height: 26px;  }  
 form.cms textarea { width: 500px; height: 250px; line-height: 26px; font-size: 20px; margin-top: 1.5%;}
-form.cms input[type="submit"] { float: right; width: 118px; line-height: 26px; font-size: 20px; min-height: 26px; margin-top: 10px; }
+form.cms input[type="submit"],
+form.cms input[type="button"]
+    { float: right; width: 118px; line-height: 26px; font-size: 20px; min-height: 26px; margin-top: 10px; }
 form.cms ul li { color: #ff0000; margin-bottom: 5px; }
 form.cms fieldset:first-child{padding: 15px;}
 

@@ -1,10 +1,4 @@
-{% ui_dialog id="myDialogId"
-               title="Hello World"
-               widgetVar="myDialog"
-               autoOpen=false 
-  %}
-    
-    <form novalidate="" id="form" action="{{ path('funcionarioAddUser', {'id' : funcionario.id})}}" method="post" class="cms">
+      <form novalidate="" id="form" action="{{ path('funcionarioAddUser', {'id' : funcionario.id})}}" method="post" class="cms">
             {{ form_errors(form) }}
             
             <fieldset>
@@ -36,6 +30,3 @@
 
             <input type="submit" value="Submit"/>
     </form>
-
-    
-{% end_ui_dialog %}  

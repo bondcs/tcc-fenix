@@ -4,7 +4,7 @@
     <div id="menuContent">
         <h3>Cliente : {{ cliente.nome }}</h3>
         <ul>
-            <li><a class="addUser-link" href="{{ path('funcionarioAddUser', {'id' : cliente.id})}}"><span></span>Usuário</a></li>
+            <li style="margin-right: 30px;"><a class="respo-link" href="{{ path('funcionarioAddUser', {'id' : cliente.id})}}"><span style="margin-left: 20px;"></span>Responsável</a></li>
             <li><a class="back-link" href="{{ path('clienteHome')}}"><span></span>Voltar</a></li>
         </ul> 
     </div>

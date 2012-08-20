@@ -5,7 +5,7 @@
     <div id="menuContent">
         <h3>Funcinário: {{ funcionario.nome}}</h3>
         <ul>
-            <li><a class="key-link" href="{{ path("funcionarioUserSenha", {"id" : funcionario.usuario.id, 'idFuncionario' : funcionario.id})}}"><span></span>Senha</a></li> 
+            <li><a class="key-link ajax-link" href="{{ path("funcionarioUserSenha", {"id" : funcionario.usuario.id, 'idFuncionario' : funcionario.id})}}"><span></span>Senha</a></li> 
             <li><a class="delete-link confirm-link delete-alone" href="{{ path('funcionarioRemoveUser', {'id' : funcionario.id, 'idUsuario' : funcionario.usuario.id})}}"><span></span>Delete</a></li> 
             <li><a class="back-link" href="{{ path('funcionarioShow', {'id' : funcionario.id})}}"><span></span>Voltar</a></li>
         </ul> 
