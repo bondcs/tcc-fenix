@@ -4,7 +4,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace Fnx\AdminBundle\Form;
+namespace Fnx\AdminBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
@@ -35,8 +35,14 @@ class UsuarioType extends AbstractType{
 
 
     function getName() {
-        return "user";
+        return "fnx_admin_usuario";
     }
+    
+//    public function getDefaultOptions(array $options) {
+//        return array(
+//            'validation_groups' => array('register'),
+//        );
+//    }
 }
 
 ?>

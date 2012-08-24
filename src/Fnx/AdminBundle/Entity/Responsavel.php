@@ -6,12 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Fnx\AdminBundle\Entity\Cliente;
 use Fnx\AdminBundle\Entity\Usuario;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ExecutionContext;
 
 /**
  * Fnx\AdminBundle\Entity\Responsavel
  *
  * @ORM\Table(name="responsavel")
  * @ORM\Entity
+ * @Assert\Callback(methods={"addGroup"})
+ * 
  */
 class Responsavel
 {
@@ -29,8 +32,8 @@ class Responsavel
      *
      * @ORM\Column(name="nome", type="string", length=45)
      * 
-     * @Assert\NotBlank()
-     * @Assert\MinLength(5)
+     * @Assert\NotBlank(groups={"juridico","register"})
+     * @Assert\MinLength(limit=5,groups={"juridico","register"})
      */
     private $nome;
 
@@ -38,9 +41,18 @@ class Responsavel
      * @var string $telefone
      *
      * @ORM\Column(name="telefone", type="string", length=10)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(groups={"juridico", "register"})
+     * @Assert\MaxLength(limit=10,groups={"juridico","register"})
      */
     private $telefone;
+    
+    /**
+     * @var string $cpf
+     * 
+     * @ORM\Column(name="cpf", type="string", length="15", nullable=true)
+     * 
+     */
+    private $cpf;
     
     /**
      * @var objeto $cliente
@@ -53,11 +65,33 @@ class Responsavel
     /**
      * @var objeto $usuario
      * 
-     * @ORM\OneToOne(targetEntity="Usuario", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Usuario", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="usuario_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $usuario;
+    
+    /**
+     * @var boolean principal
+     * 
+     * @ORM\Column(name="principal", type="boolean")
+     * 
+     */
+    private $principal;
+    
+    
+    
+    public function __construct() {
+        $this->principal = false;
+    }
 
+    
+
+    public function addGroup(ExecutionContext $ec){
+          
+          if ($this->cliente->getPessoa() == "j"){
+            $ec->getGraphWalker()->walkReference($this, 'juridico', $ec->getPropertyPath(), true);
+          }
+    }
     /**
      * Get id
      *
@@ -146,5 +180,59 @@ class Responsavel
     public function getUsuario()
     {
         return $this->usuario;
+    }
+
+    /**
+     * Set cpf
+     *
+     * @param string $cpf
+     */
+    public function setCpf($cpf)
+    {
+        $this->cpf = $cpf;
+    }
+
+    /**
+     * Get cpf
+     *
+     * @return string 
+     */
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    /**
+     * Set principal
+     *
+     * @param boolean $principal
+     */
+    public function setPrincipal($principal)
+    {
+        $this->principal = $principal;
+    }
+
+    /**
+     * Get principal
+     *
+     * @return boolean 
+     */
+    public function getPrincipal()
+    {
+        return $this->principal;
+    }
+    
+    /**
+     * Is principal
+     *
+     * @return boolean 
+     */
+    public function isPrincipal(){
+        
+        if ($this->principal){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

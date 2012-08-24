@@ -7,12 +7,14 @@ use Fnx\AdminBundle\Entity\Cidade;
 use Doctrine\Common\Collections\ArrayCollection;
 use Fnx\AdminBundle\Entity\Responsavel;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\ExecutionContext;
 
 /**
  * Fnx\AdminBundle\Entity\Cliente
  *
  * @ORM\Table(name="cliente")
  * @ORM\Entity(repositoryClass="Fnx\AdminBundle\Entity\ClienteRepository")
+ * @Assert\Callback(methods={"validaPessoa"})
  */
 class Cliente
 {
@@ -45,11 +47,20 @@ class Cliente
     /**
      * @var string $cnpj
      *
-     * @ORM\Column(name="cnpj", type="string", length=14)
-     * @Assert\NotBlank()
+     * @ORM\Column(name="cnpj", type="string", length=14, nullable=true)
+     * @Assert\NotBlank(groups="juridico")
      * @Assert\MinLength(14)
      */
     private $cnpj;
+    
+    /**
+     * @var string $cnpj
+     *
+     * @ORM\Column(name="cpf", type="string", length=11, nullable=true)
+     * @Assert\NotBlank(groups="fisico")
+     * @Assert\MinLength(11)
+     */
+    private $cpf;
 
     /**
      * @var string $cep
@@ -89,20 +100,34 @@ class Cliente
     private $numero;
     
     /**
+     * @var string $pessoa
+     *
+     * @ORM\Column(name="pessoa", type="string")
+     */
+    private $pessoa;
+    
+    /**
      * @var ArrayCollection $responsaveis
      * 
-     * @ORM\OneToMany(targetEntity="Responsavel", mappedBy="cliente")
+     * @ORM\OneToMany(targetEntity="Responsavel", mappedBy="cliente", cascade={"persist", "remove"})
      * 
      */
     private $responsaveis;
     
     
     public function __construct() {
-        $responsaveis = new ArrayCollection();
+        $this->responsaveis = new ArrayCollection();
     }
 
 
-    
+    public function validaPessoa(ExecutionContext $ec){
+        
+        if ($this->getPessoa() == 'j') {
+          $ec->getGraphWalker()->walkReference($this, 'juridico', $ec->getPropertyPath(), true);
+        }else{
+          $ec->getGraphWalker()->walkReference($this, 'fisico', $ec->getPropertyPath(), true);  
+        }
+    }
         /**
      * Get id
      *
@@ -291,5 +316,45 @@ class Cliente
     public function getResponsaveis()
     {
         return $this->responsaveis;
+    }
+
+    /**
+     * Set cpf
+     *
+     * @param string $cpf
+     */
+    public function setCpf($cpf)
+    {
+        $this->cpf = $cpf;
+    }
+
+    /**
+     * Get cpf
+     *
+     * @return string 
+     */
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    /**
+     * Set pessoa
+     *
+     * @param string $pessoa
+     */
+    public function setPessoa($pessoa)
+    {
+        $this->pessoa = $pessoa;
+    }
+
+    /**
+     * Get pessoa
+     *
+     * @return boolean 
+     */
+    public function getPessoa()
+    {
+        return $this->pessoa;
     }
 }

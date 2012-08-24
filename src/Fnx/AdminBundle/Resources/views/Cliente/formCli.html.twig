@@ -13,12 +13,19 @@
 
 {% block conteudo %}
 <div id="box-form">
+    
     <form novalidate="" id="form" action="{{ cliente.id ? path('clienteEdit', { 'id' : cliente.id}) : path('clienteAdd')}}" method="post" class="cms">
             
             {{ form_errors(form) }}
-            
-            <fieldset>
+          
+          <fieldset style="margin-bottom: 20px;"> 
                 <legend>Cliente</legend>
+                
+                <div style="text-align: right; {{ cliente.id ? "display:none" : "" }}" >
+                        {{ form_errors(form.pessoa)}} 
+                        {{ form_widget(form.pessoa,{ 'id':'pessoa'})}}
+                </div>  
+                
                 <div> 
                     {{ form_errors(form.nome)}}
                     {{ form_label(form.nome)}}    
@@ -31,10 +38,20 @@
                     {{ form_widget(form.telefone)}}
                 </div>
                 
-                <div> 
-                    {{ form_errors(form.cnpj)}}
-                    {{ form_label(form.cnpj)}}    
-                    {{ form_widget(form.cnpj)}}
+                <div id="juridico">
+                    <div> 
+                        {{ form_errors(form.cnpj)}}
+                        {{ form_label(form.cnpj)}}    
+                        {{ form_widget(form.cnpj)}}
+                    </div>
+                </div>
+                
+                <div id="fisico">
+                    <div> 
+                        {{ form_errors(form.cpf)}}
+                        {{ form_label(form.cpf)}}    
+                        {{ form_widget(form.cpf)}}
+                    </div>
                 </div>
                 
                 <div> 
@@ -72,11 +89,35 @@
                     {{ form_label(form.numero)}}    
                     {{ form_widget(form.numero)}}
                 </div>
-
-                {{ form_rest(form)}}
+                 
+               
             </fieldset>
+            <div id="responsavel">
+            <fieldset>
+                <legend>Responsável</legend>
+                {% for responsavel in form.responsaveis %}
+                    <div>
+                        {{ form_errors(responsavel.nome)}}
+                        {{ form_label(responsavel.nome)}}    
+                        {{ form_widget(responsavel.nome)}}
+                    </div>
+                
+                    <div>
+                        {{ form_errors(responsavel.telefone)}}
+                        {{ form_label(responsavel.telefone)}}    
+                        {{ form_widget(responsavel.telefone)}}
+                    </div>
+                
+                    <div>
+                        {{ form_errors(responsavel.cpf)}}
+                        {{ form_label(responsavel.cpf)}}    
+                        {{ form_widget(responsavel.cpf)}}
+                    </div>
+                {% endfor %}
+            </fieldset>
+            </div>
               
-
+             {{ form_row(form._token) }} 
             <input type="submit" value="Submit"/>
     </form>
 </div>

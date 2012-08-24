@@ -9,8 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Fnx\AdminBundle\Entity\Cliente;
-use Fnx\AdminBundle\Form\ClienteType;
+use Fnx\AdminBundle\Form\Type\ClienteType;
 use Symfony\Component\HttpFoundation\Response;
+use Fnx\AdminBundle\Form\Type\ResponsavelType;
+use Fnx\AdminBundle\Entity\Responsavel;
 
 /**
  * Description of ClienteController
@@ -39,7 +41,13 @@ class ClienteController extends Controller{
      * @return 
      */
     public function addClienteAction(){
+        
         $cliente = new Cliente();
+        $cliente->setPessoa("j");
+        $responsavel = new Responsavel();
+        $responsavel->setPrincipal(true);
+        $cliente->getResponsaveis()->add($responsavel);
+        $responsavel->setCliente($cliente);
         $form = $this->createForm(new ClienteType($cliente), $cliente);
         $request = $this->getRequest();
         if ($request->getMethod() == "POST"){
@@ -47,6 +55,14 @@ class ClienteController extends Controller{
             $form = $this->createForm(new ClienteType($cliente, $cidades), $cliente);
             $form->bindRequest($request);
             if ($form->isValid()){
+                
+                if ($cliente->getPessoa() == 'f'){
+                    $cliente->getResponsaveis()->first()->setNome($cliente->getNome());
+                    $cliente->getResponsaveis()->first()->setTelefone($cliente->getTelefone());
+                    $cliente->getResponsaveis()->first()->setCpf($cliente->getCpf()); 
+                                   
+                }
+                
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($cliente);
                 $em->flush();
@@ -71,18 +87,43 @@ class ClienteController extends Controller{
     public function editClienteAction($id){
         
         $cliente = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")->find($id);
+        $responsavelPrincipal = $this->getDoctrine()->getRepository("FnxAdminBundle:Responsavel")->findOneBy(array("principal" => true,
+                                                                                                                    "cliente" => $id));
+//        var_dump($responsavelPrincipal); die();
         if (!$cliente){
             throw $this->createNotFoundException("Funcionário não encontrado.");
         }
-        $cidades = $this->getDoctrine()->getRepository("FnxAdminBundle:Cidade")->loadCidadeObject($cliente->getCidade()->getEstado()->getId());
+        
+        if (!$responsavelPrincipal){
+             $responsavelPrincipal = new Responsavel();
+             $responsavelPrincipal->setCliente($cliente);
+             $responsavelPrincipal->setPrincipal(true);
+        }
+        
+        $cliente->getResponsaveis()->clear();
+        $cliente->getResponsaveis()->set(0, $responsavelPrincipal);
+        
+        if ($cliente->getCidade()){
+            $cidades = $this->getDoctrine()->getRepository("FnxAdminBundle:Cidade")->loadCidadeObject($cliente->getCidade()->getEstado()->getId());
+        }else{
+            $cidades = array();
+        }
+        
         $form = $this->createForm(new ClienteType($cliente, $cidades), $cliente);
         $request = $this->getRequest();
         if ($request->getMethod() == "POST"){
             $cidades = $this->getDoctrine()->getRepository("FnxAdminBundle:Cidade")->loadCidadeObject($_POST['cliente']['estado']);
             $form = $this->createForm(new ClienteType($cliente, $cidades), $cliente);
             $form->bindRequest($request);
-
             if ($form->isValid()){
+                
+                if ($cliente->getPessoa() == 'f'){
+                    $cliente->getResponsaveis()->first()->setNome($cliente->getNome());
+                    $cliente->getResponsaveis()->first()->setTelefone($cliente->getTelefone());
+                    $cliente->getResponsaveis()->first()->setCpf($cliente->getCpf()); 
+                                   
+                }
+                
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($cliente);
                 $em->flush();
@@ -141,12 +182,18 @@ class ClienteController extends Controller{
                     ->getRepository("FnxAdminBundle:Cliente")
                     ->find($id);
         
+        $responsaveis = $this->getDoctrine()->getRepository("FnxAdminBundle:Responsavel")
+                                                            ->findBy(array("cliente" => $id));
+        
         if (!$cliente){
             throw $this->createNotFoundException("Cliente não encontrado.");
         }
         
         
-        return array("cliente" => $cliente);
+        return array(
+            "cliente" => $cliente,
+            "responsaveis" => $responsaveis
+        );
     }
 }
 

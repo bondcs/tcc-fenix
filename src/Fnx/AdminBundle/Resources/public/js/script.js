@@ -1,13 +1,17 @@
 
 
 $(document).ready(function() {
-  
+
         onTable();
         onFnAction();
         actionDialog();
         simpleDialog();
         populaCidade();
-        ajaxDialog()
+        ajaxDialog();
+        confirmDialog();
+        cpfCnpj(); 
+        onChangecpfCnpj();
+        efeitoErro();
         
 } );
 
@@ -15,7 +19,8 @@ function onTable(){
     
         oTable = $('#table').dataTable({
             "bJQueryUI": true,
-            "sPaginationType": "full_numbers"
+            "sPaginationType": "full_numbers",
+            "bRetrieve": true
         });
         
         $("#table tbody tr").click( function() {
@@ -38,14 +43,17 @@ function ajaxDialog(){
         $(".ajax-link").click(function(event){
              event.preventDefault();
              var url = $(this).attr("href");
-             $.ajax({
-                    type: 'GET',
-                    url: url,
-                    success: function(result){
-                            $(".simpleDialog").html(result);
-                            $('.simpleDialog').dialog('open');
-                    }
-                })
+             if (url != '#'){                
+                $.ajax({
+                       type: 'GET',
+                       url: url,
+                       success: function(result){
+                               $(".simpleDialog").html(result);
+                               $('.simpleDialog').dialog('open');
+                               $("#menuContent a[route], .menuDialog a[route]").attr('href', "#");
+                       }
+                   })
+            }
             
         })
              
@@ -71,15 +79,12 @@ function ajaxSubmit(){
                         $('.simpleDialog').dialog('open');
                     }
                 })
-
-               
 }           
 
 
 function onFnAction(){
         
-        $("#menuContent a[route]").click(function(){ 
-            
+        $("#menuContent a[route], .menuDialog a[route]").click(function(){
                 if (key = $(".row_selected").find(".id").html()){
                     var url = Routing.generate($(this).attr('route') , {"id": key});
                     $(this).attr('href', url);
@@ -104,7 +109,7 @@ $(function(){
 });
 
 
-$(function(){
+function confirmDialog(){
 	$( "#dialog-confirm" ).dialog({
                 autoOpen: false,
 		resizable: false,
@@ -117,11 +122,13 @@ $(function(){
 			},
 			"Cancel": function() {
 				$( this ).dialog( "close" );
+                                $("#menuContent a[route], .menuDialog a[route]").attr('href', "#");
+                                return false;
 			}
 		}
 	});
-});
 
+}
 
 function actionDialog(){
         $( "#dialogAction" ).dialog({
@@ -170,14 +177,47 @@ function populaCidade(){
             }
         
         })
-        
- 
-    
-    
 })
 }
 
+ function onChangecpfCnpj(){
+     
+     
+     $("#pessoa input").bind('change',function(){
+        cpfCnpj();
+     })
+     
+     return false;
+     
+ }
+
+function cpfCnpj(){
     
-   
+        var valor = $("#form input[type='radio']:checked").val();
+        
+        if (valor == 'j'){
 
+             $("#fisico").addClass("hide");
+            
+             if ($("#juridico").hasClass("hide")){
+                  $("#juridico").removeClass("hide");
+                  $("#responsavel").removeClass("hide");
+             }
+            
+        }else{
+             $("#juridico").addClass("hide");
+             $("#responsavel").addClass("hide");
+             if ($("#fisico").hasClass("hide")){
+                  $("#fisico").removeClass("hide");
+             }
+            
+        }
+        
+        return false;
+}
 
+function efeitoErro(){
+    $(".flash-success, .flash-error").delay(4000).slideUp("slow");
+    return false;
+    
+}

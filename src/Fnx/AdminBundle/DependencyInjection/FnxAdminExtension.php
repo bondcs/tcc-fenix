@@ -24,5 +24,12 @@ class FnxAdminExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        $this->loadUsuario($loader);
+    }
+    
+    public function loadUsuario(Loader\XmlFileLoader $loader){
+        
+        $loader->load('usuario.xml');
+        
     }
 }

@@ -4,8 +4,55 @@
     <div id="menuContent">
         <h3>Cliente : {{ cliente.nome }}</h3>
         <ul>
-            <li style="margin-right: 30px;"><a class="respo-link" href="{{ path('funcionarioAddUser', {'id' : cliente.id})}}"><span style="margin-left: 20px;"></span>Responsável</a></li>
             <li><a class="back-link" href="{{ path('clienteHome')}}"><span></span>Voltar</a></li>
         </ul> 
     </div>
+{% endblock %}
+
+{% block conteudo %}
+     {% ui_expander expanded=false %}
+        {% ui_header label="Informações" %}
+        {% ui_content style="height:300px" %}
+
+
+        {% end_ui_content %}
+     {% end_ui_expander %}
+
+     {% ui_expander expanded=false %}
+        {% ui_header label="Responsáveis" %}
+        {% ui_content %}
+             <div class="box-table table-expander" style="">
+                <div class="menuDialog">
+                    <ul>
+                        <li><a route="responsavelRemove" class="delete-link confirm-link" href="#">Deletar</a></li>
+                        <li><a route="usuarioManager" class="ajax-link" href="#">Usuário</a></li>
+                        <li><a route="responsavelEdit" class="ajax-link" href="#">Editar</a></li>
+                        <li><a class="ajax-link" href="{{ path("responsavelAdd", {'id': cliente.id})}}">Adicionar</a></li>
+                    </ul>
+                </div>
+                <table id="table">
+                    <thead>
+                        <tr>
+                            <th class="left" style="width:400px">Nome</th>
+                            <th>Telefone</th>
+                            <th style="width:200px">Login</th>
+                            <th>ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                {% for responsavel in responsaveis %}
+                        <tr{% if loop.index is even %} class="row0" {% else %} class="row1" {% endif %}>
+                            <td>{{ responsavel.nome }}  </td>
+                            <td>{{ responsavel.telefone }}</td>
+                            <td>{{ responsavel.usuario ? responsavel.usuario.username : "Não há usuário cadastrado."  }}</td>
+                            <td class="id">{{ responsavel.id }}</td>
+                        </tr>        
+                {% endfor %}
+                    </tbody>  
+                </table>
+             </div>      
+
+        {% end_ui_content %}
+     {% end_ui_expander %}
+
 {% endblock %}

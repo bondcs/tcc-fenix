@@ -10,11 +10,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Fnx\AdminBundle\Entity\Funcionario;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Fnx\AdminBundle\Form\FuncionarioType;
+use Fnx\AdminBundle\Form\Type\FuncionarioType;
 use Fnx\AdminBundle\Entity\Usuario;
-use Fnx\AdminBundle\Form\UsuarioType;
+use Fnx\AdminBundle\Form\Type\UsuarioType;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
-use Fnx\AdminBundle\Form\ChangePasswordType;
+use Fnx\AdminBundle\Form\Type\ChangePasswordType;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
