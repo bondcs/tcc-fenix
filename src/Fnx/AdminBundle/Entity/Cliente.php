@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Fnx\AdminBundle\Entity\Responsavel;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContext;
+use Fnx\AdminBundle\Validator\Constraints as FnxAssert;
 
 /**
  * Fnx\AdminBundle\Entity\Cliente
@@ -41,6 +42,7 @@ class Cliente
      *
      * @ORM\Column(name="telefone", type="string", length=10)
      * @Assert\NotBlank()
+     * @FnxAssert\ApenasNumero()
      */
     private $telefone;
 
@@ -49,7 +51,8 @@ class Cliente
      *
      * @ORM\Column(name="cnpj", type="string", length=14, nullable=true)
      * @Assert\NotBlank(groups="juridico")
-     * @Assert\MinLength(14)
+     * @Assert\MinLength(limit=14,groups="juridico")
+     * @FnxAssert\ApenasNumero(groups="juridico")
      */
     private $cnpj;
     
@@ -58,7 +61,8 @@ class Cliente
      *
      * @ORM\Column(name="cpf", type="string", length=11, nullable=true)
      * @Assert\NotBlank(groups="fisico")
-     * @Assert\MinLength(11)
+     * @Assert\MinLength(limit=11,groups="fisico")
+     * @FnxAssert\ApenasNumero(groups="fisico")
      */
     private $cpf;
 
@@ -67,6 +71,7 @@ class Cliente
      *
      * @ORM\Column(name="cep", type="string", length=10, nullable=true)
      * @Assert\MinLength(8)
+     * @FnxAssert\ApenasNumero()
      */
     private $cep;
        

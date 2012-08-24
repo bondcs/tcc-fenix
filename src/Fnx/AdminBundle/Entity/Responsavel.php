@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Fnx\AdminBundle\Entity\Cliente;
 use Fnx\AdminBundle\Entity\Usuario;
 use Symfony\Component\Validator\Constraints as Assert;
+use Fnx\AdminBundle\Validator\Constraints as FnxAssert;
 use Symfony\Component\Validator\ExecutionContext;
 
 /**
@@ -43,6 +44,7 @@ class Responsavel
      * @ORM\Column(name="telefone", type="string", length=10)
      * @Assert\NotBlank(groups={"juridico", "register"})
      * @Assert\MaxLength(limit=10,groups={"juridico","register"})
+     * @FnxAssert\ApenasNumero(groups={"juridico","register"})
      */
     private $telefone;
     
@@ -50,6 +52,7 @@ class Responsavel
      * @var string $cpf
      * 
      * @ORM\Column(name="cpf", type="string", length="15", nullable=true)
+     * @FnxAssert\ApenasNumero(groups={"juridico","register"})
      * 
      */
     private $cpf;

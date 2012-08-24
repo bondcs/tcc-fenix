@@ -4,6 +4,7 @@ namespace Fnx\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Fnx\AdminBundle\Validator\Constraints as FnxAssert;
 
 /**
  * Fnx\AdminBundle\Entity\Funcionario
@@ -43,6 +44,7 @@ class Funcionario
      *
      * @ORM\Column(name="telefone", type="string", length=10)
      * @Assert\NotBlank()
+     * @FnxAssert\ApenasNumero()
      */
     private $telefone;
 
