@@ -1,0 +1,26 @@
+<div class="box-form-dialog">
+    <form novalidate="" id="form" action="{{ responsavel.id ? path('responsavelEdit', { 'id' : responsavel.id}) : path('responsavelAdd', { 'id' : clienteId})}}" method="post" class="cms ajaxForm">
+            
+            {{ form_errors(form) }}
+                    <div>
+                        {{ form_errors(form.nome)}}
+                        {{ form_label(form.nome)}}    
+                        {{ form_widget(form.nome)}}
+                    </div>
+                
+                    <div>
+                        {{ form_errors(form.telefone)}}
+                        {{ form_label(form.telefone)}}    
+                        {{ form_widget(form.telefone)}}
+                    </div>
+                
+                    <div>
+                        {{ form_errors(form.cpf)}}
+                        {{ form_label(form.cpf)}}    
+                        {{ form_widget(form.cpf)}}
+                    </div>
+        
+             {{ form_row(form._token) }} 
+        <input type="button" value="Submit" onclick="ajaxSubmit()"/>
+    </form>
+</div>

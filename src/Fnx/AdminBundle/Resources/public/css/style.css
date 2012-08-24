@@ -46,12 +46,12 @@ li{list-style: none;}
 
 /* menu conteudo */
 #menuContent{padding: 5px; background-color: #F4F4F4; margin: 8px; min-height: 80px; border: 1px solid #CCCCCC; border-radius: 10px}
-#menuContent > h3 {display: inline; vertical-align: middle; }
+#menuContent > h3, h2 {display: inline; vertical-align: middle; }
 #menuContent > ul {list-style: none; float:right}
 #menuContent > ul > li {text-align: center; display: block; float:left; margin-left: 5px; margin-right: 5px; width: 48px; height: 60px; padding: 10px}
 /*#menuContent > ul > li:hover {border-bottom: 1px solid gray; border-right: 1px solid gray; border-top: 1px solid white; border-left: 1px solid white;}*/
-#menuContent > ul > li > a {font-size: 13px; text-decoration: none}
-#menuContent > ul > li > a > span{display: block; height: 48px;}
+#menuContent > ul > li > a {font-size: 13px; text-decoration: none; text-align: center}
+#menuContent > ul > li > a > span{display: block; height: 48px; width: 48px;}
 
 .new-link > span {background-image: url("../images/new-ico2.png");}
 .edit-link > span {background-image: url("../images/edit-ico2.png");}
@@ -64,29 +64,41 @@ li{list-style: none;}
 .show-link > span{background-image: url("../images/profile-ico2.png");}
 .addUser-link > span{background-image: url("../images/adduser-ico.png");}
 .remove-user-link > span{background-image: url("../images/remove-user-ico.png");}
+.key-link > span{background-image: url("../images/key-ico.png");}
+.respo-link > span{background-image: url("../images/respo4-ico.png");}
 
 /* forms */
 #box-form{border: 1px solid #CCCCCC; padding: 20px; margin: 10px; display: inline-block}
+.box-form-dialog{padding:10px 10px 50px 10px; background-color: #DADCFF}
 form.cms { font-size: 16px; }
 form.cms div{ clear: left; margin-bottom: 10px;}
 form.cms div > label{ float: left; margin-right: 10px; text-align: right; width: 100px; font-weight: bold; vertical-align: top; padding-top: 10px;}
+form.cms #pessoa > label{ float:none; margin-left: 5px; padding: 0;}
 form.cms input[type="text"],
 form.cms input[type="email"],
 form.cms input[type="password"],
 form.cms input[type="checkbox"]
-    { width: 310px; line-height: 26px; font-size: 16px; min-height: 26px;} 
+    { width: 310px; line-height: 26px; font-size: 16px; min-height: 26px;}
+    
+form.cms select{min-height: 23px; padding-top: 0.5%}
     
 form.cms input[type="checkbox"] {margin-top: 2%}
 form.cms input[type="file"]
     { width: 250px; line-height: 20px; font-size: 12.5pt; min-height: 26px;  }  
 form.cms textarea { width: 500px; height: 250px; line-height: 26px; font-size: 20px; margin-top: 1.5%;}
-form.cms input[type="submit"] { float: right; width: 118px; line-height: 26px; font-size: 20px; min-height: 26px; margin-top: 10px; }
+form.cms input[type="submit"],
+form.cms input[type="button"]
+    { float: right; width: 118px; line-height: 26px; font-size: 20px; min-height: 26px; margin-top: 10px; }
 form.cms ul li { color: #ff0000; margin-bottom: 5px; }
-form.cms fieldset:first-child{padding: 15px;}
+form.cms fieldset{padding: 15px;}
+
+.hide {display: none;}
 
 /* fix checkbox */
-form.cms > .checkbox {margin-top: 30px;}
-form.cms > .checkbox fieldset {padding: 10px;}
+form.cms > .checkbox {margin-top: 20px;}
+form.cms > .cliente input[type="checkbox"]:first-child {display: none;}
+form.cms > .cliente label:first-of-type {display: none;} 
+form.cms > .checkbox fieldset {padding: 10px; margin-top: 40px;}
 form.cms > .checkbox fieldset input[type="checkbox"] {margin-top: 0.5%;}
 form.cms > .checkbox label {float: left; margin-right: 5px; font-weight: normal;text-align:left; vertical-align: auto; padding-top: 0} 
 form.cms > .checkbox input {float: left; clear: left; margin-right: 5px;}
@@ -114,7 +126,9 @@ form.cms > .repeats > ul{margin-left: 26%;}
 .error{margin-left: 26%; margin-bottom: 4px; font-weight: bold; color:red;}
 
 /* tabela */
-.box-table {margin-left: 10px; margin-right: 10px; margin-top: 10px; font-size: 14px;}
+.box-table {margin-left: 10px; margin:10px; font-size: 14px; background-color: #ABC6DD;}
+.table-expander {border:1px solid #025A8D;}
+.table-expander .fg-toolbar {border-top-left-radius: 0px !important; border-top-right-radius: 0px !important;}
 .box-table tbody {cursor: pointer}
 .link-name {color: #025A8D}
 .link-name:link{color: #025A8D;outline: medium none;text-decoration: none;}
@@ -126,8 +140,32 @@ form.cms > .repeats > ul{margin-left: 26%;}
 .row_selected{background-color: #9FAFD1 ! important;}
 .row_selected td{background-color: #9FAFD1 ! important;}
 
+/* menu tabela */
+
+.menuDialog {}
+.menuDialog ul {}
+.menuDialog li {display: inline;}
+.menuDialog a{
+        display: block; 
+        padding: 3px 7px; 
+        -moz-border-radius: 3px; 
+        -webkit-border-radius: 3px; 
+        float:right; 
+        background-color: #ADD8E6;
+        margin: 1px 2px;
+
+}
+
 /* Conteudo */
-.main-col{background-color: #F4F4F4; margin: 8px; min-height: 400px; border: 1px solid #CCCCCC; border-radius: 10px}
+.main-col{background-color: #F4F4F4; margin: 8px; min-height: 400px; border: 1px solid #CCCCCC; border-radius: 10px; padding:3px; padding-bottom: 40px;}
+
+/* ajax */
+.simpleDialog {margin:0; padding:2px 0 0 0 !important;}
 
 /* Footer */
 #footer{text-align: center; padding: 5px; background-color: #F4F4F4; margin: 8px; min-height: 60px; border: 1px solid #CCCCCC; border-radius: 10px}
+
+
+/* SmartTwig */
+
+.ui-expander-content{ padding: 5px 5px !important;}

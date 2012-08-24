@@ -76,6 +76,8 @@ class Usuario implements UserInterface
      *     joinColumns={@ORM\JoinColumn(name="usuario_id", referencedColumnName="id")},
      *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
      * )
+     * 
+     * @Assert\Choice(choices={"getUserRoles"},groups={"register","edit"})
      * @var ArrayCollection $userRoles
      */
     protected $userRoles;

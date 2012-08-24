@@ -10,10 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Fnx\AdminBundle\Entity\Funcionario;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Fnx\AdminBundle\Form\FuncionarioType;
+use Fnx\AdminBundle\Form\Type\FuncionarioType;
 use Fnx\AdminBundle\Entity\Usuario;
-use Fnx\AdminBundle\Form\UsuarioType;
+use Fnx\AdminBundle\Form\Type\UsuarioType;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
+use Fnx\AdminBundle\Form\Type\ChangePasswordType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Description of FuncionarioController
@@ -32,10 +34,11 @@ class FuncionarioController extends Controller{
     }
     
     /**
-     * @Route("adm/funcionario/add", name="funcionarioAdd")
+     * @Route("adm/funcionario/add", name="funcionarioAdd", options={"expose" = true})
      * @Template()
      */
     public function addAction(){
+        
         $funcionario = new Funcionario();
         $form = $this->createForm(new FuncionarioType, $funcionario);
         $request = $this->getRequest();
@@ -122,7 +125,7 @@ class FuncionarioController extends Controller{
     }
     
     /**
-     * @Route("adm/funcionario/show/add-user/{id}", name="funcionarioAddUser")
+     * @Route("adm/funcionario/show/add-user/{id}", name="funcionarioAddUser", options={"expose" = true})
      * @Template()
      */
     public function addUserAction($id){
@@ -139,8 +142,7 @@ class FuncionarioController extends Controller{
            $form = $this->createForm(new UsuarioType, $funcionario->getUsuario(), array('validation_groups'=>'edit'));
            $password = $funcionario->getUsuario()->getPassword();
         }
-        
-        
+                
         $request = $this->getRequest();
         if ($request->getMethod() == "POST"){
             $form->bindRequest($request);
@@ -155,7 +157,7 @@ class FuncionarioController extends Controller{
                 }
                 
                 $funcionario->getUsuario()->setPassword($password);
-                $em->merge($funcionario);
+                $em->persist($funcionario);
                 $em->flush();
                 
                 $this->get('session')->setFlash("success","Usuário alterado com sucesso.");
@@ -167,7 +169,6 @@ class FuncionarioController extends Controller{
             }
             
         }
-        
         if($funcionario->getUsuario()->getId()){
             return $this->render("FnxAdminBundle:Funcionario:editUser.html.twig", array(
                 'form' => $form->createView(),
@@ -175,6 +176,14 @@ class FuncionarioController extends Controller{
                 'funcionario' => $funcionario,
             ));
         }
+        
+        if($request->isXmlHttpRequest()){
+            return $this->render('FnxAdminBundle:Funcionario:test.html.twig',array(
+                    'form' => $form->createView(),
+                    'usuario' => $funcionario->getUsuario(),
+                    'funcionario' => $funcionario,
+            ));
+        } 
         
         return array(
             'form' => $form->createView(),
@@ -192,7 +201,7 @@ class FuncionarioController extends Controller{
         $usuarioLogado = $user = $this->get('security.context')->getToken()->getUser();
         
         if($usuarioLogado->getId() == $idUsuario){
-            throw new \Exception("Você não pode excluir um  usuário logado.");   
+            throw new \Exception("Você não pode excluir um usuário logado.");   
         }
         
         $this->get('session')->setFlash("success","Usuário excluído com sucesso.");
@@ -203,6 +212,51 @@ class FuncionarioController extends Controller{
            'id' => $id, 
         )));
         
+    }
+    
+    /**
+     * @Route("adm/funcionario/show/add-user/change-senha/{id}/{idFuncionario}", name="funcionarioUserSenha")
+     * @Template()
+     */
+    public function changePasswordAction($id, $idFuncionario){
+        
+        $form = $this->createForm(new ChangePasswordType());
+        $usuario = $this->getDoctrine()->getRepository("FnxAdminBundle:Usuario")->find($id);
+        $funcionario = $this->getDoctrine()->getRepository("FnxAdminBundle:Funcionario")->find($idFuncionario);
+        $request = $this->getRequest();
+            if ($request->getMethod() == "POST"){
+                $form->bindRequest($request);
+                if ($form->isValid()){
+                    
+                    $usuario->setSalt(md5(time()));
+                    $data = $form->getData();
+                    $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
+                    $password = $encoder->encodePassword($data['password'], $usuario->getSalt());
+                    $usuario->setPassword($password);
+                    $em = $this->getDoctrine()->getEntityManager();
+                    $em->merge($usuario);
+                    $em->flush();
+                    
+                    $this->get('session')->setFlash("success","Senha alterada com sucesso.");
+                    
+                    $responseSuccess = array('success' => $this->generateUrl("funcionarioAddUser", array(
+                                    "id" => $funcionario->getId(),
+                                )));
+                    $response = new Response(json_encode($responseSuccess));
+                    $response->headers->set('Content-Type', 'application/json');
+        
+                    return $response;
+                    
+                }
+            }
+         
+        
+        return $this->render("FnxAdminBundle:Funcionario:changePassword.html.twig", array(
+            "form" => $form->createView(),
+            "usuario" => $usuario,
+            "funcionario" => $funcionario,
+            ));
+
     }
 }
 

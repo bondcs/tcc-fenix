@@ -1,0 +1,124 @@
+{% extends 'FnxAdminBundle::layout.html.twig' %}
+
+{% block title %} Formulário {% endblock %}
+
+{% block menuContent %}
+    <div id="menuContent">
+        <h3>Cliente Manager: Formulário</h3>
+        <ul>
+            <li><a class="back-link" href="{{ path('clienteHome')}}"><span></span>Voltar</a></li>
+        </ul> 
+    </div>
+{% endblock %}
+
+{% block conteudo %}
+<div id="box-form">
+    
+    <form novalidate="" id="form" action="{{ cliente.id ? path('clienteEdit', { 'id' : cliente.id}) : path('clienteAdd')}}" method="post" class="cms">
+            
+            {{ form_errors(form) }}
+          
+          <fieldset style="margin-bottom: 20px;"> 
+                <legend>Cliente</legend>
+                
+                <div style="text-align: right; {{ cliente.id ? "display:none" : "" }}" >
+                        {{ form_errors(form.pessoa)}} 
+                        {{ form_widget(form.pessoa,{ 'id':'pessoa'})}}
+                </div>  
+                
+                <div> 
+                    {{ form_errors(form.nome)}}
+                    {{ form_label(form.nome)}}    
+                    {{ form_widget(form.nome)}}
+                </div>
+
+                <div> 
+                    {{ form_errors(form.telefone)}}
+                    {{ form_label(form.telefone)}}    
+                    {{ form_widget(form.telefone)}}
+                </div>
+                
+                <div id="juridico">
+                    <div> 
+                        {{ form_errors(form.cnpj)}}
+                        {{ form_label(form.cnpj)}}    
+                        {{ form_widget(form.cnpj)}}
+                    </div>
+                </div>
+                
+                <div id="fisico">
+                    <div> 
+                        {{ form_errors(form.cpf)}}
+                        {{ form_label(form.cpf)}}    
+                        {{ form_widget(form.cpf)}}
+                    </div>
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.cep)}}
+                    {{ form_label(form.cep)}}    
+                    {{ form_widget(form.cep)}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.estado)}}
+                    {{ form_label(form.estado)}}    
+                    {{ form_widget(form.estado, {'id': 'estado'})}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.cidade)}}
+                    {{ form_label(form.cidade)}}    
+                    {{ form_widget(form.cidade, {'id': 'cidade'})}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.bairro)}}
+                    {{ form_label(form.bairro)}}    
+                    {{ form_widget(form.bairro)}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.rua)}}
+                    {{ form_label(form.rua)}}    
+                    {{ form_widget(form.rua)}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.numero)}}
+                    {{ form_label(form.numero)}}    
+                    {{ form_widget(form.numero)}}
+                </div>
+                 
+               
+            </fieldset>
+            <div id="responsavel">
+            <fieldset>
+                <legend>Responsável</legend>
+                {% for responsavel in form.responsaveis %}
+                    <div>
+                        {{ form_errors(responsavel.nome)}}
+                        {{ form_label(responsavel.nome)}}    
+                        {{ form_widget(responsavel.nome)}}
+                    </div>
+                
+                    <div>
+                        {{ form_errors(responsavel.telefone)}}
+                        {{ form_label(responsavel.telefone)}}    
+                        {{ form_widget(responsavel.telefone)}}
+                    </div>
+                
+                    <div>
+                        {{ form_errors(responsavel.cpf)}}
+                        {{ form_label(responsavel.cpf)}}    
+                        {{ form_widget(responsavel.cpf)}}
+                    </div>
+                {% endfor %}
+            </fieldset>
+            </div>
+              
+             {{ form_row(form._token) }} 
+            <input type="submit" value="Submit"/>
+    </form>
+</div>
+{% endblock %}

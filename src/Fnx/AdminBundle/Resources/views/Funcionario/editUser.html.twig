@@ -5,6 +5,7 @@
     <div id="menuContent">
         <h3>Funcinário: {{ funcionario.nome}}</h3>
         <ul>
+            <li><a class="key-link ajax-link" href="{{ path("funcionarioUserSenha", {"id" : funcionario.usuario.id, 'idFuncionario' : funcionario.id})}}"><span></span>Senha</a></li> 
             <li><a class="delete-link confirm-link delete-alone" href="{{ path('funcionarioRemoveUser', {'id' : funcionario.id, 'idUsuario' : funcionario.usuario.id})}}"><span></span>Delete</a></li> 
             <li><a class="back-link" href="{{ path('funcionarioShow', {'id' : funcionario.id})}}"><span></span>Voltar</a></li>
         </ul> 
@@ -16,7 +17,7 @@
     <form novalidate="" id="form" action="{{ path('funcionarioAddUser', {'id' : funcionario.id})}}" method="post" class="cms">
             {{ form_errors(form) }}
             <fieldset>
-                <legend>Formulário</legend>
+                <legend>Usuário</legend>
                 <div> 
                     {{ form_errors(form.username)}}
                     {{ form_label(form.username)}}    
@@ -36,10 +37,5 @@
             <input type="submit" value="Submit"/>
     </form>
 </div>
-
-<div id="dialog-confirm" title="Deletar este usuário?">
-    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Você tem certeza?</p>
-</div>
-
 
 {% endblock %}

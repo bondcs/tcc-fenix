@@ -1,0 +1,30 @@
+<div class="box-form-dialog"> 
+<form novalidate="" id="form" action="{{ path('usuarioManager', {'id' : responsavel.id})}}" method="post" class="cms ajaxForm">
+            {{ form_errors(form) }}
+                <div> 
+                    {{ form_errors(form.username)}}
+                    {{ form_label(form.username)}}    
+                    {{ form_widget(form.username)}}
+                </div>
+
+                <!-- Campos repitidos deve ser rendenrizados
+                     apenas com form_widget-->
+                <div class="repeats">
+                    <div> 
+                    {{ form_widget(form.password)}}
+                    </div>
+                </div>
+
+            <div class="checkbox cliente">
+                <fieldset>
+                    <legend> Permissões </legend>
+                        {{ form_errors(form.userRoles)}}
+                        {{ form_widget(form.userRoles)}}
+                </fieldset>
+            </div>
+            
+            {{ form_rest(form)}}
+
+            <input type="button" onclick="ajaxSubmit()" value="Submit"/>
+    </form>
+</div>
