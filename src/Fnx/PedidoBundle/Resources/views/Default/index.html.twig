@@ -1,6 +1,28 @@
 {% extends "FnxAdminBundle::layout.html.twig" %}
 
 {% block conteudo %}
-<h1>Hello I am Lindsay Loren</h1>
+
+<table class="tablePlugin">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Descrição</th>
+            <th>Data</th>
+            <th>Fechamento</th>
+            <th>Valor</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in pedidos %}
+            <tr>
+                <td>{{i.getCliente().getNome()}}</td>
+                <td>{{i.getDescricao()}}</td>
+                <td>{{i.getData()}}</td>
+                <td>{{i.getDataPagamento()}}</td>
+                <td>{{i.getValorTotal()}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}

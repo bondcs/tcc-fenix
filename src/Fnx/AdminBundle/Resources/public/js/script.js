@@ -17,13 +17,25 @@ $(document).ready(function() {
 
 function onTable(){
     
-        oTable = $('#table').dataTable({
+        oTable = $('table.tablePlugin').dataTable({
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
-            "bRetrieve": true
+            "bRetrieve": true,
+             "oLanguage": {
+                "sSearch": "Buscar: ",
+                "sEmptyTable": "Não existe nenhum registro para ser mostrado",
+                "oPaginate": {
+                    "sFirst": "Inicio",
+                    "sLast": "Ultima",
+                    "sNext": "Próxima",
+                    "sPrevious": "Anterior"
+                  },
+                "sLengthMenu": "Mostrar _MENU_ linhas",
+                "sInfo": "Mostrando as linhas de _START_ à _END_ em um total de _TOTAL_" //"Got a total of _TOTAL_ entries to show (_START_ to _END_)"
+              }
         });
         
-        $("#table tbody tr").click( function() {
+        $("table.tablePlugin tbody tr").click( function() {
             
             // alterar a cor do fundo da linha
             if ( $(this).hasClass('row_selected') ) {

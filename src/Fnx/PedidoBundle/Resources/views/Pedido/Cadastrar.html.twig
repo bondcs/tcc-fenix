@@ -1,0 +1,120 @@
+{% extends "FnxPedidoBundle:Default:index.html.twig" %}
+
+{% block conteudo%}
+<script>
+    
+    var userRegistered = -1;    
+    
+function confereCliente(){
+    $.ajax({
+        type: "POST",
+        url: "{{ path('verificaCliente') }}",
+        dataType: "script"
+        success: function(result){
+            if(result != -1){
+                if(flag){
+                    return true;
+                }else{
+                    $('#modal_conf_cli').wijdialog('open');
+                    return false;
+                }   
+            }else{
+                alert("O sistema não pôde conferir o cliente");
+            }
+        }
+    });
+}
+
+
+    
+</script>
+<style>
+.hidden{
+    visibility: hidden;
+    display: none;
+}
+
+
+fieldset{
+    margin: 15px;
+    padding: 15px 25px;
+}
+
+</style>
+
+<form onsubmit="confereCliente();" method="POST">
+    <fieldset>
+        <legend>Cliente</legend>
+        <label for="frm_id_cliente_nome">Cliente</label>
+        {% ui_autocomplete values=tags id="frm_id_cliente_nome" %}<br/>
+
+        <div class="hidden" id="is_registered">
+        
+        </div>
+    </fieldset>
+        
+    <table id="table" class="tablePlugin">
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantidade</th>
+                <th>Valor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>&nbsp;</td>
+                <td></td>
+                <td class="value"></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td>Total</td>
+                <td id="sommatory"></td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    <label for="frm_ped_id_previsao">Previsão de entrega</label>
+    {% ui_datepicker dateFormat="dd/mm/yy" minDate="+1" ID="frm_ped_id_previsao" %} 
+    
+    {% ui_dialog id="modal_form_item"
+               title="Adicione um item"
+               autoOpen=false
+               modal=true %}
+    <form>
+        <fieldset>
+            <legend>Adicione um Item</legend>
+            <label for="form_item_desc">Item</label>
+            {% ui_autocomplete id="form_item_desc" %}
+            
+            <label for="form_item_qtd">Quantidade</label>
+            <input id="form_item_qtd" />
+            
+            <label for="form_item_esp">Especificação</label>
+            <textarea id="form_item_esp"></textarea>
+        </fieldset>
+    </form>
+    {% end_ui_dialog %}
+        
+    {% ui_dialog id="modal_conf_cli"
+               title="Esse cliente não está cadastrado"
+               widgetVar="myDialog"
+               autoOpen=false
+               modal=true
+               buttons={
+                 'Sim' : js_function("userRegistered = 1;"),
+                 'Não' : js_function("userRegistered = 0;$(this).wijdialog('close');"),
+               }   %}
+
+    <p>Esse cliente ainda não está cadastrado
+        
+        Deseja cadastra-lo agora?</p>
+    {% end_ui_dialog %}  
+    
+    <input type="submit" value="Salvar"/>
+</form>
+
+{% endblock %}

@@ -8,7 +8,7 @@ use Fnx\PedidoBundle\Entity\Pedido as Pedido;
 /**
  * Fnx\PedidoBundle\Entity\Item
  *
- * @ORM\Table()
+ * @ORM\Table(name="pedido_item")
  * @ORM\Entity(repositoryClass="Fnx\PedidoBundle\Entity\ItemRepository")
  */
 class Item

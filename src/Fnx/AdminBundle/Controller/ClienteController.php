@@ -195,6 +195,39 @@ class ClienteController extends Controller{
             "responsaveis" => $responsaveis
         );
     }
+    
+    
+    /**
+     * @Route("adm/cliente/verificar", name="verificaCliente")
+     * @Template()
+     */
+    public function verificaClienteAction(){
+        
+        $nome = $this->getRequest()->get('username');
+        
+        if($nome || preg_match("/^[a-zA-Z]+$/", $nome)):
+
+            $db = $this->getDoctrine()->getEntityManager();
+
+            $qb = $db->createQuery('select count(c) from \Fnx\AdminBundle\Entity\Cliente c where c.getNome() = :nome ;');
+            $qb->setParameter('nome', $nome);
+            $cliente = $qb->getResult();
+            
+            if($cliente):
+                
+                $session = $this->get('session');
+                $pedido = $session->get('pedido');
+                $pedido->setCliente($cliente);
+                
+                return 1;
+            else:
+                return 0;
+            endif;
+            
+        else:    
+            return -1;
+        endif;
+    }
 }
 
 ?>

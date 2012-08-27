@@ -4,6 +4,7 @@ namespace Fnx\PedidoBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Fnx\PedidoBundle\Entity\Item as Item;
+use Fnx\AdminBundle\Entity\Cliente;
 
 /**
  * Fnx\PedidoBundle\Entity\Pedido
@@ -24,7 +25,7 @@ class Pedido
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Cliente")
+     * @ORM\ManyToOne(targetEntity="\Fnx\AdminBundle\Entity\Cliente")
      */
     private $cliente;
 
@@ -52,7 +53,7 @@ class Pedido
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="Item", mappedBy="pedido", fetch="LAZY")
+     * @ORM\ManyToOne(targetEntity="Item", fetch="LAZY")
      */
     private $itens;
 
@@ -110,7 +111,7 @@ class Pedido
      *
      * @param date $previsao
      */
-    public function setPrevisao($previsao)
+    public function setPrevisao(\DateTime $previsao)
     {
         $this->previsao = $previsao;
     }
@@ -123,5 +124,20 @@ class Pedido
     public function getPrevisao()
     {
         return $this->previsao;
+    }
+    
+    /**
+     * Retorna a soma do valor dos itens
+     * 
+     * @return float
+     */
+    public function getValorTotal(){
+        $sum = 0;
+        
+        foreach($this->itens as $i):
+            $sum += $i->getPreco();
+        endforeach;
+        
+        return $sum;
     }
 }
