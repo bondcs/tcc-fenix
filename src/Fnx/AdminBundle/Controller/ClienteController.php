@@ -18,11 +18,13 @@ use Fnx\AdminBundle\Entity\Responsavel;
  * Description of ClienteController
  *
  * @author bondcs
+ * 
+ * @Route("/adm/cliente")
  */
 class ClienteController extends Controller{
     
     /**
-     * @Route("adm/cliente", name="clienteHome")
+     * @Route("/", name="clienteHome")
      * @Template()
      * @return 
      */
@@ -36,7 +38,7 @@ class ClienteController extends Controller{
     }
     
     /**
-     * @Route("adm/cliente/add", name="clienteAdd")
+     * @Route("/add", name="clienteAdd")
      * @Template("")
      * @return 
      */
@@ -80,7 +82,7 @@ class ClienteController extends Controller{
     }
     
     /**
-     * @Route("adm/usuario/edit/{id}", name="clienteEdit", options={"expose" = true})
+     * @Route("/{id}/edit", name="clienteEdit", options={"expose" = true})
      * @Template()
      * @return 
      */
@@ -141,7 +143,7 @@ class ClienteController extends Controller{
     }
     
     /**
-     * @Route("adm/cliente/ajaxCidade", name="ajaxCidade", options={"expose" = true})
+     * @Route("/ajaxCidade", name="ajaxCidade", options={"expose" = true})
      * @return 
      */
     public function ajaxCidadeAction(){
@@ -156,7 +158,7 @@ class ClienteController extends Controller{
     }
     
     /**
-     * @Route("adm/cliente/remove/{id}", name="clienteRemove", options={"expose" = true})
+     * @Route("/{id}/remove", name="clienteRemove", options={"expose" = true})
      * @return 
      */
     public function removeClienteAction($id){
@@ -173,7 +175,7 @@ class ClienteController extends Controller{
     }
     
     /**
-     * @Route("adm/cliente/show/{id}", name="clienteShow", options={"expose" = true})
+     * @Route("/{id}/show", name="clienteShow", options={"expose" = true})
      * @Template()
      */
     public function showProfileAction($id){

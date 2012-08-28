@@ -126,8 +126,11 @@ class ResponsavelController extends Controller{
         if (!$responsavel){
             throw $this->createNotFoundException("Responsável não encontrado.");
         }
+        
+        $flag = true;
         if (!$responsavel->getUsuario()){
             $responsavel->setUsuario(new Usuario);
+            $flag = false;
         }
         
         $form = $this->get("fnx_admin.usuario.form");
@@ -135,7 +138,7 @@ class ResponsavelController extends Controller{
         $process = $formHandler->process($responsavel->getUsuario(), $responsavel);
         
         if ($process){
-            $this->get("session")->setFlash("success","Usuário registrado.");
+            if ($flag){ $this->get("session")->setFlash("success","Usuário alterado."); }else{ $this->get("session")->setFlash("success","Usuário registrado.");};
             $url = $this->generateUrl("clienteShow", array("id" => $responsavel->getCliente()->getId()));
             $response = new Response(json_encode(array("success" => $url)));
             $response->headers->set('Content-Type', 'application/json');
@@ -144,10 +147,34 @@ class ResponsavelController extends Controller{
         
         return $this->render("FnxAdminBundle:Usuario:form.html.twig",array(
             "form" => $form->createView(),
-            "responsavel" => $responsavel,
+            "father" => $responsavel,
+            'responsavel' => true, 
         ));
         
     }
+    
+    /**
+     * @Route("/adm/cliente/responsavel/usuario/remove/{id}", name="usuarioRemove", options={"expose" = true})
+     * @Template()
+     * @param type $id
+     */
+    public function usuarioRemoveAction($id){
+        
+        $responsavel = $this->getDoctrine()->getRepository("FnxAdminBundle:Responsavel")->find($id);
+        if (!$responsavel){
+            throw $this->createNotFoundException("Responsável não encontrado.");
+        }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->remove($responsavel->getUsuario());
+        $em->flush();
+        $this->get("session")->setFlash("success","Usuário excluído.");
+        return $this->redirect($this->generateUrl("clienteShow", array("id" => $responsavel->getCliente()->getId())));
+
+
+ 
+    }
+    
     
     
     

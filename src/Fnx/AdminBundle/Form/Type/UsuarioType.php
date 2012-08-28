@@ -8,6 +8,8 @@ namespace Fnx\AdminBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormError;
+use Fnx\AdminBundle\Form\Listener\RoleListener;
 
 /**
  * Description of UsuarioType
@@ -18,31 +20,31 @@ class UsuarioType extends AbstractType{
     
     function buildForm(FormBuilder $builder, array $options) {
             $builder
-                ->add('username')
+                ->add('username','text',array(
+                        'label' => 'Login:*'
+                ))
                 ->add('password', 'repeated', array (
                         'type'            => 'password',
-                        'first_name'      => "Password",
-                        'second_name'     => "Re-enter Password",
-                        'invalid_message' => "The passwords don't match!" 
+                        'first_name'      => "Senha:",
+                        'second_name'     => "Re-enter Senha:",
+                        'invalid_message' => "As senhas não combinam!" 
                 ))
                 ->add('userRoles', 'entity', array(
                         'multiple' => true,
                         'expanded' => true,
-                        'property' => 'role',
                         'class' => 'FnxAdminBundle:Role',
                 ));
+             
+             $subscriber = new RoleListener($builder->getFormFactory());
+             $builder->addEventSubscriber($subscriber);
     }
-
+    
+    
 
     function getName() {
         return "fnx_admin_usuario";
     }
     
-//    public function getDefaultOptions(array $options) {
-//        return array(
-//            'validation_groups' => array('register'),
-//        );
-//    }
 }
 
 ?>

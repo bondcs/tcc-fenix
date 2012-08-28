@@ -10,6 +10,7 @@
         
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery.livequery.min.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/script.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
@@ -34,10 +35,10 @@
             {% block menu %}
                 <div id='cssmenu'>
                     <ul>
-                    <li class='has-sub '><a href='#'><span>Item</span></a>
+                    <li class='has-sub '><a href='{{ path('adminHome')}}'><span>Home</span></a>
                         <ul>
-                            <li><a href='#'><span>Item</span></a></li>
-                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='#'><span>Profile</span></a></li>
+                            <li><a href='#'><span>Alterar Senha</span></a></li>
                             <li><a href='#'><span>Item</span></a></li>
                         </ul>
                     </li>
@@ -45,7 +46,7 @@
                         <ul>
                             <li><a href='{{ path('funcionarioHome')}}'><span>Funcionário</span></a></li>
                             <li><a href='{{ path('clienteHome')}}'><span>Cliente</span></a></li>
-                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='{{ path('categoriaHome')}}'><span>Categoria</span></a></li>
                         </ul>
                     </li>
                     <li class='has-sub '><a href='#'><span>Item</span></a>
@@ -63,7 +64,11 @@
                         </ul>
                     </li>
                     </ul>
-                        <a id="logout" href="{{ path('_security_logout_a')}}"><span> </span></a>
+                        <div id="info">
+                            <span class="username">{{ app.user.username }}</span>
+                            <a id="logout" href="{{ path('_security_logout_a')}}"><img src="{{ asset('bundles/fnxadmin/images/logout-ico8.png') }}"/></a>
+                            {% ui_tooltip for="#logout" label="Sair" %}
+                        </div>
                 </div>
             {% endblock %} 
                 
@@ -84,6 +89,14 @@
                 
             <section class="main-col">
                 {% block conteudo %}
+                    <div id="all-menu">
+                        <a href="#">
+                            <div class="box-menu">
+                                <div class="img"><img height="60px" src="{{ asset("bundles/fnxadmin/images/note-menu.png")}}" /></div>
+                                <div class="label"><span>Atividade</span></div>
+                            </div>
+                        </a>
+                    </div>
                 {% endblock %}
             </section>
 

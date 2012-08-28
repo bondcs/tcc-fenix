@@ -44,7 +44,7 @@
                         <tr{% if loop.index is even %} class="row0" {% else %} class="row1" {% endif %}>
                             <td>{{ responsavel.nome }}  </td>
                             <td>{{ responsavel.telefone }}</td>
-                            <td>{{ responsavel.usuario ? responsavel.usuario.username : "Não há usuário cadastrado."  }}</td>
+                            <td>{{ responsavel.usuario ? responsavel.usuario.username : "#"  }}</td>
                             <td class="id">{{ responsavel.id }}</td>
                         </tr>        
                 {% endfor %}

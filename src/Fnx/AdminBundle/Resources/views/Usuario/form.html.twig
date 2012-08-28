@@ -1,5 +1,24 @@
-<div class="box-form-dialog"> 
-<form novalidate="" id="form" action="{{ path('usuarioManager', {'id' : responsavel.id})}}" method="post" class="cms ajaxForm">
+<div class="box-form-dialog">
+    {% if (father.usuario.id) %}
+        <div class="menuDialogForm">
+            <ul>
+                <li><a class="confirm-link dialog-confirm-link" 
+                       {% if (responsavel) %}
+                            href="{{ path("usuarioRemove", { 'id' : father.id})}}"
+                            {% else %}
+                            href="{{ path("usuarioRemoveFuncionario", { 'id' : father.id})}}"
+                       {% endif %}
+                       >Deletar usuário</a></li>
+            </ul>
+        </div>
+    {% endif %}
+    <form novalidate="" id="form" 
+                        {% if (responsavel) %}
+                            action="{{ path('usuarioManager', {'id' : father.id})}}"
+                            {% else %}
+                            action="{{ path('usuarioManagerFuncionario', {'id' : father.id})}}"
+                        {% endif %}
+                            method="post" class="cms ajaxForm">
             {{ form_errors(form) }}
                 <div> 
                     {{ form_errors(form.username)}}
@@ -11,20 +30,24 @@
                      apenas com form_widget-->
                 <div class="repeats">
                     <div> 
-                    {{ form_widget(form.password)}}
+                    {{ form_widget(form.password, {"id" : "password"})}}
                     </div>
+                    {% if (father.usuario.id) %}
+                        {% ui_tooltip for="#password" label="Deixe em branco, caso não deseje <br/> alterar a senha deste usuário." %}
+                    {% endif %}    
                 </div>
-
-            <div class="checkbox cliente">
+                
+            <div class="checkbox {{ responsavel ? 'cliente' : ""}}">
                 <fieldset>
-                    <legend> Permissões </legend>
+                    <legend>Permissão</legend>
                         {{ form_errors(form.userRoles)}}
                         {{ form_widget(form.userRoles)}}
                 </fieldset>
             </div>
             
             {{ form_rest(form)}}
-
+                
+            <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
             <input type="button" onclick="ajaxSubmit()" value="Submit"/>
     </form>
 </div>

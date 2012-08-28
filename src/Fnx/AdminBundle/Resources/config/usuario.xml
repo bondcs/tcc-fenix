@@ -7,9 +7,11 @@
     <parameters>
         <parameter key="fnx_admin.usuario.form.type">fnx_admin_usuario</parameter>
         <parameter key="fnx_admin.usuario.form.name">fnx_admin_usuario_form</parameter>
+        <!--
         <parameter key="fnx_admin.usuario.form.validation_groups" type="collection">
             <parameter>register</parameter>
         </parameter>
+        !-->
     </parameters>
     
     
@@ -18,10 +20,12 @@
         <service id="fnx_admin.usuario.form" factory-method="createNamed" factory-service="form.factory" class="Symfony\Component\Form\Form">
             <argument>%fnx_admin.usuario.form.type%</argument>
             <argument>%fnx_admin.usuario.form.name%</argument>
+            <!--
             <argument />
             <argument type="collection">
                 <argument key="validation_groups">%fnx_admin.usuario.form.validation_groups%</argument>
             </argument>
+            !-->
         </service>
 
         <service id="fnx_admin.usuario.form.type" class="Fnx\AdminBundle\Form\Type\UsuarioType">

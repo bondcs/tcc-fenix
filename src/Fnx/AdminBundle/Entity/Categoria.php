@@ -1,0 +1,95 @@
+<?php
+
+namespace Fnx\AdminBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Fnx\AdminBundle\Entity\Categoria
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Fnx\AdminBundle\Entity\CategoriaRepository")
+ */
+class Categoria
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string $nome
+     *
+     * @ORM\Column(name="nome", type="string", length=50)
+     * @Assert\NotBlank()
+     */
+    private $nome;
+
+    /**
+     * @var string $descricao
+     *
+     * @ORM\Column(name="descricao", type="string", length=255)
+     * 
+     * @Assert\NotBlank()
+     */
+    private $descricao;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nome
+     *
+     * @param string $nome
+     */
+    public function setNome($nome)
+    {
+        $this->nome = $nome;
+    }
+
+    /**
+     * Get nome
+     *
+     * @return string 
+     */
+    public function getNome()
+    {
+        return $this->nome;
+    }
+
+    /**
+     * Set descricao
+     *
+     * @param string $descricao
+     */
+    public function setDescricao($descricao)
+    {
+        $this->descricao = $descricao;
+    }
+
+    /**
+     * Get descricao
+     *
+     * @return string 
+     */
+    public function getDescricao($length = null)
+    {
+        if ($length != null && $length > 0){
+            return substr($this->descricao, 0, $length);
+        }
+        return $this->descricao;
+    }
+}

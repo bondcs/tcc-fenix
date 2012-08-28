@@ -51,6 +51,10 @@ function ajaxDialog(){
                                $(".simpleDialog").html(result);
                                $('.simpleDialog').dialog('open');
                                $("#menuContent a[route], .menuDialog a[route]").attr('href', "#");
+                               
+                               /* hack para recarregar funcões previamentes carregadas no onReady()*/
+                               simpleDialog();
+                               confirmDialog();
                        }
                    })
             }
@@ -84,49 +88,61 @@ function ajaxSubmit(){
 
 function onFnAction(){
         
-        $("#menuContent a[route], .menuDialog a[route]").click(function(){
+        $("#menuContent a[route], .menuDialog a[route]").click(function(e){
                 if (key = $(".row_selected").find(".id").html()){
                     var url = Routing.generate($(this).attr('route') , {"id": key});
                     $(this).attr('href', url);
-
-                    if ($(this).hasClass('confirm-link')){
+                    
+                    if ($(this).hasClass("confirm-link")){
                         $("#dialog-confirm").dialog('open');
                         return false;
                     }
 
                 }else{
                     $('#dialogAction').dialog('open');
+                    e.preventdefault()
+                    return false;
                 }
+                
         })
     
 }
 
-$(function(){
-	$( ".delete-alone" ).click(function(){
-            $("#dialog-confirm").dialog('open');
-            return false;
-        });
-});
-
-
 function confirmDialog(){
+    
+        var url;
+        
 	$( "#dialog-confirm" ).dialog({
                 autoOpen: false,
 		resizable: false,
 		height:"auto",
-		modal: true,
+                modal: false,
+                close: function(){
+                     $("#menuContent a[route], .menuDialog a[route]").attr('href', "#");
+                },
 		buttons: {
-			"Deletar": function() {
+			"Deletar": function() { 
+                                if (url == null){
+                                    window.location.href = $(".confirm-link").attr("href"); 
+                                }else{
+                                    window.location.href = url;
+                                }
 				$( this ).dialog( "close" );
-                                window.location.href = $(".delete-link").attr('href');
+                                
 			},
 			"Cancel": function() {
-				$( this ).dialog( "close" );
-                                $("#menuContent a[route], .menuDialog a[route]").attr('href', "#");
+				$( this ).dialog( "close" ); 
                                 return false;
 			}
 		}
 	});
+        
+        $( ".dialog-confirm-link" ).on("click",function(){
+            url = $(this).attr('href');
+            $("#dialog-confirm").dialog('open');
+            return false;
+
+        });
 
 }
 
@@ -153,10 +169,16 @@ function simpleDialog(){
 		resizable: false,
                 height:"auto",
                 width:"auto",
-		modal: true
+		modal: true,
+                open: function(){
+                    
+                }
 	});        
        
-    
+}
+
+function dialogClose(){
+        $( ".simpleDialog" ).dialog('close');
 }
 
 function populaCidade(){

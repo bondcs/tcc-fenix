@@ -1,0 +1,45 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+{% block title %} Categoria Manager {% endblock %}
+{% block menuContent %}
+
+    <div id="menuContent">
+        <h3>Categoria Manager: Categorias</h3>
+        <ul>
+            <li><a class="new-link" href="{{ path('categoriaNew')}}"><span ></span>Novo</a></li>
+            <li><a route="categoriaEdit" class="edit-link" href="#"><span></span>Editar</a></li>
+            <li><a route="categoriaDelete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
+        </ul> 
+    </div>
+
+{% endblock %}
+
+{% block conteudo %}
+<div class="box-table">
+<table id="table">
+    <thead>
+        <tr>
+            
+            <th style="width: 400px;">Nome</th>
+            <th>Descrição</th>
+            <th>Id</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.nome }}</td>
+            <td>
+                {% if entity.descricao|length > 100 %}
+                {{ entity.descricao(100)}} <a href="{{path("categoriaEdit", {"id" : entity.id})}}">mais...</a>
+                {% else %}
+                {{ entity.descricao(100)}}
+                {% endif %}
+            </td>
+            <td class="id">{{ entity.id }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}
