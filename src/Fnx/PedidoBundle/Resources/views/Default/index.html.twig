@@ -1,28 +1,38 @@
 {% extends "FnxAdminBundle::layout.html.twig" %}
 
 {% block conteudo %}
-
-<table class="tablePlugin">
+<a href="{{ path("PedidoCadastrar") }}">Novo</a>
+<table id="table_pedidos" class="tablePlugin">
     <thead>
         <tr>
             <th>Cliente</th>
-            <th>Descrição</th>
             <th>Data</th>
             <th>Fechamento</th>
             <th>Valor</th>
         </tr>
     </thead>
     <tbody>
+        
         {% for i in pedidos %}
-            <tr>
-                <td>{{i.getCliente().getNome()}}</td>
-                <td>{{i.getDescricao()}}</td>
-                <td>{{i.getData()}}</td>
-                <td>{{i.getDataPagamento()}}</td>
-                <td>{{i.getValorTotal()}}</td>
+            <tr data-id={{i.getId()}}>
+                <td>{{i.cliente.nome}}</td>
+                <td>{{i.data|date("d/m/Y")}}</td>
+                <td>{{i.dataPagamento|date("d/m/Y")}}</td>
+                <td>{{i.valorTotal}}</td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
+
+<script>
+    
+    $(document).ready(function(){
+            $("#table_pedidos").find("tbody").delegate('tr','dblclick',function(){
+                window.location.href = Routing.generate('PedidoEditar', { 'id' : parseInt($(this).attr('data-id')) } );
+            });
+        }
+    );
+    
+</script>
 
 {% endblock %}

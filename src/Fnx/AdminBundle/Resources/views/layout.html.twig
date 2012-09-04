@@ -2,7 +2,7 @@
 <html>
     <head>
         <link rel="shortcut icon" href="{{ asset('bundles/fnx/admin/images/faviconr.ico') }}" /> 
-        <meta http-equiv="Content-Type" content="text/html"; charset=utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}Home{% endblock %} - Fenix</title>
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -105,6 +105,6 @@
        <div class="simpleDialog">
             
        </div>
-       
+       {% block javascript_defer %}{% endblock %}
     </body>
 </html>

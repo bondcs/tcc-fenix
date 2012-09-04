@@ -121,4 +121,8 @@ class Item
     {
         return $this->preco;
     }
+    
+    public function getTotal(){
+        return $this->getPreco() * $this->getQuantidade();
+    }
 }

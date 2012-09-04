@@ -30,8 +30,10 @@ function onTable(){
                     "sNext": "Próxima",
                     "sPrevious": "Anterior"
                   },
-                "sLengthMenu": "Mostrar _MENU_ linhas",
-                "sInfo": "Mostrando as linhas de _START_ à _END_ em um total de _TOTAL_" //"Got a total of _TOTAL_ entries to show (_START_ to _END_)"
+                "iDisplayLength": 25,
+                "sInfo": "Mostrando as linhas de _START_ à _END_ em um total de _TOTAL_",
+                "sLengthMenu": "Mostrar _MENU_ linhas"
+                 //"Got a total of _TOTAL_ entries to show (_START_ to _END_)"
               }
         });
         

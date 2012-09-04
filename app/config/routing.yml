@@ -9,4 +9,4 @@ fos_js_routing:
 FnxPedidoBundle:
     resource: "@FnxPedidoBundle/Controller/"
     type:      annotation
-    prefix:   /adm/
+    prefix:   "adm/"

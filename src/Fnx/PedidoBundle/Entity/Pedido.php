@@ -32,7 +32,7 @@ class Pedido
     /**
      * @var datetime $data
      *
-     * @ORM\Column(name="data", type="datetime")
+     * @ORM\Column(name="data", type="date")
      */
     private $data;
 
@@ -46,17 +46,23 @@ class Pedido
     /**
      * @var date $dataPagamento
      *
-     * @ORM\Column(name="data_pagamento", type="date")
+     * @ORM\Column(name="data_pagamento", type="date", nullable=true)
      */
     private $dataPagamento;
-    
-    
+            
     /**
      *
-     * @ORM\ManyToOne(targetEntity="Item", fetch="LAZY")
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="pedido",fetch="LAZY")
      */
     private $itens;
 
+    public function __construct() {
+        $this->itens = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    
+    
+    
     /**
      * Get id
      *
@@ -101,11 +107,18 @@ class Pedido
      *
      * @return datetime 
      */
-    public function getData()
-    {
-        return $this->data;
+    public function getData(){
+            return $this->data;
+    }
+    
+    public function getDataPagamento() {
+        return $this->dataPagamento;
     }
 
+    public function setDataPagamento($dataPagamento) {
+        $this->dataPagamento = $dataPagamento;
+    }    
+    
     /**
      * Set previsao
      *
@@ -133,9 +146,8 @@ class Pedido
      */
     public function getValorTotal(){
         $sum = 0;
-        
         foreach($this->itens as $i):
-            $sum += $i->getPreco();
+            $sum += $i->getPreco() * $i->getQuantidade();
         endforeach;
         
         return $sum;

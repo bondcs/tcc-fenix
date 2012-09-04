@@ -10,13 +10,12 @@ class PedidoType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('Cliente', 'text', array(
+            ->add('cliente', 'text', array(
                     'label'  => 'Cliente'  ))
             ->add('previsao', 'date', array(
                     'widget' => 'single_text',
-                    'label'  => 'Previsão de entrega'))
-            ->add('itens','choice')
-        ;
+                    'label'  => 'Previsão de entrega')
+                );
     }
 
     public function getName()

@@ -1,7 +1,79 @@
 {% extends "FnxPedidoBundle:Default:index.html.twig" %}
 
-{% block conteudo%}
+{% block stylesheets %}
+    <link href="{{ asset('Resources/css/TableTools.css') }}" type="text/css" rel="stylesheet" />
+    <link href="{{ asset('Resources/css/TableTools_JUI.css') }}" type="text/css" rel="stylesheet" />
+    <style>
+        .ui-button{
+            text-align: center;
+            vertical-align: middle;
+        }
+        
+        .ui-button img{
+            width: 16px;
+            height: 16px;
+            margin: 0;
+        }
+        
+        .hidden{
+            visibility: hidden;
+            display: none;
+        }
+
+
+        fieldset{
+            margin: 15px;
+            padding: 15px 25px;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('Resources/js/TableTools.js') }}"></script>
+    <script src="{{ asset('Resources/js/ZeroClipboard.js') }}"></script>
+{% endblock %}
+    
+{% block javascript_defer %}
 <script>
+    
+    var $oTable = $('#tableItens').dataTable({
+        "bJQueryUI": true,
+        "bPaginate": false,
+        "bFilter": false,
+        "bRetrieve": true,
+        "bInfo": false,
+         "oLanguage": {
+            "sEmptyTable": "Não existe nenhum item"
+          },
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+            "aButtons": [
+                 {
+                    "sExtends":    "text",
+                    "fnClick": function ( nButton, oConfig, oFlash ) {
+                        $("#modal_new_item").wijdialog('open');
+                    },
+                    "sButtonText": "<img src='http://cdn1.iconfinder.com/data/icons/icojoy/noshadow/standart/png/24x24/001_01.png'/> Novo Item"
+                },
+                {
+                    "sExtends":    "text",
+                    "fnClick": function ( nButton, oConfig, oFlash ) {
+                        alert( 'Editar Item' );
+                    },
+                    "sButtonText": "<img src='http://cdn1.iconfinder.com/data/icons/fatcow/32x32_0660/page_white_edit.png'/> Editar"
+                },
+                {
+                    "sExtends":    "text",
+                    "fnClick": function ( nButton, oConfig, oFlash ) {
+                        alert( 'Deletar Item' );
+                    },
+                    "sButtonText": "<img src='http://cdn1.iconfinder.com/data/icons/diagona/icon/16/101.png'/> Deletar"
+                }
+            ]
+        }
+    });
+
+    
     
     var userRegistered = -1;    
     
@@ -9,7 +81,7 @@ function confereCliente(){
     $.ajax({
         type: "POST",
         url: "{{ path('verificaCliente') }}",
-        dataType: "script"
+        dataType: "script",
         success: function(result){
             if(result != -1){
                 if(flag){
@@ -22,26 +94,22 @@ function confereCliente(){
                 alert("O sistema não pôde conferir o cliente");
             }
         }
-    });
+    })
 }
 
+function cadastraCliente(){
 
+}
+
+function cadastraItem(form){
+    
+}
     
 </script>
-<style>
-.hidden{
-    visibility: hidden;
-    display: none;
-}
+    
+{% endblock %}
 
-
-fieldset{
-    margin: 15px;
-    padding: 15px 25px;
-}
-
-</style>
-
+{% block conteudo%}
 <form onsubmit="confereCliente();" method="POST">
     <fieldset>
         <legend>Cliente</legend>
@@ -53,7 +121,7 @@ fieldset{
         </div>
     </fieldset>
         
-    <table id="table" class="tablePlugin">
+    <table id="tableItens" class="tablePlugin2">
         <thead>
             <tr>
                 <th>Item</th>
@@ -62,16 +130,10 @@ fieldset{
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>&nbsp;</td>
-                <td></td>
-                <td class="value"></td>
-            </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td></td>
-                <td>Total</td>
+                <td colspan="2" style="text-align: right;">Total: </td>
                 <td id="sommatory"></td>
             </tr>
         </tfoot>
@@ -105,7 +167,7 @@ fieldset{
                autoOpen=false
                modal=true
                buttons={
-                 'Sim' : js_function("userRegistered = 1;"),
+                 'Sim' : js_function("userRegistered = 1;$(this).wijdialog('close');"),
                  'Não' : js_function("userRegistered = 0;$(this).wijdialog('close');"),
                }   %}
 
@@ -113,6 +175,29 @@ fieldset{
         
         Deseja cadastra-lo agora?</p>
     {% end_ui_dialog %}  
+    
+    {% ui_dialog id="modal_new_item"
+               title="Adicionar Item"
+               autoOpen=false
+               modal=true %}
+
+    <form onsubmit="cadastraItem">
+        <label for="">Item</label>
+        {% ui_autocomplete name="" %}
+        
+        preço: <span id="label_valor_item"></span>
+        
+        <label for="">Quantidade</label>
+        <input name="" >
+        
+        total: <span id="label_total_item"></span>
+        
+        <label for=""></label>
+        <textarea name=""></textarea>
+            
+        <input type="submit">
+    </form>   
+    {% end_ui_dialog %} 
     
     <input type="submit" value="Salvar"/>
 </form>
