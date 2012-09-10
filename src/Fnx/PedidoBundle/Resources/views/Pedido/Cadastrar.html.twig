@@ -8,13 +8,13 @@
             text-align: center;
             vertical-align: middle;
         }
-        
+
         .ui-button img{
             width: 16px;
             height: 16px;
             margin: 0;
         }
-        
+
         .hidden{
             visibility: hidden;
             display: none;
@@ -25,6 +25,17 @@
             margin: 15px;
             padding: 15px 25px;
         }
+
+        #modal_new_item label,
+        #modal_new_item .label,
+        #modal_new_item input,
+        #modal_new_item .input{
+            display: block;
+            width: 100px;
+            float: left;
+            height: 18px;
+            margin-bottom: 5px;
+        }
     </style>
 {% endblock %}
 
@@ -32,11 +43,11 @@
     <script src="{{ asset('Resources/js/TableTools.js') }}"></script>
     <script src="{{ asset('Resources/js/ZeroClipboard.js') }}"></script>
 {% endblock %}
-    
+
 {% block javascript_defer %}
 <script>
-    
-    var $oTable = $('#tableItens').dataTable({
+
+    var oTable = $('#tableItens').dataTable({
         "bJQueryUI": true,
         "bPaginate": false,
         "bFilter": false,
@@ -73,14 +84,14 @@
         }
     });
 
-    
-    
-    var userRegistered = -1;    
-    
-function confereCliente(){
+
+
+    var userRegistered = -1;
+
+function confereCliente(elem){
     $.ajax({
         type: "POST",
-        url: "{{ path('verificaCliente') }}",
+        url: "{{ path('PedidoVerificaCliente') }}",
         dataType: "script",
         success: function(result){
             if(result != -1){
@@ -89,59 +100,109 @@ function confereCliente(){
                 }else{
                     $('#modal_conf_cli').wijdialog('open');
                     return false;
-                }   
+                }
             }else{
                 alert("O sistema não pôde conferir o cliente");
+                return false;
+            }
+        },
+        error: function(){
+            disparaNotificacao('warning','Não foi possível buscar as informações do cliente');
+        }
+    })
+}
+
+function cadastraCliente(form){
+    $.ajax({
+        type: "POST",
+        url: "{{ path('PedidoCadastraCliente') }}",
+        data: {"info" : form.serialize()},
+        success: function(result){
+            var flag = new Boolean();
+            if(jQuery.parseJSON(result).flag){
+
+            }else{
+
             }
         }
     })
 }
 
-function cadastraCliente(){
-
+function confereFormulario(){
+    if(!userRegistered == "confirmado"){
+        $("#modal_conf_cli").wijdialog("open");
+    }
+    return false;
 }
 
-function cadastraItem(form){
-    
+function cadastraItem(form,table){
+    $.ajax({
+        type: "POST",
+        url: "{{ path('PedidoAdicionaItem') }}",
+        data: {
+		"item": $(form).find("#form_item_nome").val(),
+		"quantidade": $(form).find('#form_item_qtd').val(),
+		"descricao": $(form).find('#form_item_desc').val()
+	    },
+        dataType: "JSON",
+        success: function(result){
+            result = jQuery.parseJSON(result);
+            table.fnAddData([
+                result.item,
+                result.descricao,
+                result.quantidade,
+                "R$ "+result.valor,
+                "R$ "+(result.valor*result.quantidade)
+            ])
+        }
+    })
 }
-    
+
+function calculaTotal(table,col,fieldResult){
+    var total = 0.0;
+    $(table).find("tr").each(function(){
+        total += parseFloat($(this).find("td").eq(col).text().slice(3));
+    })
+
+    $(fieldResult).text("R$ "+total);
+}
+
 </script>
-    
 {% endblock %}
 
 {% block conteudo%}
-<form onsubmit="confereCliente();" method="POST">
+<form onsubmit="confereformulario();" method="POST">
     <fieldset>
         <legend>Cliente</legend>
         <label for="frm_id_cliente_nome">Cliente</label>
-        {% ui_autocomplete values=tags id="frm_id_cliente_nome" %}<br/>
+        {% ui_autocomplete values=tags id="frm_id_cliente_nome" onblur="javascript: confereCliente(this);" onkeydown="userRegistered = 'indefinido'; " %}<br/>
 
-        <div class="hidden" id="is_registered">
-        
-        </div>
+        <div class="hidden" id="is_registered"></div>
     </fieldset>
-        
+
     <table id="tableItens" class="tablePlugin2">
         <thead>
             <tr>
                 <th>Item</th>
+                <th>Descrição</th>
                 <th>Quantidade</th>
                 <th>Valor</th>
+                <th>Total</th>
             </tr>
         </thead>
         <tbody>
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="2" style="text-align: right;">Total: </td>
+                <td colspan="4" style="text-align: right;">Total: </td>
                 <td id="sommatory"></td>
             </tr>
         </tfoot>
     </table>
-    
+
     <label for="frm_ped_id_previsao">Previsão de entrega</label>
-    {% ui_datepicker dateFormat="dd/mm/yy" minDate="+1" ID="frm_ped_id_previsao" %} 
-    
+    {% ui_datepicker dateFormat="dd/mm/yy" minDate="+1" ID="frm_ped_id_previsao" %}
+
     {% ui_dialog id="modal_form_item"
                title="Adicione um item"
                autoOpen=false
@@ -151,16 +212,16 @@ function cadastraItem(form){
             <legend>Adicione um Item</legend>
             <label for="form_item_desc">Item</label>
             {% ui_autocomplete id="form_item_desc" %}
-            
+
             <label for="form_item_qtd">Quantidade</label>
             <input id="form_item_qtd" />
-            
+
             <label for="form_item_esp">Especificação</label>
             <textarea id="form_item_esp"></textarea>
         </fieldset>
     </form>
     {% end_ui_dialog %}
-        
+
     {% ui_dialog id="modal_conf_cli"
                title="Esse cliente não está cadastrado"
                widgetVar="myDialog"
@@ -172,33 +233,33 @@ function cadastraItem(form){
                }   %}
 
     <p>Esse cliente ainda não está cadastrado
-        
+
         Deseja cadastra-lo agora?</p>
-    {% end_ui_dialog %}  
-    
+    {% end_ui_dialog %}
+
     {% ui_dialog id="modal_new_item"
                title="Adicionar Item"
                autoOpen=false
                modal=true %}
 
-    <form onsubmit="cadastraItem">
-        <label for="">Item</label>
-        {% ui_autocomplete name="" %}
-        
-        preço: <span id="label_valor_item"></span>
-        
-        <label for="">Quantidade</label>
-        <input name="" >
-        
-        total: <span id="label_total_item"></span>
-        
-        <label for=""></label>
-        <textarea name=""></textarea>
-            
-        <input type="submit">
-    </form>   
-    {% end_ui_dialog %} 
-    
+        <form onsubmit="cadastraItem">
+            <label for="form_item_nome">Item</label>
+            {% ui_autocomplete name="" id="form_item_nome" %}<br>
+
+            <span class="label">Preço: </span><span id="label_valor_item" class="input"></span><br>
+
+            <label for="fomr_item_qtd">Quantidade</label>
+            <input name="" id="form_item_qtd"><br>
+
+            <span class="label">Total: </span><span id="label_total_item" class="input"></span><br>
+
+            <label for="form_item_desc">Descrição</label>
+            <textarea name="" id="form_item_desc" class="input"></textarea><br>
+
+            <input type="submit" value="Adicionar">
+        </form>
+    {% end_ui_dialog %}
+
     <input type="submit" value="Salvar"/>
 </form>
 

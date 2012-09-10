@@ -96,10 +96,11 @@ function ajaxSubmit(){
 }           
 
 
+
 function onFnAction(){
         
         $("#menuContent a[route], .menuDialog a[route]").click(function(){
-                if (key = $(".row_selected").find(".id").html()){
+                if (key = $(".row_selected").find(".id").eq(0).html()){
                     var url = Routing.generate($(this).attr('route') , {"id": key});
                     $(this).attr('href', url);
 

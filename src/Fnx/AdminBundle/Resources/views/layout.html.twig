@@ -20,10 +20,7 @@
         {% include 'YepsuaSmarTwigBundle::smartwigAssets.html.twig' %}
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.dataTables.js') }}"></script>
         {% block stylesheets %}{% endblock %}
-        
-        {% block javascripts %}{% endblock %}
-        
-        
+        {% block javascripts %}{% endblock %}       
     </head>
     <body>
         <section id="wrapper">
@@ -48,13 +45,7 @@
                             <li><a href='#'><span>Item</span></a></li>
                         </ul>
                     </li>
-                    <li class='has-sub '><a href='#'><span>Pedidos</span></a>
-                        <ul>
-                            <li><a href='{{path('PedidoListar')}}'><span>Gerenciar</span></a></li>
-                            <li><a href='#'><span>Item</span></a></li>
-                            <li><a href='#'><span>Item</span></a></li>
-                        </ul>
-                    </li>
+                    <li class='has-sub '><a href='{{path('PedidoListar')}}'><span>Pedidos</span></a></li>
                     <li class='has-sub '><a href='#'><span>Item</span></a>
                         <ul>
                             <li><a href='#'><span>Item</span></a></li>

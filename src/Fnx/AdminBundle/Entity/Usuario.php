@@ -69,7 +69,15 @@ class Usuario implements UserInterface
      * @var string salt
      */
     protected $salt;
- 
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="\Fnx\PedidoBundle\Entity\Pedido", mappedBy="Usuario")
+     * @var \Fnx\PedidoBundle\Entity\Pedido
+     */
+    protected $pedidos;
+
+
     /**
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="usuarios")
      * @ORM\JoinTable(name="usuario_role",

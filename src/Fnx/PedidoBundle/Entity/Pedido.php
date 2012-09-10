@@ -32,41 +32,58 @@ class Pedido
     /**
      * @var datetime $data
      *
-     * @ORM\Column(name="data", type="date")
+     * @ORM\Column(name="data", type="date", nullable=true)
      */
     private $data;
 
     /**
      * @var date $previsao
      *
-     * @ORM\Column(name="previsao", type="date")
+     * @ORM\Column(name="previsao", type="date", nullable=true)
      */
     private $previsao;
-    
+
     /**
      * @var date $dataPagamento
      *
      * @ORM\Column(name="data_pagamento", type="date", nullable=true)
      */
     private $dataPagamento;
-            
+
     /**
      *
      * @ORM\OneToMany(targetEntity="Item", mappedBy="pedido",fetch="LAZY")
      */
     private $itens;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="\Fnx\AdminBundle\Entity\Usuario")
+     */
+    private $responsavel;
+
+    /**
+     * @ORM\Column(type="string", length=1, unique=false, options={"default" = "r"})
+     * @var string
+     */
+    private $status;
+
     public function __construct() {
         $this->itens = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
-    
-    
-    
+
+
+    public function getResponsavel() {
+        return $this->responsavel;
+    }
+
+    public function setResponsavel($responsavel) {
+        $this->responsavel = $responsavel;
+    }
+
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -82,8 +99,8 @@ class Pedido
     {
         $this->data = $data;
     }
-    
-    
+
+
     public function getCliente() {
         return $this->cliente;
     }
@@ -92,8 +109,8 @@ class Pedido
         $this->cliente = $cliente;
     }
 
-    
-    
+
+
     public function getItens() {
         return $this->itens;
     }
@@ -105,20 +122,20 @@ class Pedido
     /**
      * Get data
      *
-     * @return datetime 
+     * @return datetime
      */
     public function getData(){
             return $this->data;
     }
-    
+
     public function getDataPagamento() {
         return $this->dataPagamento;
     }
 
     public function setDataPagamento($dataPagamento) {
         $this->dataPagamento = $dataPagamento;
-    }    
-    
+    }
+
     /**
      * Set previsao
      *
@@ -132,16 +149,24 @@ class Pedido
     /**
      * Get previsao
      *
-     * @return date 
+     * @return date
      */
     public function getPrevisao()
     {
         return $this->previsao;
     }
-    
+
+    public function getStatus() {
+        return $this->status;
+    }
+
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
     /**
      * Retorna a soma do valor dos itens
-     * 
+     *
      * @return float
      */
     public function getValorTotal(){
@@ -149,7 +174,7 @@ class Pedido
         foreach($this->itens as $i):
             $sum += $i->getPreco() * $i->getQuantidade();
         endforeach;
-        
+
         return $sum;
     }
 }

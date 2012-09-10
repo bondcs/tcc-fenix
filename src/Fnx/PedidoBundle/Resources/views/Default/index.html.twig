@@ -12,7 +12,7 @@
         </tr>
     </thead>
     <tbody>
-        
+
         {% for i in pedidos %}
             <tr data-id={{i.getId()}}>
                 <td>{{i.cliente.nome}}</td>
@@ -25,14 +25,13 @@
 </table>
 
 <script>
-    
+
     $(document).ready(function(){
-            $("#table_pedidos").find("tbody").delegate('tr','dblclick',function(){
-                window.location.href = Routing.generate('PedidoEditar', { 'id' : parseInt($(this).attr('data-id')) } );
-            });
-        }
-    );
-    
+        $("#table_pedidos").find("tbody tr").live('dblclick',function(){
+            window.location.href = Routing.generate('PedidoEditar', { 'id' : parseInt($(this).attr('data-id')) } );
+        });
+    });
+
 </script>
 
 {% endblock %}
