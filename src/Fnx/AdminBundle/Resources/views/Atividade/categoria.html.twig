@@ -1,0 +1,11 @@
+    {% if atividade.servico.nome == "Vigilância" %}
+        {% include 'FnxAdminBundle:Servico:vigilancia.html.twig' %}
+    {% endif %}
+
+    {% if atividade.servico.nome == "Evento" %}
+        {% include 'FnxAdminBundle:Servico:evento.html.twig' %}
+    {% endif %}
+
+    {% if atividade.servico.nome == "Serviços gerais" %}
+        {% include 'FnxAdminBundle:Servico:servicosgerais.html.twig' %}
+    {% endif %}

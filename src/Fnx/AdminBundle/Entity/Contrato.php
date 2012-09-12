@@ -4,11 +4,13 @@ namespace Fnx\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Fnx\AdminBundle\Entity\Cliente;
+use Fnx\AdminBundle\Entity\Atividade;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Fnx\AdminBundle\Entity\Contrato
  *
- * @ORM\Table()
+ * @ORM\Table(name="contrato")
  * @ORM\Entity(repositoryClass="Fnx\AdminBundle\Entity\ContratoRepository")
  * @ORM\HasLifecycleCallbacks
  */
@@ -38,23 +40,36 @@ class Contrato
     private $updated;
     
     /**
-     * @Column(name="arquivado",type="boolean", nullable=false)
-     * @var boolean $ativo
+     * @ORM\Column(name="arquivado",type="boolean", nullable=false)
+     * @var boolean $arquivado
      */
     private $arquivado;
     
     /**
      * @var object $cliente
      * 
-     * @ORM\ManyToOne(targetEntity="Cliente", cascade={"all"}, fetch="LAZY")
+     * @ORM\ManyToOne(targetEntity="Cliente", cascade={"persist"}, fetch="LAZY")
      * @ORM\JoinColumn(name="cliente_id", referencedColumnName="id")
      */
     private $cliente;
     
-    
+    /**
+     * @var ArrayCollection $atividades
+     * 
+     * @ORM\OneToMany(targetEntity="Atividade", mappedBy="contrato", cascade={"persist"})
+     * 
+     */
+    private $atividades;
+
+
+
+
     public function __construct() {
         $this->created = new \DateTime();
+        $this->updated = new \DateTime();
         $this->arquivado = false;
+        $this->atividades = new ArrayCollection();
+        
     }
 
     /**
@@ -113,5 +128,73 @@ class Contrato
     public function setUpdatedValue(){
         $this->updated = new \datetime();
         
+    }
+    
+    /**
+     * @ORM\PreRemove
+     */
+    public function setRemovedValue(){
+        $this->arquivado = true;
+        
+    }
+
+    /**
+     * Set arquivado
+     *
+     * @param boolean $arquivado
+     */
+    public function setArquivado($arquivado)
+    {
+        $this->arquivado = $arquivado;
+    }
+
+    /**
+     * Get arquivado
+     *
+     * @return boolean 
+     */
+    public function getArquivado()
+    {
+        return $this->arquivado;
+    }
+
+    /**
+     * Set cliente
+     *
+     * @param Fnx\AdminBundle\Entity\Cliente $cliente
+     */
+    public function setCliente(\Fnx\AdminBundle\Entity\Cliente $cliente)
+    {
+        $this->cliente = $cliente;
+    }
+
+    /**
+     * Get cliente
+     *
+     * @return Fnx\AdminBundle\Entity\Cliente 
+     */
+    public function getCliente()
+    {
+        return $this->cliente;
+    }
+
+    /**
+     * Add atividades
+     *
+     * @param Fnx\AdminBundle\Entity\Atividade $atividades
+     */
+    public function addAtividade(\Fnx\AdminBundle\Entity\Atividade $atividades)
+    {
+        $this->atividades[] = $atividades;
+    }
+
+    /**
+     * Get atividades
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getAtividades()
+    {
+        return $this->atividades;
     }
 }

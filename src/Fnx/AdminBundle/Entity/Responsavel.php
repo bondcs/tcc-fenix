@@ -14,6 +14,7 @@ use Symfony\Component\Validator\ExecutionContext;
  *
  * @ORM\Table(name="responsavel")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Fnx\AdminBundle\Entity\ResponsavelRepository")
  * @Assert\Callback(methods={"addGroup"})
  * 
  */

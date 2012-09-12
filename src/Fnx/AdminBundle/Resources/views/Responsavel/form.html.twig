@@ -1,6 +1,6 @@
 <div class="box-form-dialog">
-    <form novalidate="" id="form" action="{{ responsavel.id ? path('responsavelEdit', { 'id' : responsavel.id}) : path('responsavelAdd', { 'id' : clienteId})}}" method="post" class="cms ajaxForm">
-            
+    <form novalidate="" id="form" action="{{ responsavel.id ? path('responsavelEdit', { 'id' : responsavel.id}) : path('responsavelAdd', { 'id' : clienteId})}}" method="post" class="cms ajaxFormTable">
+    <div class="myform">         
             {{ form_errors(form) }}
                     <div>
                         {{ form_errors(form.nome)}}
@@ -20,8 +20,9 @@
                         {{ form_widget(form.cpf)}}
                     </div>
         
-             {{ form_row(form._token) }} 
+             {{ form_row(form._token) }}
+       </div>
         <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
-        <input type="button" value="Submit" onclick="ajaxSubmit()"/>
+        <input type="submit" value="Submit"/>
     </form>
 </div>

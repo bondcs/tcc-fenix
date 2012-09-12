@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Fnx\AdminBundle\Entity\Categoria;
 use Fnx\AdminBundle\Form\Type\CategoriaType;
+use Symfony\Component\Form\FormError;
 
 /**
  * Categoria controller.
@@ -81,8 +82,8 @@ class CategoriaController extends Controller
         $entity  = new Categoria();
         $request = $this->getRequest();
         $form    = $this->createForm(new CategoriaType(), $entity);
+        $form->get("nome")->addError(new FormError("Cliente inválido."));
         $form->bindRequest($request);
-        
         
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();

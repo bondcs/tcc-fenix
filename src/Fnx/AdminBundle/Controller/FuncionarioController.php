@@ -148,9 +148,14 @@ class FuncionarioController extends Controller{
         $process = $formHandler->process($funcionario->getUsuario(), $funcionario);
         
         if ($process){
-            if ($flag){ $this->get("session")->setFlash("success","Usuário alterado."); }else{ $this->get("session")->setFlash("success","Usuário registrado.");};
-            $url = $this->generateUrl("funcionarioShow", array("id" => $funcionario->getId()));
-            $response = new Response(json_encode(array("success" => $url)));
+           $message = $flag == true ? "edit" : "add";
+            
+            $responseSuccess = array(
+                  'dialogName' => '.simpleDialog',
+                  'message' => $message
+                );
+            
+            $response = new Response(json_encode($responseSuccess));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }

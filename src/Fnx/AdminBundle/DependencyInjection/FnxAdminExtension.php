@@ -24,12 +24,22 @@ class FnxAdminExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
-        $this->loadUsuario($loader);
+        $loader->load('usuario.xml');
+        $loader->load('atividade.xml');
+        $loader->load('escala.xml');
+//        $this->loadUsuario($loader);
+//        $this->loadAtividade($loader);
     }
     
-    public function loadUsuario(Loader\XmlFileLoader $loader){
-        
-        $loader->load('usuario.xml');
-        
-    }
+//    public function loadUsuario(Loader\XmlFileLoader $loader){
+//        
+//        $loader->load('usuario.xml');
+//        
+//    }
+//    
+//    public function loadAtividade(Loader\XmlFileLoader $loader){
+//        
+//        $loader->load('atividade.xml');
+//        
+//    }
 }

@@ -5,6 +5,7 @@ namespace Fnx\AdminBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Fnx\AdminBundle\Validator\Constraints as FnxAssert;
+use Fnx\AdminBundle\Entity\Escala;
 
 /**
  * Fnx\AdminBundle\Entity\Funcionario
@@ -47,9 +48,21 @@ class Funcionario
      * @FnxAssert\ApenasNumero()
      */
     private $telefone;
-
+    
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Escala", mappedBy="funcionarios", cascade={"persist"})
+     * @ORM\JoinTable(name="escala_funcionario",
+     *     joinColumns={@ORM\JoinColumn(name="escala_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="funcionario_id", referencedColumnName="id")}
+     * )
+     * 
+     */
+    private $escalas;
     
     public function __construct() {
+        
+        $this->escalas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -120,5 +133,29 @@ class Funcionario
     public function getUsuario()
     {
         return $this->usuario;
+    }
+    
+    public function __toString() {
+        return $this->nome;
+    }
+
+    /**
+     * Add escalas
+     *
+     * @param Fnx\AdminBundle\Entity\Escala $escalas
+     */
+    public function addEscala(\Fnx\AdminBundle\Entity\Escala $escalas)
+    {
+        $this->escalas[] = $escalas;
+    }
+
+    /**
+     * Get escalas
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getEscalas()
+    {
+        return $this->escalas;
     }
 }

@@ -1,0 +1,77 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+{% block title %} {{ atividade.nome }} {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/tools/js/TableTools.min.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/tools/js/fnReloadAjax.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/initTable.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/timepicker.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/choisen/js/ui.multiselect.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/choisen/js/plugins/scrollTo/jquery.scrollTo-min.js') }}"></script>
+     <link href="{{ asset('bundles/fnxadmin/choisen/css/ui.multiselect.css') }}" type="text/css" rel="stylesheet" />
+     
+   
+    
+{% endblock %}
+
+{% block menuContent %}
+    <div id="menuContent">
+        <h3>Atividade : {{ atividade.nome }}</h3>
+        <ul>
+            <li><a class="back-link" href="{{ path('atividadeHome')}}"><span></span>Voltar</a></li>
+        </ul> 
+    </div>
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="tabs">
+    <ul>
+		<li><a href="#tabs-1">Informações</a></li>
+		<li><a href="#tabs-2">Escalas</a></li>
+		<li><a href="#tabs-3">Contrato</a></li>
+                <li><a href="#tabs-4">{{ atividade.servico.nome }}</a></li>
+    </ul>
+    <div id="tabs-1">
+        <table class="infos">
+            <tr>
+                <th>Cliente:</th>
+                <td>{{atividade.contrato.cliente.nome}}</td>
+            <tr>
+            <tr>
+                <th>Nome:</th>
+                <td>{{atividade.nome}}</td>
+            <tr>
+            <tr>
+                <th>Descrição:</th>
+                <td>{{atividade.descricao}}</td>
+            <tr>
+            <tr>
+                <th>Criado:</th>
+                <td>{{atividade.created|date("d/m/Y h:m:i")}}</td>
+            <tr>
+            <tr>
+                <th>Alterado:</th>
+                <td>{{atividade.updated|date("d/m/Y h:m:i")}}</td>
+            <tr>
+            <tr>
+                <th>Status:</th>
+                <td><img width="20" height="20" title="ativo" src="{{ atividade.arquivado ? asset('bundles/fnxadmin/images/Denided.png') : asset('bundles/fnxadmin/images/Valid.png')  }}"/></td>
+            <tr> 
+        </table>
+  </div>
+  <div id="tabs-2" style="padding: 0px;">
+        {% include "FnxAdminBundle:Atividade:escala.html.twig" %}
+  </div>
+  
+  <div id="tabs-3">
+  </div>
+        
+  <div id="tabs-4">
+  </div>
+
+</div>
+    
+{% endblock %}
+

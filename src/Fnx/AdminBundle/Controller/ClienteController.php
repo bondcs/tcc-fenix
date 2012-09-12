@@ -13,6 +13,7 @@ use Fnx\AdminBundle\Form\Type\ClienteType;
 use Symfony\Component\HttpFoundation\Response;
 use Fnx\AdminBundle\Form\Type\ResponsavelType;
 use Fnx\AdminBundle\Entity\Responsavel;
+use Symfony\Component\Form\FormError;
 
 /**
  * Description of ClienteController
@@ -31,7 +32,6 @@ class ClienteController extends Controller{
     public function indexAction(){
         $clientes = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")
                                                                               ->findAll();
-        
         return array(
             "clientes" => $clientes, 
         );
@@ -45,7 +45,7 @@ class ClienteController extends Controller{
     public function addClienteAction(){
         
         $cliente = new Cliente();
-        $cliente->setPessoa("j");
+        $cliente->setPessoa("f");
         $responsavel = new Responsavel();
         $responsavel->setPrincipal(true);
         $cliente->getResponsaveis()->add($responsavel);
@@ -68,14 +68,23 @@ class ClienteController extends Controller{
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($cliente);
                 $em->flush();
-                $session = $this->get("session")->setFlash("success","Cadastro concluído.");
-                return $this->redirect($this->generateUrl("clienteHome"));
-            }else{
-                $session = $this->get("session")->setFlash("error","O formulário não foi validado.");
+                
+                if (!$this->getRequest()->isXmlHttpRequest()){
+                    $session = $this->get("session")->setFlash("success","Cadastro concluído.");
+                    return $this->redirect($this->generateUrl("clienteHome"));
+                 
+                }  else {
+                    $responseSuccess = array('successAjax' => '.simpleDialog');
+                    $response = new Response(json_encode($responseSuccess));
+                    $response->headers->set('Content-Type', 'application/json');
+                    return $response;
+                }
+                
             }
         }
         
-        return $this->render("FnxAdminBundle:Cliente:formCli.html.twig" ,array(
+        $template = $this->getRequest()->isXmlHttpRequest() ? "FnxAdminBundle:Cliente:formCliAjax.html.twig" : "FnxAdminBundle:Cliente:formCli.html.twig";
+        return $this->render($template ,array(
             'form' => $form->createView(),
             'cliente' => $cliente,
         ));
@@ -91,7 +100,6 @@ class ClienteController extends Controller{
         $cliente = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")->find($id);
         $responsavelPrincipal = $this->getDoctrine()->getRepository("FnxAdminBundle:Responsavel")->findOneBy(array("principal" => true,
                                                                                                                     "cliente" => $id));
-//        var_dump($responsavelPrincipal); die();
         if (!$cliente){
             throw $this->createNotFoundException("Funcionário não encontrado.");
         }
@@ -196,6 +204,19 @@ class ClienteController extends Controller{
             "cliente" => $cliente,
             "responsaveis" => $responsaveis
         );
+    }
+    
+    /**
+     * @Route("/ajaxCliente", name="ajaxCliente", options={"expose" = true})
+     * @return 
+     */
+    public function ajaxClienteAction(){
+        
+        $clientes = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")->loadCliente();
+        $response = new Response(json_encode($clientes));
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
     }
 }
 

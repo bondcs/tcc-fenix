@@ -30,7 +30,7 @@
             <td>{{ entity.nome }}</td>
             <td>
                 {% if entity.descricao|length > 100 %}
-                {{ entity.descricao(100)}} <a href="{{path("categoriaEdit", {"id" : entity.id})}}">mais...</a>
+                {{ entity.descricao(100)}} <a href="{{path("categoriaEdit", {"id" : entity.id})}}">...</a>
                 {% else %}
                 {{ entity.descricao(100)}}
                 {% endif %}

@@ -119,9 +119,18 @@ class Cliente
      */
     private $responsaveis;
     
+    /**
+     * @var ArrayCollection $contratos
+     * 
+     * @ORM\OneToMany(targetEntity="Contrato", mappedBy="cliente")
+     * 
+     */
+    private $contratos;
+    
     
     public function __construct() {
         $this->responsaveis = new ArrayCollection();
+        $this->contratos = new ArrayCollection();
     }
 
 
@@ -361,5 +370,25 @@ class Cliente
     public function getPessoa()
     {
         return $this->pessoa;
+    }
+
+    /**
+     * Add contratos
+     *
+     * @param Fnx\AdminBundle\Entity\Contrato $contratos
+     */
+    public function addContrato(\Fnx\AdminBundle\Entity\Contrato $contratos)
+    {
+        $this->contratos[] = $contratos;
+    }
+
+    /**
+     * Get contratos
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getContratos()
+    {
+        return $this->contratos;
     }
 }

@@ -12,13 +12,12 @@
 {% endblock %}
 
 {% block conteudo %}
+{% ui_panel title="Funcionário" style="width:auto"%}
 <div id="box-form">
     <form novalidate="" id="form" action="{{ funcionario.id ? path('funcionarioEdit', { 'id' : funcionario.id}) : path('funcionarioAdd')}}" method="post" class="cms">
-            
+    <div class="myform">         
             {{ form_errors(form) }}
             
-            <fieldset>
-                <legend>Funcionário</legend>
                 <div> 
                     {{ form_errors(form.nome)}}
                     {{ form_label(form.nome)}}    
@@ -32,12 +31,10 @@
                 </div>
 
                 {{ form_rest(form)}}
-            </fieldset>
-              
-
+    </div>
             <input type="submit" value="Submit"/>
     </form>
 </div>
-
+{% end_ui_panel %}
 
 {% endblock %}

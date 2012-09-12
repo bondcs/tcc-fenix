@@ -1,16 +1,16 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <link rel="shortcut icon" href="{{ asset('bundles/fnx/admin/images/faviconr.ico') }}" /> 
-        <meta http-equiv="Content-Type" content="text/html"; charset=utf-8" />
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" /> 
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
         <title>{% block title %}Home{% endblock %} - Fenix</title>
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        
+       
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
-        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery.livequery.min.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/script.js') }}"></script>
         <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
         <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
@@ -18,8 +18,12 @@
         <link href="{{ asset('bundles/fnxadmin/css/style.css') }}" type="text/css" rel="stylesheet" />
         <link href="{{ asset('bundles/fnxadmin/css/redmond/jquery-ui-1.8.22.custom.css') }}" type="text/css" rel="stylesheet" />
         <link href="{{ asset('bundles/fnxadmin/table/css/jquery.dataTables_themeroller.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('bundles/fnxadmin/pnotify/jquery.pnotify.default.css') }}" type="text/css" rel="stylesheet" />
+        <link href="{{ asset('bundles/fnxadmin/pnotify/jquery.pnotify.default.icons.css') }}" type="text/css" rel="stylesheet" />
+        
         {% include 'YepsuaSmarTwigBundle::smartwigAssets.html.twig' %}
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.dataTables.js') }}"></script>
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/pnotify/jquery.pnotify.min.js') }}"></script>
         {% block stylesheets %}{% endblock %}
         
         {% block javascripts %}{% endblock %}
@@ -46,7 +50,7 @@
                         <ul>
                             <li><a href='{{ path('funcionarioHome')}}'><span>Funcionário</span></a></li>
                             <li><a href='{{ path('clienteHome')}}'><span>Cliente</span></a></li>
-                            <li><a href='{{ path('categoriaHome')}}'><span>Categoria</span></a></li>
+                            <li><a href='{{ path('atividadeHome')}}'><span>Atividade</span></a></li>
                         </ul>
                     </li>
                     <li class='has-sub '><a href='#'><span>Item</span></a>
@@ -73,7 +77,6 @@
             {% endblock %} 
                 
             {% block menuContent %}{% endblock %}    
-            
             {% if app.session.hasFlash('success') %}
                 <div class="flash-success">
                     {{ app.session.flash('success') }}
@@ -86,11 +89,12 @@
                     {{ app.session.removeFlash('error') }}
                 </div>
             {% endif %}  
-                
+            
+            {% block subMenu %}{% endblock %}
             <section class="main-col">
                 {% block conteudo %}
                     <div id="all-menu">
-                        <a href="#">
+                        <a href="{{path('atividadeAdd')}}">
                             <div class="box-menu">
                                 <div class="img"><img height="60px" src="{{ asset("bundles/fnxadmin/images/note-menu.png")}}" /></div>
                                 <div class="label"><span>Atividade</span></div>
@@ -110,11 +114,11 @@
              <p><span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 10px 0;"></span>
              Selecione um registro antes de efetuar esta ação.</p>
        </div>
-        
+       {% block dialogCofirm %} 
        <div id="dialog-confirm" title="">
-            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Este informação será deletado. Você tem certeza?</p>
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Você tem certeza?</p>
        </div>
-        
+       {% endblock %}
        <div class="simpleDialog">
             
        </div>

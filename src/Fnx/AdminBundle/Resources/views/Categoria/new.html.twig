@@ -13,11 +13,26 @@
 {% endblock %}
 
 {% block conteudo %}
+{% ui_panel title="Categoria" style="width:auto"%}
+    <div id="box-form">
+        <form novalidate="" class="cms" action="{{ path('adm_categoria_create') }}" method="post" {{ form_enctype(form) }}>
+             {{form_errors(form)}}
+        
+            <div class="inputExtendido">
+                {{ form_errors(form.nome)}}
+                {{ form_label(form.nome)}}    
+                {{ form_widget(form.nome)}}
+            </div>
 
-<div id="box-form">
-    <form class="cms" action="{{ path('adm_categoria_create') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_widget(form) }}
-        <input type="submit" value="Submit"/>
-    </form>
-</div>
+            <div>
+                {{ form_errors(form.descricao)}}
+                {{ form_label(form.descricao)}}    
+                {{ form_widget(form.descricao)}}
+            </div>
+            
+            {{ form_row(form._token) }}
+            <input type="submit" value="Submit"/>
+        </form>
+    </div>
+{% end_ui_panel %}
 {% endblock %}

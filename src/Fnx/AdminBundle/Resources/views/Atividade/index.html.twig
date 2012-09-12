@@ -1,0 +1,58 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+{% block title %} Atividade Manager {% endblock %}
+{% block menuContent %}
+
+ <div id="menuContent">
+      <h3>Atividade Manager: Atividades</h3>
+      <ul>
+         <li><a class="new-link" href="{{ path('atividadeAdd')}}"><span ></span>Novo</a></li>
+         <li><a route="atividadeShow" class="note-show-link" href="#"><span></span>Profile</a></li>
+         <li><a route="atividadeEdit" class="edit-link" href="#"><span></span>Editar</a></li>
+         <li><a route="atividadeArquivar" class="arquive-link confirm-link" href="#"><span></span>Arquivar</a></li>
+         <li><a route="atividadeDelete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
+      </ul> 
+</div>
+
+{% endblock %}
+
+{% block subMenu %} 
+<div id="subMenu">
+    <ul>
+        <li><a href="{{ path("atividadeArquivado")}}">Arquivados</a></li>
+        <li><a href="{{ path("atividadeArquivado")}}">Descanço</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+<div class="box-table">
+<table id="table">
+    <thead>
+        <tr>
+            
+            <th style="width: 400px;">Nome</th>
+            <th>Descrição</th>
+            <th>Cliente</th>
+            <th>Id</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.nome }}</td>
+            <td>
+                {% if entity.descricao|length > 100 %}
+                {{ entity.descricao(80) ~ '...'}}
+                {% else %}
+                {{ entity.descricao(80)}}
+                {% endif %}
+            </td>
+            <td>{{entity.contrato.cliente.nome}}</td>
+            <td class="id">{{ entity.id }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}

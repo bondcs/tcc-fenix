@@ -12,10 +12,11 @@
 {% endblock %}
 
 {% block conteudo %}
+{% ui_panel title="Cliente" style="width:auto"%}
 <div id="box-form">
     
     <form novalidate="" id="form" action="{{ cliente.id ? path('clienteEdit', { 'id' : cliente.id}) : path('clienteAdd')}}" method="post" class="cms">
-            
+    <div class="myform">         
             {{ form_errors(form) }}
           
           <fieldset style="margin-bottom: 20px;"> 
@@ -116,9 +117,10 @@
                 {% endfor %}
             </fieldset>
             </div>
-              
+     <div>         
              {{ form_row(form._token) }} 
             <input type="submit" value="Submit"/>
     </form>
 </div>
+{% end_ui_panel %}
 {% endblock %}

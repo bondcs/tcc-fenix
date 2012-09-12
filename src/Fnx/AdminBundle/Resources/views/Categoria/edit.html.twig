@@ -12,12 +12,28 @@
 {% endblock %}
 
 {% block conteudo %}
+{% ui_panel title="Categoria" style="width:auto"%}
 <div id="box-form">
 <form class="cms" action="{{ path('adm_categoria_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{ form_widget(edit_form) }}
+    {{form_errors(edit_form)}}
+        
+            <div class="inputExtendido">
+                {{ form_errors(edit_form.nome)}}
+                {{ form_label(edit_form.nome)}}    
+                {{ form_widget(edit_form.nome)}}
+            </div>
+
+            <div>
+                {{ form_errors(edit_form.descricao)}}
+                {{ form_label(edit_form.descricao)}}    
+                {{ form_widget(edit_form.descricao)}}
+            </div>
+            
+            {{ form_row(edit_form._token) }}
         
     <input type="submit" value="Submit" />
 </form>
 </div>
+{% end_ui_panel %}
 {% endblock %}
 

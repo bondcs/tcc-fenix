@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    
+    <parameters>
+        <parameter key="fnx_admin.atividade.form.type">fnx_admin_atividade</parameter>
+        <parameter key="fnx_admin.atividade.form.name">fnx_admin_atividade_form</parameter>
+        <!--
+        <parameter key="fnx_admin.usuario.form.validation_groups" type="collection">
+            <parameter>register</parameter>
+        </parameter>
+        !-->
+    </parameters>
+    
+    
+    <services>
+
+        <service id="fnx_admin.atividade.form" factory-method="createNamed" factory-service="form.factory" class="Symfony\Component\Form\Form">
+            <argument>%fnx_admin.atividade.form.type%</argument>
+            <argument>%fnx_admin.atividade.form.name%</argument>
+            <!--
+            <argument />
+            <argument type="collection">
+                <argument key="validation_groups">%fnx_admin.usuario.form.validation_groups%</argument>
+            </argument>
+            !-->
+        </service>
+
+        <service id="fnx_admin.atividade.form.type" class="Fnx\AdminBundle\Form\Type\AtividadeType">
+            <tag name="form.type" alias="fnx_admin_atividade" />
+        </service>
+
+        <service id="fnx_admin.atividade.form.handler" class="Fnx\AdminBundle\Form\Handler\AtividadeFormHandler" scope="request">
+            <argument type="service" id="fnx_admin.atividade.form" />
+            <argument type="service" id="request" />
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+    </services>
+
+</container>

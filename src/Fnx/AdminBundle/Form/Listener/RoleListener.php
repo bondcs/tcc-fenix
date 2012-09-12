@@ -37,11 +37,6 @@ class RoleListener implements EventSubscriberInterface{
          $msg = 'Selecione uma permissão';
          $form->get('userRoles')->addError(new FormError($msg));
     }
-    
-    
-    
-    
-    
 }
 
 ?>

@@ -1,0 +1,22 @@
+<div class="box-table" style="margin: 10px 0px 10px 0px">
+        <table class="table redraw">
+            <thead>
+                <tr>
+                   <th>Início</th>
+                   <th>Fim</th>
+                   <th style="width: 40px;">ID</th>
+                 </tr>
+             </thead>
+             <tbody>
+               
+             </tbody>  
+       </table>
+</div>
+
+<script type="text/javascript">
+    var urlSource = Routing.generate("ajaxEscala", {"id": "{{atividade.id}}"});
+    var urlAdd = Routing.generate("escalaAdd", {"id": "{{atividade.id}}"});
+    var routeEdit = "escalaEdit";
+    var routeDelete = "escalaDelete";
+</script>
+

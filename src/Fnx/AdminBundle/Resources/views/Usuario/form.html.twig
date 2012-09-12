@@ -14,11 +14,12 @@
     {% endif %}
     <form novalidate="" id="form" 
                         {% if (responsavel) %}
-                            action="{{ path('usuarioManager', {'id' : father.id})}}"
+                            action="{{ path('usuarioManager', {'id' : father.id})}}" class="cms ajaxFormTable"
                             {% else %}
-                            action="{{ path('usuarioManagerFuncionario', {'id' : father.id})}}"
+                            action="{{ path('usuarioManagerFuncionario', {'id' : father.id})}}" class="cms ajaxForm"
                         {% endif %}
-                            method="post" class="cms ajaxForm">
+                            method="post">
+    <div class="myform"> 
             {{ form_errors(form) }}
                 <div> 
                     {{ form_errors(form.username)}}
@@ -44,10 +45,10 @@
                         {{ form_widget(form.userRoles)}}
                 </fieldset>
             </div>
-            
-            {{ form_rest(form)}}
-                
+                 
+                {{ form_row(form._token) }}
+    </div>
             <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
-            <input type="button" onclick="ajaxSubmit()" value="Submit"/>
+            <input type="submit" value="Submit"/>
     </form>
 </div>
