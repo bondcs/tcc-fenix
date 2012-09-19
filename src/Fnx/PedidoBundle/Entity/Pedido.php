@@ -52,7 +52,7 @@ class Pedido
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="Item", mappedBy="pedido",fetch="LAZY")
+     * @ORM\OneToMany(targetEntity="Item", mappedBy="pedido",fetch="LAZY", cascade={"all"})
      */
     private $itens;
 
@@ -156,8 +156,16 @@ class Pedido
         return $this->previsao;
     }
 
-    public function getStatus() {
-        return $this->status;
+    public function getStatus($realy = false) {
+	if($realy)
+	    return $this->status;
+	else{
+	    switch ($this->status){
+		case "r": return "rascunho";
+		case "a": return "em aberto";
+		case 'f': return 'fechado';
+	    }
+	}
     }
 
     public function setStatus($status) {

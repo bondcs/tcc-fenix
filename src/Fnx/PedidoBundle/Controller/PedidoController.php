@@ -12,13 +12,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class PedidoController extends Controller
 {
     /**
-     * @Route("listar/{condicao}",name="PedidoListar",defaults={"condicao" = "abertos"})
+     * @Route("listar/",name="PedidoListar")
      * @Template()
      */
-    public function indexAction($condicao = "abertos")
+    public function indexAction()
     {
-
-        $pedidos = $this->getDoctrine()->getRepository("FnxPedidoBundle:Pedido")->loadPedidos($condicao);
+        $pedidos = $this->getDoctrine()->getRepository("FnxPedidoBundle:Pedido")->findAll();
 
         return $this->render("FnxPedidoBundle:Default:index.html.twig",array('pedidos' => $pedidos));
     }
@@ -36,11 +35,15 @@ class PedidoController extends Controller
         if(!$pedido):
 
             $pedido = new \Fnx\PedidoBundle\Entity\Pedido();
+//	    $pedido->setCliente(new \Fnx\AdminBundle\Entity\Cliente());
             $pedido->setStatus('r');
 
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($pedido);
-            $em->flush();
+
+	    $em->flush();
+
+//	    var_dump($pedido);
 
             $session->set('pedido', $pedido);
         endif;
@@ -53,12 +56,28 @@ class PedidoController extends Controller
             $form->bindRequest($request);
 
             if($form->isValid()){
-
             }
         }else{
-                return $this->render("FnxPedidoBundle:Pedido:Cadastrar.html.twig",array('form' => $form,
-                    'tags' => $this->getDoctrine()->getEntityManager()
-                ->getRepository("FnxAdminBundle:Cliente")->findAll()));
+            $sth = $this->getDoctrine()->getEntityManager()->createQuery("select c.nome from \Fnx\AdminBundle\Entity\Cliente c");
+
+	    $sth->execute();
+
+	    $autoComplete = $sth->getResult();
+
+	    if($autoComplete):
+		array_walk($autoComplete,
+			function(&$str){
+				$str = '"'.$str['nome'].'"';
+			    });
+
+	    else:
+		$autoComplete = array();
+	    endif;
+
+	    return $this->render("FnxPedidoBundle:Pedido:Cadastrar.html.twig",array('form' => $form,
+                    'array_clientes' => $autoComplete
+			)
+		    );
         }
     }
 
@@ -76,44 +95,79 @@ class PedidoController extends Controller
      }
 
      /**
-      * @Route(name="PedidoCadastraCliente", options={ "expose" = true})
+      * @Route("cadastraCliente",name="PedidoCadastraCliente", options={ "expose" = true})
       */
      public function cadastraClienteAction(){
 
          /**
           * @todo metodo que salva um cliente e retorna um booleano de status
           */
-         $flag = (bool) $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente");
+         $em = $this->getDoctrine()->getEntityManager();
 
-         echo json_encode(array('flag' => $flag));
-         return ;
+	 $json = $this->getRequest()->get('cliente');
+
+	 $cliente = json_decode($json);
+
+	 ob_start();
+	 print_r($cliente);
+	 $var_dump = ob_get_contents();
+	 ob_end_clean();
+
+	 //$flag = $em->persist($cliente);
+
+         echo json_encode(array('flag' => false /*$flag*/, "cliente" => $var_dump));
+
+         return new \Symfony\Component\HttpFoundation\Response();
      }
 
      /**
-      * @Route(name="PedidoVerificaCliente", options={ "expose" = true})
+      * @Route("confereCliente",name="PedidoVerificaCliente", options={ "expose" = true})
       */
      public function verificaClienteAction(){
 
-         $request = $this->getRequest()->request;
+         $request = $this->getRequest();
 
-         $obj = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")->findBy(array("nome like ".$request->get('form_nome_cliente')));
+         $cliente = $this->getDoctrine()
+		    ->getEntityManager()
+		    ->getRepository("FnxAdminBundle:Cliente")
+		    ->findOneBy(array('nome' => $request->get('nome')));
 
-         echo json_encode($obj);
-         return ;
+	 $obj['nome'] = $cliente->getNome();
+	 $obj['tel']  = $cliente->getTelefone();
+	 $obj['desc'] = $cliente->getDescricao();
+	 $obj['tipo'] = ($cliente->getPessoa() == 'j')? 'CNPJ: ': 'CPF: ' ;
+	 $obj['disc'] = ($cliente->getPessoa() == 'j')? $cliente->getCnpj() : $cliente->getCpf();
+
+	 $json = array("cliente" => $obj);
+
+	 $response = new \Symfony\Component\HttpFoundation\Response(json_encode($json));
+	 $response->headers->set('content/type', 'application/json');
+
+         return $response;
      }
 
      /**
-      * @Route(name="PedidoAdicionaItem", options={ "expose" = true})
+      * @Route("addItem",name="PedidoAdicionaItem", options={ "expose" = true})
       */
      public function adicionaItemAction(){
 
-         $session = $this->getRequest()->getSession();
+         $request = $this->getRequest();
 
-         $session->get('pedido');
+         $pedido = $request->getSession()->get('pedido');
 
-         $obj = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")->findBy(array("nome like ".$request->get('form_nome_cliente')));
+	 // isso aqui seria no caso dos produtos serem registrados no banco
+	 //$sth = $this->getDoctrine()->getEntityManager()->createQuery("select i from \Fnx\PedidoBundle\Entity\Item where i.nome = ?;");
 
-         echo json_encode($obj);
-         return ;
+	 $item = new \Fnx\PedidoBundle\Entity\Item();
+
+	 $item->setDescricao($request->get("descricao"));
+
+	 $item->setPreco($request->get("preco"));
+
+	 $item->setQuantidade($request->get("quantidade"));
+
+	 $pedido->getItens()->add($item);
+
+         echo json_encode($item);
      }
 }

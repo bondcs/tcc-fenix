@@ -1,24 +1,88 @@
 {% extends "FnxAdminBundle::layout.html.twig" %}
 
+{% block javascript_defer %}
+<script type="text/javascript">
+function formata_data(data){
+    var aux = data.split('/');
+    return aux[2]+'/'+aux[1]+'/'+aux[0];
+}
+
+$.fn.dataTableExt.afnFiltering.push(
+    function( oSettings, aData, iDataIndex ) {
+	switch($('#extra_filtering').val()){
+	    case "abertos":
+		if(aData[3].value == null){
+		    return true;
+		}else{
+		    return false;}
+	    case "todos":
+		return true;
+	    case 'historico':
+		if(aData[5] == 'fechado')
+		    return true;
+		else
+		    return false;
+	    case 'atrasado':
+		var data = formata_data(aData[2]);
+		data = new date(data.split('/'));
+		var data2 = new date();
+		if(data > data2)
+		    return true;
+		else
+		    return false;
+	    case 'rascunho':
+		if($(aData).find('td').eq(5) == 'rascunho')
+		    return true;
+		else
+		    return false;
+	    default:
+		return true;
+	}
+    }
+);
+
+$(document).ready(function(){
+    alert('10');
+    $("#extra_filtering").change(function(){oTable.fnDraw(); });
+});
+</script>
+{% endblock %}
+
 {% block conteudo %}
 <a href="{{ path("PedidoCadastrar") }}">Novo</a>
+
+<form>
+    <label>Filtrar: </label>
+    <select id="extra_filtering">
+	<option value="abertos">Em aberto</option>
+	<option value="todos">Todos</option>
+	<option value="historico">Histórico</option>
+	<option value="atrasado">Em atraso</option>
+	<option value="rascunho">Rascunhos</option>
+    </select>
+    <input type="submit" value="Ir" style="padding: 1px 8px;">
+</form>
+
 <table id="table_pedidos" class="tablePlugin">
     <thead>
         <tr>
             <th>Cliente</th>
             <th>Data</th>
+	    <th>Previsão</th>
             <th>Fechamento</th>
             <th>Valor</th>
+	    <th>Status</th>
         </tr>
     </thead>
     <tbody>
-
         {% for i in pedidos %}
-            <tr data-id={{i.getId()}}>
-                <td>{{i.cliente.nome}}</td>
-                <td>{{i.data|date("d/m/Y")}}</td>
-                <td>{{i.dataPagamento|date("d/m/Y")}}</td>
+            <tr data-id={{i.id}}>
+                <td>{{i.getCliente().getNome()|default('indefinido')}}</td>
+                <td>{{(i.data)? i.data|date("d/m/Y") : ''}}</td>
+		<td>{{(i.previsao)? i.previsao|date("d/m/Y") : ''}}</td>
+                <td>{{(i.dataPagamento)? i.dataPagamento|date("d/m/Y") : ''}}</td>
                 <td>{{i.valorTotal}}</td>
+		<td>{{i.getStatus()}}</td>
             </tr>
         {% endfor %}
     </tbody>

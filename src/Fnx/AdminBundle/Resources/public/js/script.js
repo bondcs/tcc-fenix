@@ -9,14 +9,14 @@ $(document).ready(function() {
         populaCidade();
         ajaxDialog();
         confirmDialog();
-        cpfCnpj(); 
+        cpfCnpj();
         onChangecpfCnpj();
         efeitoErro();
-        
+
 } );
 
 function onTable(){
-    
+
         oTable = $('table.tablePlugin').dataTable({
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
@@ -36,9 +36,9 @@ function onTable(){
                  //"Got a total of _TOTAL_ entries to show (_START_ to _END_)"
               }
         });
-        
+
         $("table.tablePlugin tbody tr").click( function() {
-            
+
             // alterar a cor do fundo da linha
             if ( $(this).hasClass('row_selected') ) {
                 $(this).removeClass('row_selected');
@@ -46,18 +46,18 @@ function onTable(){
             else {
                 oTable.$('tr.row_selected').removeClass('row_selected');
                 $(this).addClass('row_selected');
-            }   
+            }
         });
-    
+
 }
 
 
 function ajaxDialog(){
-    
+
         $(".ajax-link").click(function(event){
              event.preventDefault();
              var url = $(this).attr("href");
-             if (url != '#'){                
+             if (url != '#'){
                 $.ajax({
                        type: 'GET',
                        url: url,
@@ -68,9 +68,9 @@ function ajaxDialog(){
                        }
                    })
             }
-            
+
         })
-             
+
 
 }
 
@@ -82,23 +82,23 @@ function ajaxSubmit(){
                     url: url,
                     data: $('.ajaxForm').serialize(),
                     success: function(result){
-                        
+
                         if (result['success']){
                             window.location.href = result['success'];
                             return false;
                         }
-                        
+
                         $(".simpleDialog").html(result);
                         $('.simpleDialog').dialog('close');
                         $('.simpleDialog').dialog('open');
                     }
                 })
-}           
+}
 
 
 
 function onFnAction(){
-        
+
         $("#menuContent a[route], .menuDialog a[route]").click(function(){
                 if (key = $(".row_selected").find(".id").eq(0).html()){
                     var url = Routing.generate($(this).attr('route') , {"id": key});
@@ -113,7 +113,7 @@ function onFnAction(){
                     $('#dialogAction').dialog('open');
                 }
         })
-    
+
 }
 
 $(function(){
@@ -157,9 +157,9 @@ function actionDialog(){
                                 return false;
 			}
 		}
-	});        
-       
-    
+	});
+
+
 }
 
 function simpleDialog(){
@@ -169,70 +169,70 @@ function simpleDialog(){
                 height:"auto",
                 width:"auto",
 		modal: true
-	});        
-       
-    
+	});
+
+
 }
 
 function populaCidade(){
-    
+
     $("#estado").change(function(){
-        
+
         $.ajax({
             type: 'POST',
             url: Routing.generate('ajaxCidade', { estadoId: $('#estado').val() }),
             success: function(valores){
                 $('#cidade').empty();
                 var options = "";
-                
+
                 $.each(valores,function(key,valor){
                        options += '<option value="'+ valor['id']+ '">'+ valor['nome']+'</option>';
                 })
-                $("#cidade").html(options);  
+                $("#cidade").html(options);
             }
-        
+
         })
 })
 }
 
  function onChangecpfCnpj(){
-     
-     
+
+
      $("#pessoa input").bind('change',function(){
         cpfCnpj();
      })
-     
+
      return false;
-     
+
  }
 
 function cpfCnpj(){
-    
+
         var valor = $("#form input[type='radio']:checked").val();
-        
+
         if (valor == 'j'){
 
              $("#fisico").addClass("hide");
-            
+
              if ($("#juridico").hasClass("hide")){
                   $("#juridico").removeClass("hide");
                   $("#responsavel").removeClass("hide");
              }
-            
+
         }else{
              $("#juridico").addClass("hide");
              $("#responsavel").addClass("hide");
              if ($("#fisico").hasClass("hide")){
                   $("#fisico").removeClass("hide");
              }
-            
+
         }
-        
+
         return false;
 }
 
 function efeitoErro(){
     $(".flash-success, .flash-error").delay(4000).slideUp("slow");
     return false;
-    
+
 }

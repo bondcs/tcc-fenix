@@ -12,19 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class PedidoRepository extends EntityRepository
 {
-    
-    public function loadPedidos($condicao){
-        switch ($condicao):
-            case "abertos":
-                $where = " where p.dataPagamento is null";
-            case "todos":
-                $where = '';
-            case "historico":
-                $where = "  where p.dataPagamento is not null";
-            case "atrasados":
-                $where = " where p.previsao < CURRENT_DATE() and p.dataPagamento is null";
-        endswitch;
-        
-        return $this->getEntityManager()->createQuery("select p from \Fnx\PedidoBundle\Entity\Pedido p".$where)->getResult();
-    }
+
 }

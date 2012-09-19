@@ -55,7 +55,7 @@ class Cliente
      * @FnxAssert\ApenasNumero(groups="juridico")
      */
     private $cnpj;
-    
+
     /**
      * @var string $cnpj
      *
@@ -74,15 +74,23 @@ class Cliente
      * @FnxAssert\ApenasNumero()
      */
     private $cep;
-       
+
+    /**
+     * @var string $cep
+     *
+     * @ORM\Column(name="descricao", type="string", length=150, nullable=true)
+     * @Assert\Regex(pattern="/[[:alnum:]]{0,}/",message="a descricao deve conter apenas letras e numeros")
+     */
+    private $descricao;
+
     /**
      * @var objeto $cidade
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="Cidade")
-     * @ORM\JoinColumn(name="cidade_id", referencedColumnName="id") 
+     * @ORM\JoinColumn(name="cidade_id", referencedColumnName="id")
      */
     private $cidade;
-    
+
     /**
      * @var string $bairro
      *
@@ -103,42 +111,42 @@ class Cliente
      * @ORM\Column(name="numero", type="string", length=10, nullable=true)
      */
     private $numero;
-    
+
     /**
      * @var string $pessoa
      *
      * @ORM\Column(name="pessoa", type="string")
      */
     private $pessoa;
-    
+
     /**
      * @var ArrayCollection $responsaveis
-     * 
+     *
      * @ORM\OneToMany(targetEntity="Responsavel", mappedBy="cliente", cascade={"persist", "remove"})
-     * 
+     *
      */
     private $responsaveis;
-    
-    
-    
-    
+
+
+
+
     public function __construct() {
         $this->responsaveis = new ArrayCollection();
     }
 
 
     public function validaPessoa(ExecutionContext $ec){
-        
+
         if ($this->getPessoa() == 'j') {
           $ec->getGraphWalker()->walkReference($this, 'juridico', $ec->getPropertyPath(), true);
         }else{
-          $ec->getGraphWalker()->walkReference($this, 'fisico', $ec->getPropertyPath(), true);  
+          $ec->getGraphWalker()->walkReference($this, 'fisico', $ec->getPropertyPath(), true);
         }
     }
         /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -158,7 +166,7 @@ class Cliente
     /**
      * Get nome
      *
-     * @return string 
+     * @return string
      */
     public function getNome()
     {
@@ -178,7 +186,7 @@ class Cliente
     /**
      * Get telefone
      *
-     * @return string 
+     * @return string
      */
     public function getTelefone()
     {
@@ -198,7 +206,7 @@ class Cliente
     /**
      * Get cnpj
      *
-     * @return string 
+     * @return string
      */
     public function getCnpj()
     {
@@ -218,7 +226,7 @@ class Cliente
     /**
      * Get cep
      *
-     * @return string 
+     * @return string
      */
     public function getCep()
     {
@@ -238,7 +246,7 @@ class Cliente
     /**
      * Get bairro
      *
-     * @return string 
+     * @return string
      */
     public function getBairro()
     {
@@ -258,7 +266,7 @@ class Cliente
     /**
      * Get rua
      *
-     * @return string 
+     * @return string
      */
     public function getRua()
     {
@@ -278,7 +286,7 @@ class Cliente
     /**
      * Get numero
      *
-     * @return string 
+     * @return string
      */
     public function getNumero()
     {
@@ -298,7 +306,7 @@ class Cliente
     /**
      * Get cidade
      *
-     * @return Fnx\AdminBundle\Entity\Cidade 
+     * @return Fnx\AdminBundle\Entity\Cidade
      */
     public function getCidade()
     {
@@ -318,7 +326,7 @@ class Cliente
     /**
      * Get responsaveis
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getResponsaveis()
     {
@@ -338,7 +346,7 @@ class Cliente
     /**
      * Get cpf
      *
-     * @return string 
+     * @return string
      */
     public function getCpf()
     {
@@ -358,10 +366,20 @@ class Cliente
     /**
      * Get pessoa
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPessoa()
     {
         return $this->pessoa;
     }
+
+    public function getDescricao() {
+	return $this->descricao;
+    }
+
+    public function setDescricao($descricao) {
+	$this->descricao = $descricao;
+    }
+
+
 }
