@@ -29,6 +29,11 @@ class Item
      */
     private $pedido;
 
+    /**
+     *
+     * @ORM\Column(name="nome", type="string", length=50, nullable=true)
+     */
+    private $nome;
 
     /**
      * @var string $descricao
@@ -55,7 +60,7 @@ class Item
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -75,7 +80,7 @@ class Item
     /**
      * Get descricao
      *
-     * @return string 
+     * @return string
      */
     public function getDescricao()
     {
@@ -95,7 +100,7 @@ class Item
     /**
      * Get quantidade
      *
-     * @return decimal 
+     * @return decimal
      */
     public function getQuantidade()
     {
@@ -115,14 +120,30 @@ class Item
     /**
      * Get preco
      *
-     * @return float 
+     * @return float
      */
     public function getPreco()
     {
         return $this->preco;
     }
-    
+
     public function getTotal(){
         return $this->getPreco() * $this->getQuantidade();
+    }
+
+    public function getPedido() {
+	return $this->pedido;
+    }
+
+    public function setPedido($pedido) {
+	$this->pedido = $pedido;
+    }
+
+    public function getNome() {
+	return $this->nome;
+    }
+
+    public function setNome($nome) {
+	$this->nome = $nome;
     }
 }

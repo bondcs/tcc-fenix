@@ -36,17 +36,18 @@
             height: 18px;
             margin-bottom: 5px;
         }
+
+	.clear{
+	    clear: both;
+	}
     </style>
 {% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('Resources/js/TableTools.js') }}"></script>
     <script src="{{ asset('Resources/js/ZeroClipboard.js') }}"></script>
-{% endblock %}
 
-{% block javascript_defer %}
 <script>
-
     var oTable = $('#tableItens').dataTable({
         "bJQueryUI": true,
         "bPaginate": false,
@@ -62,7 +63,7 @@
                  {
                     "sExtends":    "text",
                     "fnClick": function ( nButton, oConfig, oFlash ) {
-                        $("#modal_new_item").wijdialog('open');
+                        $("#modal_new_item").dialog('open');
                     },
                     "sButtonText": "<img src='http://cdn1.iconfinder.com/data/icons/icojoy/noshadow/standart/png/24x24/001_01.png'/> Novo Item"
                 },
@@ -95,25 +96,54 @@
     var userRegistered = 0;
 
     $("#frm_cli_nome").blur(function(){
-	if(userRegistered != 1 && userRegistered != 0){
-	    $cliente = confereCliente($(this));
-	    if($cliente){
-		$("#frm_cli_tel").text($cliente['tel']);
-		$("#frm_cli_end").text($cliente['end']);
-		$("#frm_cli_desc").text($cliente['desc']);
-		$("#frm_cli_tipo").text($cliente['tipo']);
-		$("#frm_cli_discr").text($cliente['discr']);
-
-		$("is_registered").removeClass("hidden");
-	    }else{
-		$("is_registered").addClass("hidden");
-	    }
+	if(userRegistered == -1){
+	    confereCliente($(this));
 	}
     });
 
-    $("#frm_cli_nome").keypress(function(){
+    $('#form_item_preco').blur(function(){
+	if($(this).val() && $('#form_item_qtd').val()){
+	    var aux = desformataDinheiro($(this).val()) * $('#form_item_qtd').val();
+	    $('#label_total_item').text(formataDinheiro(aux));
+	}
+    });
+
+    $('#form_item_qtd').blur(function(){
+	if($('#form_item_preco').val() && $(this).val()){
+	    $('#label_total_item').text(formataDinheiro(desformataDinheiro($('#form_item_preco').val()) * $(this).val()));
+	}
+    });
+
+    $("#frm_cli_nome").keydown(function(){
 	userRegistered = -1;
     });
+
+    $('#form_item_submit').click(function(){
+	cadastraItem($('#form_new_item'), $('#tableItens'))
+	$('#modal_new_item').dialog('close');
+
+	$('#form_item_nome').val('');
+	$('#form_item_preco').val('');
+	$('#form_item_qtd').val('');
+	$('#label_total_item').text('');
+	$('#form_item_desc').val('');
+    });
+
+    $('form.ajax_form').submit(function(e){
+
+
+
+	e.preventDefault();
+    });
+
+function limpaDadosCliente(){
+    $("#frm_cli_tel").text('');
+    $("#frm_cli_desc").text('');
+    $("#frm_cli_tipo").text('');
+    $("#frm_cli_disc").text('');
+
+    $('#is_registered').addClass('hidden');
+}
 
 function confereCliente(elem, user){
     $.ajax({
@@ -121,29 +151,36 @@ function confereCliente(elem, user){
         url: Routing.generate('PedidoVerificaCliente'),
 	data: {'nome' : $(elem).val()},
         dataType: "JSON",
-        success: function(result){
-            if(result.cliente){
+        success: function(cliente){
+            if(cliente){
+		console.log(cliente);
 		userRegistered = 1;
-		return result.cliente;
+		$("#frm_cli_tel").text(cliente['tel']);
+		$("#frm_cli_desc").text(cliente['desc']);
+		$("#frm_cli_tipo").text(cliente['tipo']);
+		$("#frm_cli_disc").text(cliente['disc']);
+
+		$('#is_registered').removeClass('hidden');
 	    }else{
 		userRegistered = 0;
+		limpaDadosCliente();
 		$('#modal_conf_cli').dialog('open');
-		return null;
 	    }
         },
         error: function(){
-	    userRegistered = -1;
+	    userRegistered = 0;
             alert('Não foi possível buscar as informações do cliente');
+	    limpaDadosCliente();
 	    return false;
         }
-    })
+    });
 }
 
 function cadastraCliente(form){
     $.ajax({
         type: "POST",
         url: Routing.generate('PedidoCadastraCliente'),
-        data: {"info" : form.serialize()},
+        data: {"nome" : form.serialize()},
         success: function(result){
             var flag = new Boolean();
             if(jQuery.parseJSON(result).flag){
@@ -173,39 +210,39 @@ function cadastraItem(form,table){
 		"descricao": $(form).find('#form_item_desc').val()
 	    },
         dataType: "JSON",
-        success: function(result){
-            result = jQuery.parseJSON(result);
-            table.fnAddData([
-                result.item,
-                result.descricao,
-                result.quantidade,
-                "R$ "+result.valor,
-                "R$ "+(result.valor*result.quantidade)
-            ])
+        success: function(item){
+            $(table).dataTable().fnAddData([
+                item['nome'],
+                item['descricao'],
+                item['quantidade'],
+                formataDinheiro(item['valor']),
+                formataDinheiro(item['valor']*item['quantidade'])
+            ]);
+	    calculaTotal($(table),4,$('#sommatory'));
         }
     })
 }
 
 function calculaTotal(table,col,fieldResult){
     var total = 0.0;
-    $(table).find("tr").each(function(){
-        total += parseFloat($(this).find("td").eq(col).text().slice(3));
+    $(table).find("tbody tr").each(function(){
+        total += desformataDinheiro($(this).find("td").eq(col).text());
     });
 
-    $(fieldResult).text("R$ "+total);
+    $(fieldResult).text(formataDinheiro(total));
 }
 
 $(document).ready(function(){
-    $('.simple_dialog').dialog({ autoOpen : false});
+    $('.simple_dialog').dialog({ autoOpen : false, modal: true, resizable: false});
     $('.simple_dialog').removeClass('hidden');
-    $('#modal_conf_cli').dialog({ autoOpen: false, buttons: [
+    $('#modal_conf_cli').dialog({ buttons: [
 	{
 	    text: "Sim",
-	    click: function() { userRegistered = 1;$(this).wijdialog('close'); }
+	    click: function() { userRegistered = 1;$(this).dialog('close'); }
 	},
 	{
 	    text: "Não",
-	    click: function() { userRegistered = 0;$(this).wijdialog('close'); }
+	    click: function() { userRegistered = 0;$(this).dialog('close'); }
 	}
     ]});
     $('#modal_conf_cli').removeClass('hidden');
@@ -218,23 +255,34 @@ $(document).ready(function(){
 <form onsubmit="confereformulario();" method="POST">
     <fieldset>
         <legend>Cliente</legend>
-        <label for="frm_id_cliente_nome">Cliente</label>
-        <input id="frm_cli_nome"><br/>
-
-        <div class="hidden" id="is_registered">
-	    <span class="label">Telefone: </label>
-	    <span class="input" id="frm_cli_tel"></span><br>
-
-	    <span class="label">Endereço: </label>
-	    <span class="input" id="frm_cli_end"></span><br>
-
-	    <span class="label">Descrição: </label>
-	    <span class="input" id="frm_cli_desc"></span><br>
-
-	    <span class="label" id="frm_cli_info"></label>
-	    <span class="input" id="frm_cli_disc"></span><br>
-	</div>
+	<table>
+	    <thead>
+		<tr>
+		    <td><label for="frm_id_cliente_nome">Cliente: </label></td>
+		    <td><input id="frm_cli_nome"><br/></td>
+		</tr>
+	    </thead>
+	    <tbody  id="is_registered" class="hidden">
+		<tr>
+		    <td>Telefone: </td>
+		    <td id="frm_cli_tel"></td>
+		</tr>
+		<tr>
+		    <td>Descrição: </td>
+		    <td id="frm_cli_desc"></td>
+		</tr>
+		<tr>
+		    <td id="frm_cli_tipo"></td>
+		    <td id="frm_cli_disc"></td>
+		</tr>
+	    </tbody>
+	</table>
     </fieldset>
+
+    <label for="frm_ped_id_previsao">Previsão de entrega</label>
+    <input type="text" id="frm_ped_id_previsao" name="data">
+
+    <hr style="margin: 15px;">
 
     <table id="tableItens" class="tablePlugin2">
         <thead>
@@ -256,56 +304,34 @@ $(document).ready(function(){
         </tfoot>
     </table>
 
-    <label for="frm_ped_id_previsao">Previsão de entrega</label>
-    {% ui_datepicker dateFormat="dd/mm/yy" minDate="+1" ID="frm_ped_id_previsao" %}
-
     <input type="submit" value="Salvar"/>
 </form>
 
- <div class="dialog hidden" id="modal_form_item"
-               title="Adicione um item"
-               autoOpen=false
-               modal=true >
-    <form>
-	<fieldset>
-	    <legend>Adicione um Item</legend>
-	    <label for="form_item_desc">Item</label>
-	    {% ui_autocomplete id="form_item_desc" %}<br>
-
-	    <label for="form_item_qtd">Quantidade</label>
-	    <input id="form_item_qtd" /><br>
-
-	    <label for="form_item_esp">Especificação</label>
-	    <textarea id="form_item_esp"></textarea><br>
-	</fieldset>
-    </form>
-</div>
-
-<div id="modal_conf_cli" class="dialog hidden" title="Esse cliente não está cadastrado">
+<div id="modal_conf_cli" class="simple_dialog hidden" title="Esse cliente não está cadastrado">
 
 <p>Esse cliente ainda não está cadastrado
 
     Deseja cadastra-lo agora?</p>
 </div>
 
-<div id="modal_new_item" class="dialog hidden" title="Adicionar Item" >
+<div id="modal_new_item" class="simple_dialog" title="Adicionar Item" style="width: 500px; height: 400px;">
+    <form id="form_new_item" class="ajax_form">
+	<label for="form_item_nome">Item: </label>
+	<input id="form_item_nome" ><br class="clear">
 
-    <form onsubmit="cadastraItem($(this))">
-	<label for="form_item_nome">Item</label>
-	{% ui_autocomplete name="" id="form_item_nome" %}<br>
+	<label for="form_item_preco">Preço: </label>
+	<input id="form_item_preco" class="moeda"><br class="clear">
 
-	<label for="label_valor_item">Preço: </label>
-	<input id="label_valor_item"><br>
+	<label for="form_item_qtd">Quantidade</label>
+	<input id="form_item_qtd"><br class="clear">
 
-	<label for="fomr_item_qtd">Quantidade</label>
-	<input name="" id="form_item_qtd"><br>
-
-	<span class="label">Total: </span><span id="label_total_item" class="input"></span><br>
+	<span class="label">Total: </span>
+	<span id="label_total_item" class="input"></span><br class="clear">
 
 	<label for="form_item_desc">Descrição</label>
-	<textarea name="" id="form_item_desc" class="input"></textarea><br>
+	<textarea id="form_item_desc" class="input"></textarea><br class="clear">
 
-	<input type="submit" value="Adicionar">
+	<input type="submit" id="form_item_submit" value="Adicionar">
     </form>
 </div>
 

@@ -41,7 +41,7 @@ class PedidoController extends Controller
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($pedido);
 
-	    $em->flush();
+//	    $em->flush();
 
 //	    var_dump($pedido);
 
@@ -138,9 +138,8 @@ class PedidoController extends Controller
 	 $obj['tipo'] = ($cliente->getPessoa() == 'j')? 'CNPJ: ': 'CPF: ' ;
 	 $obj['disc'] = ($cliente->getPessoa() == 'j')? $cliente->getCnpj() : $cliente->getCpf();
 
-	 $json = array("cliente" => $obj);
 
-	 $response = new \Symfony\Component\HttpFoundation\Response(json_encode($json));
+	 $response = new \Symfony\Component\HttpFoundation\Response(json_encode($obj));
 	 $response->headers->set('content/type', 'application/json');
 
          return $response;
@@ -160,6 +159,8 @@ class PedidoController extends Controller
 
 	 $item = new \Fnx\PedidoBundle\Entity\Item();
 
+	 $item->setNome($request->get("nome"));
+
 	 $item->setDescricao($request->get("descricao"));
 
 	 $item->setPreco($request->get("preco"));
@@ -168,6 +169,13 @@ class PedidoController extends Controller
 
 	 $pedido->getItens()->add($item);
 
-         echo json_encode($item);
+	 $obj['nome']	    = $item->getNome();
+	 $obj['descricao']  = $item->getDescricao();
+	 $obj['quantidade'] = $item->getQuantidade();
+	 $obj['valor']	    = $item->getPreco();
+
+         $response = new \Symfony\Component\HttpFoundation\Response(json_encode($obj));
+
+	 return $response;
      }
 }

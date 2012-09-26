@@ -1,26 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="shortcut icon" href="{{ asset('bundles/fnx/admin/images/faviconr.ico') }}" /> 
+        <link rel="shortcut icon" href="{{ asset('bundles/fnx/admin/images/faviconr.ico') }}" />
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}Home{% endblock %} - Fenix</title>
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        
-        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.js') }}"></script>
-        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
-        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/script.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
-        <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
-        
+
         <link href="{{ asset('bundles/fnxadmin/css/style.css') }}" type="text/css" rel="stylesheet" />
         <link href="{{ asset('bundles/fnxadmin/css/redmond/jquery-ui-1.8.22.custom.css') }}" type="text/css" rel="stylesheet" />
         <link href="{{ asset('bundles/fnxadmin/table/css/jquery.dataTables_themeroller.css') }}" type="text/css" rel="stylesheet" />
-        {% include 'YepsuaSmarTwigBundle::smartwigAssets.html.twig' %}
-        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.dataTables.js') }}"></script>
+        {#% include 'YepsuaSmarTwigBundle::smartwigAssets.html.twig' %#}
         {% block stylesheets %}{% endblock %}
-        {% block javascripts %}{% endblock %}       
     </head>
     <body>
         <section id="wrapper">
@@ -56,23 +48,23 @@
                     </ul>
                         <a id="logout" href="{{ path('_security_logout_a')}}"><span> </span></a>
                 </div>
-            {% endblock %} 
-                
-            {% block menuContent %}{% endblock %}    
-            
+            {% endblock %}
+
+            {% block menuContent %}{% endblock %}
+
             {% if app.session.hasFlash('success') %}
                 <div class="flash-success">
                     {{ app.session.flash('success') }}
                 </div>
-            {% endif %}  
-            
+            {% endif %}
+
             {% if app.session.hasFlash('error') %}
                 <div class="flash-error">
                     {{ app.session.flash('error') }}
                     {{ app.session.removeFlash('error') }}
                 </div>
-            {% endif %}  
-                
+            {% endif %}
+
             <section class="main-col">
                 {% block conteudo %}
                 {% endblock %}
@@ -88,14 +80,22 @@
              <p><span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 10px 0;"></span>
              Selecione um registro antes de efetuar esta ação.</p>
        </div>
-        
+
        <div id="dialog-confirm" title="">
             <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>Este informação será deletado. Você tem certeza?</p>
        </div>
-        
+
        <div class="simpleDialog">
-            
+
        </div>
-       {% block javascript_defer %}{% endblock %}
+
+	<script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.js') }}"></script>
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery-ui-1.8.22.custom.min.js') }}"></script>
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/script.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+        <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	<script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.dataTables.js') }}"></script>
+	{% block javascripts %}{% endblock %}
+        {% block javascript_defer %}{% endblock %}
     </body>
 </html>
