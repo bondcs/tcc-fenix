@@ -28,15 +28,15 @@ class UsuarioFormHandler {
         $this->em = $em;
     }
     
-    public function process(Usuario $usuario, $funcli){
+    public function process(Usuario $usuario, $funcli, $form){
         
         $password = $usuario->getPassword();
-        $this->form->setData($usuario);
+        $form->setData($usuario);
 
         if ($this->request->getMethod() == "POST"){
-            $this->form->bindRequest($this->request);
-            if($this->form->isValid()){
-                $this->onSuccess($usuario, $funcli, $password);
+            $form->bindRequest($this->request);
+            if($form->isValid()){
+                $this->onSuccess($usuario, $funcli, $password, $form);
                 return true;
             }
         }
@@ -45,9 +45,9 @@ class UsuarioFormHandler {
         
     }
     
-    public function onSuccess(Usuario $usuario, $funcli, $password){
+    public function onSuccess(Usuario $usuario, $funcli, $password, $form){
         
-        $passwordForm = $this->form->getData()->getPassword();
+        $passwordForm = $form->getData()->getPassword();
         
         if (!$usuario->getId() || $passwordForm != null){
             

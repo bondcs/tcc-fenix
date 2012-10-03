@@ -62,7 +62,6 @@ li{list-style: none;}
 /*#menuContent > ul > li:hover {border-bottom: 1px solid gray; border-right: 1px solid gray; border-top: 1px solid white; border-left: 1px solid white;}*/
 #menuContent > ul > li > a {font-size: 13px; text-decoration: none; text-align: center}
 #menuContent > ul > li > a > span{display: block; height: 48px; width: 48px;}
-#menuContent > ul > li:hover{border: 2px solid #CCCCCC}
 
 .new-link > span {background-image: url("../images/new-ico2.png");}
 .edit-link > span {background-image: url("../images/edit-ico2.png");}
@@ -99,7 +98,8 @@ form.cms .myform #pessoa > label{ float:none; margin-left: 5px; padding: 0;}
 form.cms .myform div > input[type="text"],
 form.cms .myform div > input[type="email"],
 form.cms .myform div > input[type="password"],
-form.cms .myform div > input[type="checkbox"]
+form.cms .myform div > input[type="checkbox"],
+form.cms .myform div > input[type="file"]
     { width: 345px; line-height: 26px; font-size: 16px; min-height: 26px; padding-left: 4px;}
     
 form.cms .myform select{min-height: 23px; padding-top: 0.5%}
@@ -112,13 +112,15 @@ form.cms input[type="submit"],
 form.cms input[type="button"]
     {float: right; width: 118px; line-height: 26px; font-size: 20px; min-height: 26px; margin-top: 10px; margin-left: 4px;}
 form.cms .myform ul li { color: #ff0000; margin-bottom: 5px; }
-form.cms .myform fieldset{padding: 15px;}
-form.cms .myform fieldset legend {padding: 0.2em 0.5em; border:1px solid; font-size:90%; text-align:right;}
+form.cms .myform fieldset{padding: 15px; border: 1px solid #9FAFD1}
+form.cms .myform fieldset legend {padding: 0.2em 0.5em; border:1px solid; font-size:90%; text-align:right; display: none;}
 
-form.cms .myform a{margin-left: 5px; color: black; text-decoration: none; background-color: #DADCFF; padding: 4px; border:1px solid #CCCCCC; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px;}
+form.cms .myform a.button{margin-left: 5px; color: black; text-decoration: none; background-color: #CCCCCC; padding: 4px; border:1px solid #3f3f3f;}
 
 form.cms .myform .close {margin-left: 10px;}
 
+form.endereco .myform div > label{width: 130px;}
+form.endereco .myform div ul {margin-left: 142px;}
 .hide {display: none;}
 
 /* fix checkbox */
@@ -168,6 +170,11 @@ form.cms .myform > .repeats > ul{margin-left: 26%;}
 .row_selected{background-color: #9FAFD1 ! important;}
 .row_selected td{background-color: #9FAFD1 ! important;}
 
+.info_row{background-color: #D1CFD0;border: 2px solid #A19B9E; cursor: default}
+
+/* hidden id e doubleclick*/
+.id {display: none;}
+.doubleclick thead th:last-child{display: none;}
 /* menu tabela */
 
 .menuDialog {}
@@ -189,8 +196,9 @@ form.cms .myform > .repeats > ul{margin-left: 26%;}
 }
 
 /* informações tabela */
-.infos {margin-left: 10px; font-size: 16px;}
+.infos {font-size: 16px; padding: 10px;}
 .infos th{text-align: left; min-width: 100px;}
+.toolbar01, .toolbar02{text-align: center; margin-left: 15%; font-size: 1.1em}
 
 
 .menuDialog a:hover, .menuDialogForm a:hover{
@@ -227,7 +235,8 @@ form.cms .myform > .repeats > ul{margin-left: 26%;}
 
 /* DataTables */
 
-.DTTT_button{padding: 5px !important; margin-right: 10px !important; border-radius: 4px;}
+.DTTT_button{padding: 5px !important; margin-right: 10px !important;}
+.DTTT_button:hover{border: 1px solid !important;}
 .DTTT_disabled{display: none !important;}
 
 /* css for timepicker */
@@ -242,10 +251,45 @@ form.cms .myform > .repeats > ul{margin-left: 26%;}
 .multiselect {width: 463px;height: 200px;}
 .ui-multiselect{padding: 0px !important; border: 1px solid #ADD8E6 !important; }
 .available{border-color:#ADD8E6 !important}
-
 .erro-multiselect ul{color: red; font-size: 16px;}
+.timepicker div{clear: none !important}
+.linhaEscala{margin-bottom: 5px; margin-top: 1px; }
+.pointer{cursor: default}
+.pointer a{text-decoration: none; color: black}
 
 /* específicos */
 
 .funcionario{width: 80.7% !important; margin-bottom: 4px;}
 #funcionario-container{margin-left: 23.7%;}
+div.innerRow{display: none; }
+.ui-panel-content{ margin: 0px !important}
+
+/*.box-table thead tr th:last-child{display: none !important;}
+.box-table tbody tr td:last-child{display: none !important;}*/
+
+/* ajax Loading */
+
+.ajaxLoader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -32px; 
+    margin-top: -32px;  
+    display: block; 
+    z-index: 99;
+}
+
+.tooltip {
+    background-color:#000;
+    border:1px solid #fff;
+    padding:10px 15px;
+    width:200px;
+    display:none;
+    color:#fff;
+    text-align:left;
+    font-size:12px;
+ 
+    /* outline radius for mozilla/firefox only */
+    -moz-box-shadow:0 0 10px #000;
+    -webkit-box-shadow:0 0 10px #000;
+}

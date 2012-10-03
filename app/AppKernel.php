@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\DoctrineFixturesBundle\DoctrineFixturesBundle(),
             new Fnx\AdminBundle\FnxAdminBundle(),
             new Yepsua\SmarTwigBundle\YepsuaSmarTwigBundle(),
+            new Fnx\FinanceiroBundle\FnxFinanceiroBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

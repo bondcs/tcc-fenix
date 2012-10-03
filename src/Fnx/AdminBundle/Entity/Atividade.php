@@ -5,6 +5,7 @@ namespace Fnx\AdminBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Fnx\AdminBundle\Entity\Contrato;
 use Fnx\AdminBundle\Entity\Servico;
+use Fnx\AdminBundle\Entity\Galeria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,7 +41,7 @@ class Atividade
      * @ORM\Column(name="descricao", type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $descricao;
+    //private $descricao;
 
     /**
      * @var datetime $created
@@ -74,7 +75,7 @@ class Atividade
     /**
      * @var object $servico
      * 
-     * @ORM\OneToOne(targetEntity="Servico", cascade={"all"}, fetch="LAZY")
+     * @ORM\ManyToOne(targetEntity="Servico", fetch="LAZY")
      * @ORM\JoinColumn(name="servico_id", referencedColumnName="id")
      * 
      * @Assert\NotBlank()
@@ -94,10 +95,39 @@ class Atividade
     
     /**
      * 
-     * @ORM\OneToMany(targetEntity="Escala", mappedBy="atividade", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Endereco", mappedBy="atividade", cascade={"all"})
+     * @var ArrayCollection $enderecos
+     */
+    private $enderecos;
+    
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="Escala", mappedBy="atividade", cascade={"all"})
      * @var ArrayCollection $escalas
      */
     private $escalas;
+    
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="Local", mappedBy="atividade", cascade={"all"})
+     * @var ArrayCollection $locais
+     */
+    private $locais;
+    
+    /**
+     * 
+     * @ORM\OneToOne(targetEntity="Galeria", mappedBy="atividade", cascade={"all"})
+     * @var ArrayCollection $galerias
+     */
+    private $galeria;
+    
+    /**
+     * 
+     * @ORM\OneToMany(targetEntity="Propriedade", mappedBy="atividade", cascade={"all"})
+     * @var ArrayCollection $propriedades
+     */
+    private $propriedades;
+    
    
     public function __construct() {
         $this->created = new \DateTime();
@@ -105,6 +135,9 @@ class Atividade
         $this->arquivado = false;
         $this->categorias = new ArrayCollection();
         $this->escalas = new ArrayCollection();
+        $this->enderecos = new ArrayCollection();
+        $this->locais = new ArrayCollection();
+        $this->propriedades = new ArrayCollection();
         
     }
 
@@ -335,5 +368,85 @@ class Atividade
     public function getEscalas()
     {
         return $this->escalas;
+    }
+
+    /**
+     * Add enderecos
+     *
+     * @param Fnx\AdminBundle\Entity\Endereco $enderecos
+     */
+    public function addEndereco(\Fnx\AdminBundle\Entity\Endereco $enderecos)
+    {
+        $this->enderecos[] = $enderecos;
+    }
+
+    /**
+     * Get enderecos
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getEnderecos()
+    {
+        return $this->enderecos;
+    }
+
+    /**
+     * Get galeria
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getGaleria()
+    {
+        return $this->galeria;
+    }
+
+    /**
+     * Set galeria
+     *
+     * @param Fnx\AdminBundle\Entity\Galeria $galeria
+     */
+    public function setGaleria(\Fnx\AdminBundle\Entity\Galeria $galeria)
+    {
+        $this->galeria = $galeria;
+    }
+
+    /**
+     * Add locais
+     *
+     * @param Fnx\AdminBundle\Entity\Local $locais
+     */
+    public function addLocal(\Fnx\AdminBundle\Entity\Local $locais)
+    {
+        $this->locais[] = $locais;
+    }
+
+    /**
+     * Get locais
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getLocais()
+    {
+        return $this->locais;
+    }
+
+    /**
+     * Add propriedades
+     *
+     * @param Fnx\AdminBundle\Entity\Propriedade $propriedades
+     */
+    public function addPropriedade(\Fnx\AdminBundle\Entity\Propriedade $propriedades)
+    {
+        $this->propriedades[] = $propriedades;
+    }
+
+    /**
+     * Get propriedades
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPropriedades()
+    {
+        return $this->propriedades;
     }
 }

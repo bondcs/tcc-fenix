@@ -74,7 +74,8 @@ class ClienteController extends Controller{
                     return $this->redirect($this->generateUrl("clienteHome"));
                  
                 }  else {
-                    $responseSuccess = array('successAjax' => '.simpleDialog');
+                    $responseSuccess = array('dialogName' => '.simpleDialog',
+                                             'message' => 'add');
                     $response = new Response(json_encode($responseSuccess));
                     $response->headers->set('Content-Type', 'application/json');
                     return $response;
@@ -198,7 +199,6 @@ class ClienteController extends Controller{
         if (!$cliente){
             throw $this->createNotFoundException("Cliente não encontrado.");
         }
-        
         
         return array(
             "cliente" => $cliente,

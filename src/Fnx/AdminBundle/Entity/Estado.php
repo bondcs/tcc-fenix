@@ -85,4 +85,8 @@ class Estado
     {
         return $this->uf;
     }
+    
+    public function __toString() {
+        return $this->nome;
+    }
 }

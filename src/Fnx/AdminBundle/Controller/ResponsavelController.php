@@ -14,6 +14,7 @@ use Fnx\AdminBundle\Entity\Responsavel;
 use Fnx\AdminBundle\Entity\Usuario;
 use Fnx\AdminBundle\Form\Type\ResponsavelType;
 use Symfony\Component\HttpFoundation\Response;
+use Fnx\AdminBundle\Form\Type\UsuarioType;
 /**
  * Description of ResponsavelController
  *
@@ -139,9 +140,9 @@ class ResponsavelController extends Controller{
             $flag = false;
         }
         
-        $form = $this->get("fnx_admin.usuario.form");
+        $form = $this->createForm(new UsuarioType(1,3));
         $formHandler = $this->get("fnx_admin.usuario.form.handler");
-        $process = $formHandler->process($responsavel->getUsuario(), $responsavel);
+        $process = $formHandler->process($responsavel->getUsuario(), $responsavel, $form);
         
         if ($process){
             $message = $flag == true ? "edit" : "add";

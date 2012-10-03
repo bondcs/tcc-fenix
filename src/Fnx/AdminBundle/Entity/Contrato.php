@@ -56,7 +56,7 @@ class Contrato
     /**
      * @var ArrayCollection $atividades
      * 
-     * @ORM\OneToMany(targetEntity="Atividade", mappedBy="contrato", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Atividade", mappedBy="contrato", cascade={"all"})
      * 
      */
     private $atividades;

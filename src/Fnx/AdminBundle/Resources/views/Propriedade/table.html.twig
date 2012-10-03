@@ -1,0 +1,23 @@
+<div class="box-table" style="margin: 10px 0px 10px 0px">
+          <table class="tablePropriedade redraw">
+               <thead>
+                   <tr>
+                      <th class="left" style="width:400px">Nome</th>
+                      <th style="width:5px">Quantidade</th>
+                      <th>Descrição</th>
+                      <th>ID</th>
+                      <th style="width:10px"></th>
+                   </tr>
+               </thead>
+               <tbody>
+               
+             </tbody>  
+        </table>
+</div>   
+
+<script type="text/javascript">
+    var urlSource = Routing.generate("ajaxPropriedade", {"id" : "{{atividade.id}}"});
+    var urlAdd = Routing.generate("propriedadeAdd", {"id" : "{{atividade.id}}"});
+    var routeEdit = "propriedadeEdit";
+    var routeDelete = "propriedadeRemove";
+</script>

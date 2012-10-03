@@ -22,9 +22,9 @@ class AtividadeType extends AbstractType{
             ->add("nome","text", array(
                 "label" => "Nome:*"
             ))
-            ->add("descricao","textarea", array(
-                "label" => "Descrição:*"
-            ))
+//            ->add("descricao","textarea", array(
+//                "label" => "Descrição:*"
+//            ))
             ->add("servico", "entity", array(
                 "empty_value" => "Escolha uma opção",
                 "property" => "nome",

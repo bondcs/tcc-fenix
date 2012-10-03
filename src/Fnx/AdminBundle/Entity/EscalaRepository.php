@@ -15,7 +15,10 @@ class EscalaRepository extends EntityRepository
     public function loadEscala($id){
         
         return $this->getEntityManager()
-                ->createQuery('SELECT e.id, e.dtInicio, e.dtFim FROM FnxAdminBundle:Escala e WHERE e.atividade = :id')
+                ->createQuery('SELECT e,f
+                               FROM FnxAdminBundle:Escala e
+                               JOIN e.funcionarios f
+                               WHERE e.atividade = :id')
                 ->setParameter("id", $id)
                 ->getArrayResult();
     }
@@ -25,14 +28,29 @@ class EscalaRepository extends EntityRepository
         return $this->getEntityManager()
                 ->createQuery('SELECT e FROM FnxAdminBundle:Escala e 
                                JOIN e.funcionarios f
+                               JOIN e.atividade a
                                WHERE e.dtInicio <= :final AND e.dtFim >= :inicial
-                               AND f.id = :id')
+                               AND f.id = :id
+                               AND a.arquivado = 0')
                 ->setParameters(array("inicial" => $dataInicial,
                                       "final" => $dataFinal,
                                       "id" => $id,
                                 ))
                 ->getResult();
-        
     }
     
+    public function loadEscalaByFuncionario($id){
+        
+        return $this->getEntityManager()
+                ->createQuery('SELECT e,f,a
+                               FROM FnxAdminBundle:Escala e
+                               JOIN e.funcionarios f
+                               JOIN e.atividade a
+                               WHERE f.id = :id
+                               AND a.arquivado = :param')
+                ->setParameters(array("id" => $id,
+                                      "param" => false))
+                ->getResult();
+    }
+  
 }

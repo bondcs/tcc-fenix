@@ -25,9 +25,10 @@
     <ul>
 		<li><a href="#tabs-1">Informações</a></li>
 		<li><a href="#tabs-2">Responsáveis</a></li>
-		<li><a href="#tabs-3">Contrato</a></li>
     </ul>
   <div id="tabs-1">
+  <div class="ui-panel-content ui-widget-content " style="width:auto">
+      <h4 class="ui-panel-title ui-widget-header ">Informações</h4>
       <table class="infos">
             <tr>
                 <th>Nome:</th>
@@ -37,15 +38,27 @@
                 <th>Telefone:</th>
                 <td>{{cliente.telefone}}</td>
             <tr>
-            <tr>
-                {% if cliente.pessoa == "f" %}
+            
+            {% if cliente.pessoa == "f" %}
+                <tr>
                     <th>Cpf:</th>
                     <td>{{cliente.cpf}}</td>
-                {% else %}
+                <tr>
+                <tr>
+                    <th>Tipo:</th>
+                    <td>Físico</td>
+                <tr>
+            {% else %}
+                <tr>
                     <th>Cnpj:</th>
                     <td>{{cliente.cnpj}}</td>
-                {% endif %}
-            <tr>
+                </tr>
+                <tr>
+                    <th>Tipo:</th>
+                    <td>Jurídico</td>
+                <tr>
+            {% endif %}
+            
             <tr>
                 <th>Cep:</th>
                 <td>{{cliente.cep}}</td>
@@ -68,11 +81,10 @@
             <tr>
       </table>
   </div>
+  </div>
   <div id="tabs-2" style="padding: 0px;"> 
       {% include "FnxAdminBundle:Responsavel:table.html.twig" %}
   </div>
-  
-  <div id="tabs-3">
-  </div>
+
 </div>
 {% endblock %}

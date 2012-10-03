@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilder;
 use Fnx\AdminBundle\Entity\Funcionario;
 use Fnx\AdminBundle\Form\Listener\EscalaListener;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityRepository;
 /**
  * Description of ResponsavelType
  *
@@ -45,12 +46,25 @@ class EscalaType extends AbstractType{
                         'format' => 'dd/MM/yyyy HH:mm:ss'    
                 ))
                  ->add('funcionarios','entity',array(
-                        'label' => 'Funcionários',
+                        'label' => 'Agentes',
                         'class' => 'FnxAdminBundle:Funcionario',
                         'expanded' => false,
                         'multiple' => true,
+                        'query_builder' => function(EntityRepository $er) {
+                            return $er->createQueryBuilder('f')
+                                    ->join('f.tipo', 't')
+                                    ->where("t.id = ?1 OR t.id = ?2 ")
+                                    ->setParameters(array(1=>2, 2=>3))
+                                    ->orderBy('t.nome', 'ASC');
+                        },
                      
-                ));
+                ))
+                 ->add('local','text', array(
+                        'label' => 'Local:*'
+                ))
+                 ->add('custoUnitario','text', array(
+                        'label' => 'Custo:*'
+                 ));
          
              $subscriber = new EscalaListener($builder->getFormFactory(), $this->em);
              $builder->addEventSubscriber($subscriber);

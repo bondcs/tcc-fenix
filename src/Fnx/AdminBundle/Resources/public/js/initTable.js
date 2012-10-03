@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    
+        
         onTableAjax();
         ajaxSubmitTable();
 })
@@ -12,6 +12,34 @@ function onTableAjax(){
             "bRetrieve": true,
             "bProcessing": true,
             "sAjaxSource": urlSource,
+//            "aoColumnDefs": [{"bVisible": false, "aTargets": [5]}],
+//            "bAutoWidth": false,
+            "oLanguage": {
+                "sProcessing":   "Processando...",
+                "sLengthMenu":   "Mostrar _MENU_ registros",
+                "sZeroRecords":  "Não foram encontrados resultados",
+                "sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty":    "Mostrando de 0 até 0 de 0 registros",
+                "sInfoFiltered": "(filtrado de _MAX_ registros no total)",
+                "sInfoPostFix":  "",
+                "sSearch":       "Buscar:",
+                "sUrl":          "",
+                "oPaginate": {
+                    "sFirst":    "Primeiro",
+                    "sPrevious": "Anterior",
+                    "sNext":     "Seguinte",
+                    "sLast":     "Último"
+                }
+            },
+            "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+                var total = 0;
+                for (var i=0; i < aaData.length; i++){
+                    total += aaData[i][4]*1;
+                }
+                
+                var nCells = nRow.getElementsByTagName('th');
+		nCells[1].innerHTML = total;
+            },
             "sDom": '<"H"Tfr>t<"F"ip>',
                 "oTableTools": {
                     "sRowSelect": "single",
@@ -64,32 +92,6 @@ function onTableAjax(){
         });    
 }
 
-function ajaxLoadDialog(url){
-    
-    $.ajax({
-            type: 'GET',
-            url: url,
-            success: function(result){
-                $(".simpleDialog").html(result);
-                $(".simpleDialog").dialog('open');
-                onReadyAjax();
-                return false;
-            }
-   })
-    
-}
-
-function ajaxDelete(url){
-    
-    $.ajax({
-            type: 'POST',
-            url: url,
-            success: function(){
-                $('.redraw').dataTable().fnReloadAjax();
-                $(".hidden").addClass("DTTT_disabled");
-                notifity("delete");
-                return false;
-            }
-   })
-    
+function formataDinheiroTabela(valor){
+    return valor.toString().replace(".",",");
 }

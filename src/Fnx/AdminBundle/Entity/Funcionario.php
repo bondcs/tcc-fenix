@@ -43,9 +43,8 @@ class Funcionario
     /**
      * @var string $telefone
      *
-     * @ORM\Column(name="telefone", type="string", length=10)
+     * @ORM\Column(name="telefone", type="string", length=14)
      * @Assert\NotBlank()
-     * @FnxAssert\ApenasNumero()
      */
     private $telefone;
     
@@ -60,9 +59,37 @@ class Funcionario
      */
     private $escalas;
     
+    /**
+     *
+     * @var type object
+     * @ORM\ManyToOne(targetEntity="TipoFun", fetch="LAZY")
+     * 
+     * @Assert\NotBlank()
+     */
+    private $tipo;
+    
+    /**
+     *
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $escalaDiariaInicio;
+    
+    /**
+     *
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $escalaDiariaFinal;
+    
+    /**
+     * Escalas excepcionais.
+     * @ORM\OneToMany(targetEntity="EscalaFun", mappedBy="funcionario", cascade={"persist, remove"}, orphanRemoval=true)
+     */
+    private $escalasEx;
+    
     public function __construct() {
         
         $this->escalas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->escalasEx = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -136,7 +163,17 @@ class Funcionario
     }
     
     public function __toString() {
-        return $this->nome;
+        
+        switch ($this->tipo->getNome()){
+            case "FreeLancer":
+                return $this->nome." (FreeLancer)";
+                break;
+            
+            default:
+                return $this->nome;
+                
+        }
+       
     }
 
     /**
@@ -157,5 +194,85 @@ class Funcionario
     public function getEscalas()
     {
         return $this->escalas;
+    }
+
+    /**
+     * Set tipo
+     *
+     * @param Fnx\AdminBundle\Entity\TipoFun $tipo
+     */
+    public function setTipo(\Fnx\AdminBundle\Entity\TipoFun $tipo)
+    {
+        $this->tipo = $tipo;
+    }
+
+    /**
+     * Get tipo
+     *
+     * @return Fnx\AdminBundle\Entity\TipoFun 
+     */
+    public function getTipo()
+    {
+        return $this->tipo;
+    }
+
+    /**
+     * Set escalaDiariaInicio
+     *
+     * @param time $escalaDiariaInicio
+     */
+    public function setEscalaDiariaInicio($escalaDiariaInicio)
+    {
+        $this->escalaDiariaInicio = $escalaDiariaInicio;
+    }
+
+    /**
+     * Get escalaDiariaInicio
+     *
+     * @return time 
+     */
+    public function getEscalaDiariaInicio()
+    {
+        return $this->escalaDiariaInicio;
+    }
+
+    /**
+     * Set escalaDiariaFinal
+     *
+     * @param time $escalaDiariaFinal
+     */
+    public function setEscalaDiariaFinal($escalaDiariaFinal)
+    {
+        $this->escalaDiariaFinal = $escalaDiariaFinal;
+    }
+
+    /**
+     * Get escalaDiariaFinal
+     *
+     * @return time 
+     */
+    public function getEscalaDiariaFinal()
+    {
+        return $this->escalaDiariaFinal;
+    }
+
+    /**
+     * Add escalasEx
+     *
+     * @param Fnx\AdminBundle\Entity\EscalaFun $escalasEx
+     */
+    public function addEscalaFun(\Fnx\AdminBundle\Entity\EscalaFun $escalasEx)
+    {
+        $this->escalasEx[] = $escalasEx;
+    }
+
+    /**
+     * Get escalasEx
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getEscalasEx()
+    {
+        return $this->escalasEx;
     }
 }

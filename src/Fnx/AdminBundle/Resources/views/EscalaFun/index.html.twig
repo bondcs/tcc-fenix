@@ -1,0 +1,78 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+{% block title %}Funcionário Manager{% endblock %}
+
+{% block javascripts %}
+     {{ parent() }}
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/tools/js/TableTools.min.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/tools/js/fnReloadAjax.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableEscalaFun.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableTurno.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/timepicker.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery.form.js') }}"></script>
+
+{% endblock %}
+     
+{% block menuContent %}
+
+    <div id="menuContent">
+        <h3>Funcionário Manager: Escala de funcionários</h3>
+        <ul>
+            <li><a class="back-link" href="{{ path('funcionarioHome')}}"><span></span>Voltar</a></li>
+        </ul> 
+    </div>
+
+{% endblock %}
+
+{% block subMenu %} 
+<div id="subMenu">
+    <ul>
+        <li><a href="{{ path("funcionarioHome")}}">Funcionários</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+     <div>
+        <div style="margin-bottom: 2%" class="box-table">
+            <table class="tableTurno" class="doubleclick">
+               <thead>
+                   <tr>
+                       <th class="left">Nome</th>
+                       <th>Cargo</th>
+                       <th style="width: 12%;">Turno</th>
+                       <th>id</th>
+                   </tr>
+               </thead>
+               <tbody>
+                   {% for fun in funcionarios %}
+                     <tr>
+                       <td>{{fun.nome}}</td>
+                       <td>{{fun.tipo.nome}}</td>
+                       <td>{{fun.escalaDiariaInicio|date("H:i")~" - "~ fun.escalaDiariaFinal|date("H:i")}}</td>
+                       <td>{{fun.id}}</td>
+                     </tr>
+                   {% endfor%}
+               </tbody>  
+           </table>
+       </div>
+       <div class="box-table">
+            <table class="tableEscalaFun redraw" class="doubleclick" route="funcionarioShow">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="left">Nome</th>
+                        <th colspan="2" class="ui-state-default">Escala Adicional</th>
+                        <th rowspan="2">id</th>
+                    </tr>
+                    <tr>
+                        <th>Descrição</th>
+                        <th style="width: 24%;">Turno</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>  
+            </table>
+         </div>
+    </div>  
+     
+
+{% endblock %}

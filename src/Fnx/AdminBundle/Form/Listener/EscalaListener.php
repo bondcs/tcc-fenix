@@ -49,7 +49,7 @@ class EscalaListener implements EventSubscriberInterface{
          }
          
          if ($data->getDtInicio() > $data->getDtFim()){
-             $form->addError(new FormError("Data inicial menor que a data final"));
+             $form->addError(new FormError("Data final menor que a data inicial"));
              return;
          }
          

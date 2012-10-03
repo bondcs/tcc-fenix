@@ -114,6 +114,7 @@ class AtividadeController extends Controller{
         }
         $form =  $this->createForm(new AtividadeType, $atividade);
         
+        $servicoOld = $atividade->getServico();
         $form->bindRequest($this->getRequest());   
         $cliente = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")
                                             ->findOneBy(array("nome" => $form->get("cliente")->getData()));
@@ -121,6 +122,11 @@ class AtividadeController extends Controller{
         $cliente == null ? $form->get("cliente")->addError(new FormError("Cliente inválido")) : $atividade->getContrato()->setCliente($cliente);
                
         if($form->isValid()){
+           if ($atividade->getServico() != $servicoOld){
+             $this->changeEvento($atividade);
+               
+           }
+           
            $this->onSuccess($atividade);
            $this->get("session")->setFlash("success", "Atividade alterada.");
            return $this->redirect($this->generateUrl("atividadeHome"));
@@ -196,13 +202,6 @@ class AtividadeController extends Controller{
         
         $em = $this->getDoctrine()->getEntityManager();
         $atividade->setArquivado(true);
-        
-        foreach ($atividade->getEscalas() as $escala){
-            $em->remove($escala);
-        }
-        
-        $atividade->getEscalas()->clear();
-        
         $em->persist($atividade);
         $em->flush();
         $this->get("session")->setFlash("success", "Atividade arquivada.");
@@ -233,10 +232,32 @@ class AtividadeController extends Controller{
         
         $atividade->setArquivado(false);
         $em = $this->getDoctrine()->getEntityManager();
-        $em->merge($atividade);
+        
+        foreach ($atividade->getEscalas() as $escala){
+            $em->remove($escala);
+        }
+        
+        $atividade->getEscalas()->clear();
+        
+        $em->persist($atividade);
         $em->flush();
         $this->get("session")->setFlash("success", "Atividade ativada.");
         return $this->redirect($this->generateUrl("atividadeArquivado"));
+    }
+    
+    public function changeEvento($atividade){
+        
+        $em = $this->getDoctrine()->getEntityManager();
+            
+        foreach ($atividade->getEscalas() as $escala){
+              $em->remove($escala);
+        }
+        
+        $atividade->getEscalas()->clear();
+
+        $em->flush();
+               
+        
     }
     
 }

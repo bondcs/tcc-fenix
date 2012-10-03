@@ -51,8 +51,6 @@ class FuncionarioController extends Controller{
                 
                 $session = $this->get("session")->setFlash("success","Cadastro concluído.");
                 return $this->redirect($this->generateUrl("funcionarioHome"));
-            }else{
-                $session = $this->get("session")->setFlash("error","O formulário não foi validado.");
             }
         }
         
@@ -82,8 +80,6 @@ class FuncionarioController extends Controller{
                 
                 $session = $this->get("session")->setFlash("success","Alteração concluída.");
                 return $this->redirect($this->generateUrl("funcionarioHome"));
-            }else{
-                $session = $this->get("session")->setFlash("error","O formulário não foi validado.");
             }
         }
         
@@ -117,12 +113,15 @@ class FuncionarioController extends Controller{
                     ->getRepository("FnxAdminBundle:Funcionario")
                     ->find($id);
         
+        $escalas = $this->getDoctrine()->getRepository("FnxAdminBundle:Escala")->loadEscalaByFuncionario($id);
+        
         if (!$funcionario){
             throw $this->createNotFoundException("Funcionário não encontrado.");
         }
         
         
-        return array("funcionario" => $funcionario);
+        return array("funcionario" => $funcionario,
+                     "escalas" => $escalas);
     }
     
      /**
@@ -145,7 +144,7 @@ class FuncionarioController extends Controller{
         
         $form = $this->get("fnx_admin.usuario.form");
         $formHandler = $this->get("fnx_admin.usuario.form.handler");
-        $process = $formHandler->process($funcionario->getUsuario(), $funcionario);
+        $process = $formHandler->process($funcionario->getUsuario(), $funcionario,$form );
         
         if ($process){
            $message = $flag == true ? "edit" : "add";

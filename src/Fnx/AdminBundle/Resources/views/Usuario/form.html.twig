@@ -24,7 +24,7 @@
                 <div> 
                     {{ form_errors(form.username)}}
                     {{ form_label(form.username)}}    
-                    {{ form_widget(form.username)}}
+                    {{ form_widget(form.username,{"attr" : {"title" : "Required to proceed"}})}}
                 </div>
 
                 <!-- Campos repitidos deve ser rendenrizados
@@ -32,13 +32,10 @@
                 <div class="repeats">
                     <div> 
                     {{ form_widget(form.password, {"id" : "password"})}}
-                    </div>
-                    {% if (father.usuario.id) %}
-                        {% ui_tooltip for="#password" label="Deixe em branco, caso não deseje <br/> alterar a senha deste usuário." %}
-                    {% endif %}    
+                    </div> 
                 </div>
                 
-            <div class="checkbox {{ responsavel ? 'cliente' : ""}}">
+            <div class="checkbox">
                 <fieldset>
                     <legend>Permissão</legend>
                         {{ form_errors(form.userRoles)}}

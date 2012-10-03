@@ -1,0 +1,24 @@
+
+<div class="ui-panel-content ui-widget-content " style="width:auto">
+    <h4 class="ui-panel-title ui-widget-header ">Informações</h4>
+    <table class="infos">
+                <tr>
+                    <th>Nome:</th>
+                    <td>{{funcionario.nome}}</a></td>
+                </tr>
+                <tr>
+                    <th>Telefone:</th>
+                    <td>{{funcionario.telefone}}</td>
+                </tr>
+                <tr>
+                    <th>Tipo:</th>
+                    <td>{{funcionario.tipo.nome}}</td>
+                </tr>
+                {% if funcionario.tipo.id != 2 %}    
+                <tr>
+                    <th>Turno:</th>
+                    <td>{{funcionario.escalaDiariaInicio|date('H:m')~' - '~funcionario.escalaDiariaFinal|date('H:m')}}</td>
+                </tr>
+                {% endif %}
+    </table>
+</div>

@@ -14,8 +14,25 @@ $(document).ready(function() {
         efeitoErro();
         populaComplete();
         ajaxSubmit();
+        onSubmitForm();
+        onLoadingAjax();
+        doubleclick();
+        ajaxUpload();
+        moeda();
+        initTimePicker();
+        tooltip();
+        masks()
         
 } );
+
+$(document).ajaxStart(function(){  
+            $(".ajaxLoader").show();
+});  
+          
+$(document).ajaxStop(function(){  
+            $(".ajaxLoader").hide();
+              
+});  
 
 function onReadyAjax(){
     
@@ -27,10 +44,15 @@ function onReadyAjax(){
         initDatepicker();
         ajaxSubmitTable();
         ajaxSubmit();
-        onTable();
         addFuncionario();
         removeFuncionario();
         onMultiSelect();
+        onSubmitForm();
+        onLoadingAjax();
+        ajaxUpload();
+        moeda();
+        tooltip();
+        masks()
 
         
 }
@@ -40,7 +62,24 @@ function onTable(){
         oTable = $('#table').dataTable({
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
-            "bRetrieve": true
+            "bRetrieve": true,
+            "oLanguage": {
+                "sProcessing":   "Processando...",
+                "sLengthMenu":   "Mostrar _MENU_ registros",
+                "sZeroRecords":  "Não foram encontrados resultados",
+                "sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                "sInfoEmpty":    "Mostrando de 0 até 0 de 0 registros",
+                "sInfoFiltered": "(filtrado de _MAX_ registros no total)",
+                "sInfoPostFix":  "",
+                "sSearch":       "Buscar:",
+                "sUrl":          "",
+                "oPaginate": {
+                    "sFirst":    "Primeiro",
+                    "sPrevious": "Anterior",
+                    "sNext":     "Seguinte",
+                    "sLast":     "Último"
+                }
+            }
             
         });
         
@@ -59,7 +98,6 @@ function onTable(){
 }
 
 function onTabs(){
-        
         $( ".tabs" ).tabs();
 }
 
@@ -71,7 +109,7 @@ function onMultiSelect(){
 
 function ajaxDialog(){
     
-        $(".ajax-link").click(function(event){
+        $(".ajax-link").live("click",function(event){
              event.preventDefault();
              var url = $(this).attr("href");
              if (url != '#'){                
@@ -146,6 +184,17 @@ function onFnAction(){
                 
         })
     
+}
+
+function doubleclick(){
+    $(".doubleclick tbody tr").dblclick(function(){
+        var key = $(this).find(".id").html();
+        var url = Routing.generate($('.doubleclick').attr('route') , {"id": key});
+        window.location.href = url;
+        
+    })
+    
+    return false;
 }
 
 function confirmDialog(){
@@ -232,7 +281,7 @@ function populaCidade(){
                 $.each(valores,function(key,valor){
                        options += '<option value="'+ valor['id']+ '">'+ valor['nome']+'</option>';
                 })
-                $("#cidade").html(options);  
+                $("#cidade").html(options);
             }
         
         })
@@ -362,10 +411,48 @@ function initDatepicker() {
     $.timepicker.setDefaults($.timepicker.regional['pt-BR']);
       
     $('.datepicker input').datetimepicker();
-    
     $('.datepicker input').blur();
     return false;
 
+}
+
+function initTimePicker(){
+    $('.timepicker input').timepicker();
+    return false;
+}
+
+function ajaxLoadDialog(url){
+    
+    $.ajax({
+            type: 'GET',
+            url: url,
+            success: function(result){
+                $(".simpleDialog").html(result);
+                $(".simpleDialog").dialog('open');
+                onReadyAjax();
+                return false;
+            }
+   })
+    
+}
+
+function ajaxDelete(url){
+    
+    $.ajax({
+            type: 'POST',
+            url: url,
+            success: function(){
+                $('.redraw').dataTable().fnReloadAjax();
+                $(".hidden").addClass("DTTT_disabled");
+                notifity("delete");
+                return false;
+            }
+   })
+    
+}
+
+function formataDinheiroTabela(valor){
+    return valor.toString().replace(".",",");
 }
 
 
@@ -373,13 +460,12 @@ function initDatepicker() {
 function ajaxSubmitTable(){
     
     $(".ajaxFormTable").submit(function(){
-        
                 $.ajax({
                     type: 'POST',
                     url: $('.ajaxFormTable').attr("action"),
                     data: $('.ajaxFormTable').serialize(),
                     success: function(result){
-                        
+
                         if (result['dialogName']){
                            $('.redraw').dataTable().fnReloadAjax();
                            notifity(result['message']);
@@ -456,3 +542,138 @@ function removeFuncionario(){
     
     return false;
 }
+    
+function onSubmitForm(){
+        
+        $(".ajax-form").submit(function(){
+                    var url = $('.ajax-form').attr("action");
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: $('.ajax-form').serialize(),
+                        success: function(result){
+                            if (result['url']){
+                                 window.location.href = result['url'];
+                                 notifity(result['notifity']);
+                                 return false;
+                            }
+                            
+                            $(".box-form").html(result);
+                            onReadyAjax();
+                        }
+                    })
+                    
+                    return false;
+        })
+        
+        return false;
+    }
+    
+    
+function onLoadingAjax(){
+        
+        $(".ajaxLoader").hide();
+        return false;
+    }
+    
+function ajaxUpload(){
+        var options = {
+            success: showResponse
+        };
+       
+        $(".ajax-form-upload").ajaxForm(options);
+        return false;
+    }
+
+function showResponse(responseText, statusText, xhr, $form){
+
+        if (responseText['url']){
+            window.location.href = responseText['url'];
+            return false;
+        } 
+
+        $(".simpleDialog").html(responseText);
+        $('.simpleDialog').dialog('close');
+        $('.simpleDialog').dialog('open');
+
+        /* hack para recarregar funcões previamentes carregadas no onReady()*/
+        onReadyAjax();
+    }
+    
+function gallery(){
+        
+    }
+    
+function moeda(){
+    
+        $('.moeda').focus(function(){
+	    if($(this).val() != '')
+		$(this).val(desformataDinheiro($(this).val()));
+	});
+
+	$('.moeda').blur(function(){
+	    if($(this).val() != '')
+		$(this).val(formataDinheiro($(this).val()));
+	});
+           
+        var moeda = $('.moeda');
+        if(moeda.val()){
+	   moeda.val(formataDinheiro(moeda.val()));
+        }
+}
+
+function number_format (number, decimals, dec_point, thousands_sep) {
+    number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = function (n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + Math.round(n * k) / k;
+        };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
+}
+
+function formataDinheiro(value){
+    return "R$ " + number_format(value.replace(',','.'), 2, ',','');
+}
+
+function desformataDinheiro(value){
+    return value.replace(",", ".").slice(3) * 1;
+}
+
+function formataDinheiroTabela(valor){
+    return valor.toString().replace(".",",");
+}
+
+$(function() {
+     $( ".accordion" ).accordion();
+});
+
+function tooltip(){
+    
+    //$(".myform :input").tooltip();
+      
+      return false;
+}
+
+function masks(){
+    
+    $(".telefone").mask("(99) 9999-9999");
+    $(".cpf").mask("999.999.999-99");
+    $(".cnpj").mask("99.999.999/9999-99");
+    $(".cep").mask("99999-999")
+    return false;
+}
+    

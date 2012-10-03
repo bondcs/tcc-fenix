@@ -11,13 +11,13 @@
                     <div>
                         {{ form_errors(form.telefone)}}
                         {{ form_label(form.telefone)}}    
-                        {{ form_widget(form.telefone)}}
+                        {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone'}})}}
                     </div>
                 
                     <div>
                         {{ form_errors(form.cpf)}}
                         {{ form_label(form.cpf)}}    
-                        {{ form_widget(form.cpf)}}
+                        {{ form_widget(form.cpf, {'attr' : {'class' : 'cpf'}})}}
                     </div>
         
              {{ form_row(form._token) }}

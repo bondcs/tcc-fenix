@@ -13,10 +13,11 @@
 
 {% block conteudo %}
 
-{% ui_panel title="Atividade" style="width:auto"%}
+ <div class="ui-panel-content ui-widget-content " style="width:auto">
+      <h4 class="ui-panel-title ui-widget-header ">Atividade</h4>
    <div id="box-form">
     <form novalidate="" class="cms" action="{{ path('atividadeUpdate', {'id' : atividade.id}) }}" method="post" {{ form_enctype(form) }}>
-    <div class="myform"> 
+    <div class="myform">     
         {{form_errors(form)}}
         
         <div class="inputExtendido">
@@ -24,28 +25,24 @@
             {{ form_label(form.nome)}}    
             {{ form_widget(form.nome, {"id" : "nome"})}}
         </div>
-            {% ui_tooltip for="#nome" label="Nome para atividade. <br/>ex: Vigilância de empresa." %}
-            
-        <div>
+          
+        {#<div>
             {{ form_errors(form.descricao)}}
             {{ form_label(form.descricao)}}    
             {{ form_widget(form.descricao, {"id" : "descricao"})}}
         </div>
-            {% ui_tooltip for="#descricao" label="Descrição para atividade. <br/>ex: Será instalado câmeras para <br/>monitoramento da empresa." %}
-        
-         <div class="complete">
+            {% ui_tooltip for="#descricao" label="Descrição para atividade. <br/>ex: Será instalado câmeras para <br/>monitoramento da empresa." %}#}
+        <div class="complete">
             {{ form_errors(form.cliente)}}
             {{ form_label(form.cliente)}}
-            {{ form_widget(form.cliente, {"id" : "cliente"})}} <a class="ajax-link" href="{{ path("clienteAdd")}}" title="Cliente">Adicionar</a> 
+            {{ form_widget(form.cliente, {"id" : "cliente"})}} <a class="ajax-link button" href="{{ path("clienteAdd")}}" title="Cliente">Adicionar</a> 
         </div>
-             {% ui_tooltip for="#cliente" label="Cliente para atividade. <br/>ex: Luan Luiz Corrêa / Coca-Cola." %}
             
-         <div>
+        <div>
             {{ form_errors(form.servico)}}
             {{ form_label(form.servico)}}    
             {{ form_widget(form.servico, {"id" : "servico"})}}
         </div>
-             {% ui_tooltip for="#servico" label="Selecione um serviço." %}
         <!--<div class="checkbox">
                 <fieldset>
                         <legend>Categoria</legend>
@@ -54,12 +51,12 @@
                 </fieldset>
         </div>!-->
              {# ui_tooltip for=".checkbox" label="Categoria para atividade.<br/>Obs: Selecione uma ou mais." #}
-       
-        {{ form_row(form._token) }}
+        
     </div>
-        <input type="submit" value="Submit"/>
+        {{ form_row(form._token) }}
+    <input type="submit" value="Submit"/>
     </form>
  </div>
-{% end_ui_panel %}
+</div>
 {% endblock %}
 

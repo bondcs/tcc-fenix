@@ -12,13 +12,19 @@
 {% endblock %}
 
 {% block conteudo %}
-{% ui_panel title="Funcionário" style="width:auto"%}
-<div id="box-form">
+ <div class="ui-panel-content ui-widget-content " style="width:auto">
+    <h4 class="ui-panel-title ui-widget-header ">Funcionário</h4>
+    <div id="box-form">
     <form novalidate="" id="form" action="{{ funcionario.id ? path('funcionarioEdit', { 'id' : funcionario.id}) : path('funcionarioAdd')}}" method="post" class="cms">
-    <div class="myform">         
+    <div class="myform">
             {{ form_errors(form) }}
-            
-                <div> 
+                <div style="text-align: right">
+                    {{ form_errors(form.tipo)}}
+                    {# form_label(form.tipo)#}    
+                    {{ form_widget(form.tipo)}}
+                </div>
+
+                <div>
                     {{ form_errors(form.nome)}}
                     {{ form_label(form.nome)}}    
                     {{ form_widget(form.nome)}}
@@ -27,14 +33,27 @@
                 <div> 
                     {{ form_errors(form.telefone)}}
                     {{ form_label(form.telefone)}}    
-                    {{ form_widget(form.telefone)}}
+                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone'}})}}
                 </div>
-
-                {{ form_rest(form)}}
+            
+                <div class="timepicker"> 
+                    {{ form_errors(form.escalaDiariaInicio)}}
+                    {{ form_label(form.escalaDiariaInicio)}}    
+                    {{ form_widget(form.escalaDiariaInicio)}}
+                </div>
+            
+                <div class="timepicker"> 
+                    {{ form_errors(form.escalaDiariaFinal)}}
+                    {{ form_label(form.escalaDiariaFinal)}}    
+                    {{ form_widget(form.escalaDiariaFinal)}}
+                </div>
+ 
     </div>
+                {{ form_rest(form)}}
             <input type="submit" value="Submit"/>
     </form>
+    </div>  
 </div>
-{% end_ui_panel %}
+
 
 {% endblock %}

@@ -21,14 +21,14 @@
                 <div> 
                     {{ form_errors(form.telefone)}}
                     {{ form_label(form.telefone)}}    
-                    {{ form_widget(form.telefone)}}
+                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone'}})}}
                 </div>
                 
                 <div id="juridico">
                     <div> 
                         {{ form_errors(form.cnpj)}}
                         {{ form_label(form.cnpj)}}    
-                        {{ form_widget(form.cnpj)}}
+                        {{ form_widget(form.cnpj, {'attr' : {'class' : 'cnpj'}})}}
                     </div>
                 </div>
                 
@@ -36,14 +36,14 @@
                     <div> 
                         {{ form_errors(form.cpf)}}
                         {{ form_label(form.cpf)}}    
-                        {{ form_widget(form.cpf)}}
+                        {{ form_widget(form.cpf, {'attr' : {'class' : 'cpf'}})}}
                     </div>
                 </div>
                 
                 <div> 
                     {{ form_errors(form.cep)}}
                     {{ form_label(form.cep)}}    
-                    {{ form_widget(form.cep)}}
+                    {{ form_widget(form.cep, {'attr' : {'class' : 'cep'}})}}
                 </div>
                 
                 <div> 
@@ -91,13 +91,13 @@
                     <div>
                         {{ form_errors(responsavel.telefone)}}
                         {{ form_label(responsavel.telefone)}}    
-                        {{ form_widget(responsavel.telefone)}}
+                        {{ form_widget(responsavel.telefone, {'attr' : {'class' : 'telefone'}})}}
                     </div>
                 
                     <div>
                         {{ form_errors(responsavel.cpf)}}
                         {{ form_label(responsavel.cpf)}}    
-                        {{ form_widget(responsavel.cpf)}}
+                        {{ form_widget(responsavel.cpf, {'attr' : {'class' : 'cpf'}})}}
                     </div>
                 {% endfor %}
             </fieldset>

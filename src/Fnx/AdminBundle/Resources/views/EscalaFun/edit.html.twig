@@ -1,0 +1,36 @@
+<div class="box-form-dialog">
+   
+    <form novalidate="" id="form" action="{{path('escalaFunUpdate', {'id' : id})}}" method="POST" class="cms ajaxFormTable">
+    <div class="myform">         
+            {{ form_errors(form) }}
+                    
+                    <div class="datepicker">
+                        {{ form_errors(form.inicio)}}
+                        {{ form_label(form.inicio)}}    
+                        {{ form_widget(form.inicio)}}
+                    </div>
+                
+                    <div class="datepicker">
+                        {{ form_errors(form.fim)}}
+                        {{ form_label(form.fim)}}    
+                        {{ form_widget(form.fim)}}
+                    </div>
+            
+                    <div>
+                        {{ form_errors(form.descricao)}}
+                        {{ form_label(form.descricao)}}    
+                        {{ form_widget(form.descricao)}}
+                    </div>
+            
+                    <div>
+                        {{ form_errors(form.funcionario)}}
+                        {{ form_label(form.funcionario)}}    
+                        {{ form_widget(form.funcionario)}}
+                    </div>
+            
+    </div>                        
+             {{ form_row(form._token) }} 
+        <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
+        <input type="submit" value="Submit"/>
+    </form>
+</div>    

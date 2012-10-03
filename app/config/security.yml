@@ -23,6 +23,7 @@ security:
             pattern:  ^/adm/login$
             security: false
             anonymous: true
+            
        
         admin_secured_area:
             pattern: ^/
@@ -34,6 +35,11 @@ security:
             logout:
                 path: /adm/logout
                 target: /adm
+            remember_me:
+                key:      "%secret%"
+                lifetime: 31536000 # 365 days in seconds
+                path:     /
+                domain:   ~ # Defaults to the current domain from $_SERVER
        
 #        user_secured_area:
 #            pattern: ^/

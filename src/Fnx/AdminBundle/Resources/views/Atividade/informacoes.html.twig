@@ -1,0 +1,26 @@
+
+<div class="ui-panel-content ui-widget-content " style="width:auto">
+    <h4 class="ui-panel-title ui-widget-header ">Informações</h4>
+    <table class="infos">
+                <tr>
+                    <th>Cliente:</th>
+                    <td><a style="color: blue" href="{{path('clienteShow', {'id': atividade.contrato.cliente.id})}}">{{atividade.contrato.cliente.nome}}</a></td>
+                </tr>
+                <tr>
+                    <th>Nome:</th>
+                    <td>{{atividade.nome}}</td>
+                </tr>
+                <tr>
+                    <th>Criado:</th>
+                    <td>{{atividade.created|date("d/m/Y h:m:i")}}</td>
+                </tr>
+                <tr>
+                    <th>Alterado:</th>
+                    <td>{{atividade.updated|date("d/m/Y h:m:i")}}</td>
+                </tr>
+                <tr>
+                    <th>Status:</th>
+                    <td><img width="20" height="20" title="ativo" src="{{ atividade.arquivado ? asset('bundles/fnxadmin/images/Denided.png') : asset('bundles/fnxadmin/images/Valid.png')  }}"/></td>
+                </tr> 
+</table>
+</div>

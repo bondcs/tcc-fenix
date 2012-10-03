@@ -1,9 +1,9 @@
 {% extends 'FnxAdminBundle::layout.html.twig' %}
-{% block title %} Cliente Manager {% endblock %}
+{% block title %} Gerenciamento de Clientes {% endblock %}
 {% block menuContent %}
 
     <div id="menuContent">
-        <h3>Cliente Manager: Clientes</h3>
+        <h3>Gerenciamento: Lista de clientes</h3>
         <ul>
             <li><a class="new-link" href="{{ path('clienteAdd')}}"><span ></span>Novo</a></li>
             <li><a route="clienteShow" class="show-link" href="#"><span></span>Profile</a></li>
@@ -17,18 +17,20 @@
 {% block conteudo %}
      
     <div class="box-table">
-        <table id="table">
+        <table id="table" class="doubleclick" route="clienteShow">
             <thead>
                 <tr>
                     <th class="left">Nome</th>
-                    <th>Telefone</th>
-                    <th>ID</th>
+                    <th style="width: 10%">Tipo</th>
+                    <th style="width: 10%">Telefone</th>
+                    <th>Id</th>
                 </tr>
             </thead>
             <tbody>
         {% for cliente in clientes %}
                 <tr{% if loop.index is even %} class="row0" {% else %} class="row1" {% endif %}>
                     <td><a class="link-name" href="{{ path('clienteEdit', {'id': cliente.id} )}}">{{ cliente.nome }}</a></td>
+                    <td>{{ cliente.pessoa == "f" ? "Físico" : "Jurídico"}}</td>
                     <td>{{ cliente.telefone }}</td>
                     <td class="id">{{ cliente.id}}</td>
                 </tr>        

@@ -1,0 +1,10 @@
+   <div class="box-form-dialog">
+         <form novalidate="" class="cms ajaxFormTable" action="{{path("propriedadeUpdate", {"id" : id})}}" method="POST" >
+            <div class="myform"> 
+                {{form_errors(form)}}
+                   {% include "FnxAdminBundle:Propriedade:_form.html.twig" %}  
+                {{form_row(form._token)}}
+             </div>
+             <input type="submit" value="Submit"/>       
+         </form>
+   </div>

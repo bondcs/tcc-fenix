@@ -42,10 +42,9 @@ class Responsavel
     /**
      * @var string $telefone
      *
-     * @ORM\Column(name="telefone", type="string", length=10)
+     * @ORM\Column(name="telefone", type="string", length=14)
      * @Assert\NotBlank(groups={"juridico", "register"})
-     * @Assert\MaxLength(limit=10,groups={"juridico","register"})
-     * @FnxAssert\ApenasNumero(groups={"juridico","register"})
+     * @Assert\MaxLength(limit=14,groups={"juridico","register"})
      */
     private $telefone;
     
@@ -53,7 +52,6 @@ class Responsavel
      * @var string $cpf
      * 
      * @ORM\Column(name="cpf", type="string", length="15", nullable=true)
-     * @FnxAssert\ApenasNumero(groups={"juridico","register"})
      * 
      */
     private $cpf;

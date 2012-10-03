@@ -12,5 +12,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class UsuarioRepository extends EntityRepository{
     
+    function getRolesByLocal($p1 = 0, $p2 = 0){
+        return $this->getEntityManager()->createQuery(
+                "SELECT r FROM FnxAdminBundle:Role
+                 WHERE r.id <> ?1
+                 AND r.id <> ?2")
+                ->setParameters(array(1 => $p1, 2 => $p2))
+                ->getResult();
+    }
     
 }

@@ -6,7 +6,7 @@
       <h3>Atividade Manager: Atividades Arquivadas</h3>
       <ul>
          <li><a route="atividadeAtivar" class="unarquive-link" href="#"><span></span>Ativar</a></li>
-          <li><a route="atividadeDelete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
+         <li><a route="atividadeDelete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
          <li><a class="back-link" href="{{ path("atividadeHome")}}"><span></span>Voltar</a></li>
       </ul> 
 </div>
@@ -28,22 +28,16 @@
         <tr>
             
             <th style="width: 400px;">Nome</th>
-            <th>Descrição</th>
+            <th>Serviço</th>
             <th>Cliente</th>
-            <th>Id</th>
+            <th class="hide">Id</th>
         </tr>
     </thead>
     <tbody>
     {% for entity in entities %}
         <tr>
             <td>{{ entity.nome }}</td>
-            <td>
-                {% if entity.descricao|length > 100 %}
-                {{ entity.descricao(100)}} <a href="{{path("atividadeEdit", {"id" : entity.id})}}">mais...</a>
-                {% else %}
-                {{ entity.descricao(100)}}
-                {% endif %}
-            </td>
+            <td>{{ entity.servico.nome}}</td>
             <td>{{entity.contrato.cliente.nome}}</td>
             <td class="id">{{ entity.id }}</td>
         </tr>
