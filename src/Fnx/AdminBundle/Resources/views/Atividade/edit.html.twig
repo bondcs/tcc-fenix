@@ -1,0 +1,62 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+
+{% block title %} Formulário {% endblock %}
+
+{% block menuContent %}
+    <div id="menuContent">
+        <h3>Atividade Manager: Formulário</h3>
+        <ul>
+            <li><a class="back-link" href="{{ path('atividadeHome')}}"><span></span>Voltar</a></li>
+        </ul> 
+    </div>
+{% endblock %}
+
+{% block conteudo %}
+
+ <div class="ui-panel-content ui-widget-content " style="width:auto">
+      <h4 class="ui-panel-title ui-widget-header ">Atividade</h4>
+   <div id="box-form">
+    <form novalidate="" class="cms" action="{{ path('atividadeUpdate', {'id' : atividade.id}) }}" method="post" {{ form_enctype(form) }}>
+    <div class="myform">     
+        {{form_errors(form)}}
+        
+        <div class="inputExtendido">
+            {{ form_errors(form.nome)}}
+            {{ form_label(form.nome)}}    
+            {{ form_widget(form.nome, {"id" : "nome"})}}
+        </div>
+          
+        {#<div>
+            {{ form_errors(form.descricao)}}
+            {{ form_label(form.descricao)}}    
+            {{ form_widget(form.descricao, {"id" : "descricao"})}}
+        </div>
+            {% ui_tooltip for="#descricao" label="Descrição para atividade. <br/>ex: Será instalado câmeras para <br/>monitoramento da empresa." %}#}
+        <div class="complete">
+            {{ form_errors(form.cliente)}}
+            {{ form_label(form.cliente)}}
+            {{ form_widget(form.cliente, {"id" : "cliente"})}} <a class="ajax-link button" href="{{ path("clienteAdd")}}" title="Cliente">Adicionar</a> 
+        </div>
+            
+        <div>
+            {{ form_errors(form.servico)}}
+            {{ form_label(form.servico)}}    
+            {{ form_widget(form.servico, {"id" : "servico"})}}
+        </div>
+        <!--<div class="checkbox">
+                <fieldset>
+                        <legend>Categoria</legend>
+                        {# form_errors(form.categorias)#}
+                        {# form_widget(form.categorias)#}
+                </fieldset>
+        </div>!-->
+             {# ui_tooltip for=".checkbox" label="Categoria para atividade.<br/>Obs: Selecione uma ou mais." #}
+        
+    </div>
+        {{ form_row(form._token) }}
+    <input type="submit" value="Submit"/>
+    </form>
+ </div>
+</div>
+{% endblock %}
+

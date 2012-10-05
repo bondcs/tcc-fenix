@@ -1,12 +1,25 @@
 {% extends "FnxAdminBundle::layout.html.twig" %}
 {% block title %} {{ funcionario.nome }} {% endblock %}
+
 {% block menuContent %}
     <div id="menuContent">
         <h3>Funcionário : {{ funcionario.nome }}</h3>
         <ul>
-            <li><a class="addUser-link" href="{{ path('funcionarioAddUser', {'id' : funcionario.id})}}"><span></span>Usuário</a></li>
+            <li><a class="addUser-link ajax-link" href="{{ path('usuarioManagerFuncionario', {'id' : funcionario.id})}}"><span></span>Usuário</a></li>
             <li><a class="back-link" href="{{ path('funcionarioHome')}}"><span></span>Voltar</a></li>
         </ul> 
     </div>
+{% endblock %}
+
+{% block conteudo %}
+
+{% if funcionario.tipo.id == 3 %}
+    {% include 'FnxAdminBundle:Funcionario:agente.html.twig' %}
+{% elseif funcionario.tipo.id == 2 %}
+    {% include 'FnxAdminBundle:Funcionario:agente.html.twig' %}
+{% else %}
+    {% include 'FnxAdminBundle:Funcionario:padrao.html.twig' %}
+{% endif %}
+
 {% endblock %}
 

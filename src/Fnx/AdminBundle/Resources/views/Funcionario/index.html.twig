@@ -1,38 +1,50 @@
 {% extends "FnxAdminBundle::layout.html.twig" %}
-{% block title %}Funcionário Manager{% endblock %}
+{% block title %}Gerenciamento de Funcionários{% endblock %}
+
 {% block menuContent %}
 
     <div id="menuContent">
-        <h3>Funcionário Manager: Funcionários</h3>
+        <h3>Gerenciamento: Lista de Funcionários</h3>
         <ul>
             <li><a class="new-link" href="{{ path('funcionarioAdd')}}"><span ></span>Novo</a></li>
-            <li><a route="funcionarioEdit" class="edit-link" href="#"><span></span>Editar</a></li>
             <li><a route="funcionarioShow" class="show-link" href="#"><span></span>Profile</a></li>
+            <li><a route="funcionarioEdit" class="edit-link" href="#"><span></span>Editar</a></li>
             <li><a route="funcionarioRemove" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
-        </ul> 
+        </ul>
     </div>
 
 {% endblock %}
+
+{% block subMenu %}
+<div id="subMenu">
+    <ul>
+        <li><a href="{{ path("escalaFunIndex")}}">Escalas</a></li>
+    </ul>
+</div>
+{% endblock %}
+
 {% block conteudo %}
-     
+
     <div class="box-table">
-        <table id="table" class="tablePlugin">
+        <table id="table" class="doubleclick">
             <thead>
                 <tr>
                     <th class="left">Nome</th>
+                    <th>Cargo</th>
                     <th>Telefone</th>
-                    <th>ID</th>
+                    <th>Id</th>
                 </tr>
             </thead>
             <tbody>
         {% for funcionario in funcionarios %}
                 <tr{% if loop.index is even %} class="row0" {% else %} class="row1" {% endif %}>
                     <td><a class="link-name" href="{{ path('funcionarioEdit', {'id': funcionario.id} )}}">{{ funcionario.nome }}</a></td>
+                    <td>{{ funcionario.tipo.nome }} </td>
                     <td>{{ funcionario.telefone }}</td>
                     <td class="id">{{ funcionario.id}}</td>
-                </tr>        
+                </tr>
         {% endfor %}
-            </tbody>  
+            </tbody>
         </table>
      </div>
 

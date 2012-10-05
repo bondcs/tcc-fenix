@@ -14,7 +14,15 @@ use Doctrine\ORM\EntityRepository;
  * @author bondcs
  */
 class ResponsavelRepository extends EntityRepository {
-    //put your code here
+    
+    public function loadResponsavel($id){   
+        return $this->getEntityManager()
+                ->createQuery('SELECT r
+                               FROM FnxAdminBundle:Responsavel r WHERE r.cliente = :id')
+                ->setParameter("id", $id)
+                ->getResult();
+    }
+
 }
 
 ?>

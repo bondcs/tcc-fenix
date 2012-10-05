@@ -13,37 +13,39 @@ use Fnx\AdminBundle\Form\Type\ClienteType;
 use Symfony\Component\HttpFoundation\Response;
 use Fnx\AdminBundle\Form\Type\ResponsavelType;
 use Fnx\AdminBundle\Entity\Responsavel;
+use Symfony\Component\Form\FormError;
 
 /**
  * Description of ClienteController
  *
  * @author bondcs
+ *
+ * @Route("/adm/cliente")
  */
 class ClienteController extends Controller{
 
     /**
-     * @Route("adm/cliente", name="clienteHome")
+     * @Route("/", name="clienteHome")
      * @Template()
      * @return
      */
     public function indexAction(){
         $clientes = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")
                                                                               ->findAll();
-
         return array(
             "clientes" => $clientes,
         );
     }
 
     /**
-     * @Route("adm/cliente/add", name="clienteAdd")
+     * @Route("/add", name="clienteAdd")
      * @Template("")
      * @return
      */
     public function addClienteAction(){
 
         $cliente = new Cliente();
-        $cliente->setPessoa("j");
+        $cliente->setPessoa("f");
         $responsavel = new Responsavel();
         $responsavel->setPrincipal(true);
         $cliente->getResponsaveis()->add($responsavel);
@@ -66,21 +68,31 @@ class ClienteController extends Controller{
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($cliente);
                 $em->flush();
-                $session = $this->get("session")->setFlash("success","Cadastro concluído.");
-                return $this->redirect($this->generateUrl("clienteHome"));
-            }else{
-                $session = $this->get("session")->setFlash("error","O formulário não foi validado.");
+
+                if (!$this->getRequest()->isXmlHttpRequest()){
+                    $session = $this->get("session")->setFlash("success","Cadastro concluído.");
+                    return $this->redirect($this->generateUrl("clienteHome"));
+
+                }  else {
+                    $responseSuccess = array('dialogName' => '.simpleDialog',
+                                             'message' => 'add');
+                    $response = new Response(json_encode($responseSuccess));
+                    $response->headers->set('Content-Type', 'application/json');
+                    return $response;
+                }
+
             }
         }
 
-        return $this->render("FnxAdminBundle:Cliente:formCli.html.twig" ,array(
+        $template = $this->getRequest()->isXmlHttpRequest() ? "FnxAdminBundle:Cliente:formCliAjax.html.twig" : "FnxAdminBundle:Cliente:formCli.html.twig";
+        return $this->render($template ,array(
             'form' => $form->createView(),
             'cliente' => $cliente,
         ));
     }
 
     /**
-     * @Route("adm/usuario/edit/{id}", name="clienteEdit", options={"expose" = true})
+     * @Route("/{id}/edit", name="clienteEdit", options={"expose" = true})
      * @Template()
      * @return
      */
@@ -89,7 +101,6 @@ class ClienteController extends Controller{
         $cliente = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")->find($id);
         $responsavelPrincipal = $this->getDoctrine()->getRepository("FnxAdminBundle:Responsavel")->findOneBy(array("principal" => true,
                                                                                                                     "cliente" => $id));
-//        var_dump($responsavelPrincipal); die();
         if (!$cliente){
             throw $this->createNotFoundException("Funcionário não encontrado.");
         }
@@ -141,7 +152,7 @@ class ClienteController extends Controller{
     }
 
     /**
-     * @Route("adm/cliente/ajaxCidade", name="ajaxCidade", options={"expose" = true})
+     * @Route("/ajaxCidade", name="ajaxCidade", options={"expose" = true})
      * @return
      */
     public function ajaxCidadeAction(){
@@ -156,7 +167,7 @@ class ClienteController extends Controller{
     }
 
     /**
-     * @Route("adm/cliente/remove/{id}", name="clienteRemove", options={"expose" = true})
+     * @Route("/{id}/remove", name="clienteRemove", options={"expose" = true})
      * @return
      */
     public function removeClienteAction($id){
@@ -173,7 +184,7 @@ class ClienteController extends Controller{
     }
 
     /**
-     * @Route("adm/cliente/show/{id}", name="clienteShow", options={"expose" = true})
+     * @Route("/{id}/show", name="clienteShow", options={"expose" = true})
      * @Template()
      */
     public function showProfileAction($id){
@@ -188,45 +199,23 @@ class ClienteController extends Controller{
         if (!$cliente){
             throw $this->createNotFoundException("Cliente não encontrado.");
         }
-
-
         return array(
             "cliente" => $cliente,
             "responsaveis" => $responsaveis
         );
     }
 
-
     /**
-     * @Route("adm/cliente/verificar", name="verificaCliente")
-     * @Template()
+     * @Route("/ajaxCliente", name="ajaxCliente", options={"expose" = true})
+     * @return
      */
-    public function verificaClienteAction(){
+    public function ajaxClienteAction(){
 
-        $nome = $this->getRequest()->get('username');
+        $clientes = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")->loadCliente();
+        $response = new Response(json_encode($clientes));
+        $response->headers->set('Content-Type', 'application/json');
 
-        if($nome || preg_match("/^[a-zA-Z]+$/", $nome)):
-
-            $db = $this->getDoctrine()->getEntityManager();
-
-            $qb = $db->createQuery('select count(c) from \Fnx\AdminBundle\Entity\Cliente c where c.getNome() = :nome ;');
-            $qb->setParameter('nome', $nome);
-            $cliente = $qb->getResult();
-
-            if($cliente):
-
-                $session = $this->get('session');
-                $pedido = $session->get('pedido');
-                $pedido->setCliente($cliente);
-
-                return 1;
-            else:
-                return 0;
-            endif;
-
-        else:
-            return -1;
-        endif;
+        return $response;
     }
 }
 

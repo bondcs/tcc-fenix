@@ -61,8 +61,8 @@ class Role extends CoreRole implements RoleInterface{
      * @var ArrayCollection $usuarios
      */
     protected $usuarios;
-    
-    public function getId()
+
+        public function getId()
     {
         return $this->id;
     }
@@ -128,7 +128,9 @@ class Role extends CoreRole implements RoleInterface{
     
     public function __toString()
     {
-        return $this->nome;
+        $role = explode("_", $this->nome);
+        
+        return $role[1] == "USUARIO" ? "USUÁRIO" : $role[1];
     }
 
     /**

@@ -1,0 +1,57 @@
+<div class="tabs">
+    <ul>
+	<li><a href="#tabs-1">Informações</a></li>
+        <li><a href="#tabs-2">Escalas</a></li>
+        <li><a href="#tabs-3">Endereço</a></li>
+    </ul>
+    
+    <div id="tabs-1">
+      {% include "FnxAdminBundle:Atividade:informacoes.html.twig" %} 
+    </div>
+    
+    <div id="tabs-2" style="padding: 0px;">
+        <div class="box-table" style="margin: 10px 0px 10px 0px">
+                <table class="tableEscalas redraw">
+                    <thead>
+                        <tr>
+                           <th></th>
+                           <th>Início</th>
+                           <th>Fim</th>
+                           <th>Local</th>
+                           <th>Custo Unitário(R$)</th>
+                           <th>Custo Total(R$)</th>
+                           <th style="width: 40px;">ID</th>
+                         </tr>
+                     </thead>
+                     <tbody></tbody>
+                     <tfoot>
+                         <tr>
+                             <th colspan="5" style="text-align: right">Total:</th>
+                             <th colspan="1" style="text-align: left;"s></th>
+                         </tr>  
+                     </tfoot>
+               </table>
+        </div>
+
+        <script type="text/javascript">
+            var urlSource = Routing.generate("ajaxEscala", {"id": "{{atividade.id}}"});
+            var urlAdd = Routing.generate("escalaAdd", {"id": "{{atividade.id}}"});
+            var routeEdit = "escalaEdit";
+            var routeDelete = "escalaDelete";
+        </script>
+
+    </div>
+        
+    <div id="tabs-3">
+        <div class="box-form-ajax">
+        {% if (atividade.enderecos is empty) %}
+            {% render 'FnxAdminBundle:Endereco:new' with {'id' : atividade.id} %}    
+        {% else %}
+            {% render 'FnxAdminBundle:Endereco:edit' with {'id' : atividade.id} %}
+        {% endif%}
+        <div>
+
+    </div>
+
+
+</div>

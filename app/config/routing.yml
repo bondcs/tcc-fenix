@@ -1,3 +1,8 @@
+FnxFinanceiroBundle:
+    resource: "@FnxFinanceiroBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 FnxAdminBundle:
     resource: "@FnxAdminBundle/Controller/"
     type:     annotation

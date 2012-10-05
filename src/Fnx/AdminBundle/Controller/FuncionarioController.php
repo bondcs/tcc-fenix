@@ -51,8 +51,6 @@ class FuncionarioController extends Controller{
                 
                 $session = $this->get("session")->setFlash("success","Cadastro concluído.");
                 return $this->redirect($this->generateUrl("funcionarioHome"));
-            }else{
-                $session = $this->get("session")->setFlash("error","O formulário não foi validado.");
             }
         }
         
@@ -70,6 +68,7 @@ class FuncionarioController extends Controller{
         if (!$funcionario){
             throw $this->createNotFoundException("Funcionário não encontrado.");
         }
+
         $form = $this->createForm(new FuncionarioType, $funcionario);
         $request = $this->getRequest();
         if ($request->getMethod() == "POST"){
@@ -81,8 +80,6 @@ class FuncionarioController extends Controller{
                 
                 $session = $this->get("session")->setFlash("success","Alteração concluída.");
                 return $this->redirect($this->generateUrl("funcionarioHome"));
-            }else{
-                $session = $this->get("session")->setFlash("error","O formulário não foi validado.");
             }
         }
         
@@ -116,148 +113,88 @@ class FuncionarioController extends Controller{
                     ->getRepository("FnxAdminBundle:Funcionario")
                     ->find($id);
         
+        $escalas = $this->getDoctrine()->getRepository("FnxAdminBundle:Escala")->loadEscalaByFuncionario($id);
+        
         if (!$funcionario){
             throw $this->createNotFoundException("Funcionário não encontrado.");
         }
         
         
-        return array("funcionario" => $funcionario);
+        return array("funcionario" => $funcionario,
+                     "escalas" => $escalas);
     }
     
-    /**
-     * @Route("adm/funcionario/show/add-user/{id}", name="funcionarioAddUser", options={"expose" = true})
+     /**
+     * @Route("/adm/funcionario/usuario/{id}", name="usuarioManagerFuncionario", options={"expose" = true})
      * @Template()
+     * @param type $id
      */
-    public function addUserAction($id){
+    public function usuarioAction($id){
         
         $funcionario = $this->getDoctrine()->getRepository("FnxAdminBundle:Funcionario")->find($id);
-        if(!$funcionario){
+        if (!$funcionario){
             throw $this->createNotFoundException("Funcionário não encontrado.");
         }
         
-        if(!$funcionario->getUsuario()){
-           $funcionario->setUsuario(new Usuario());
-           $form = $this->createForm(new UsuarioType, $funcionario->getUsuario(), array('validation_groups'=>'register'));
-        }else{
-           $form = $this->createForm(new UsuarioType, $funcionario->getUsuario(), array('validation_groups'=>'edit'));
-           $password = $funcionario->getUsuario()->getPassword();
+        $flag = true;
+        if (!$funcionario->getUsuario()){
+            $funcionario->setUsuario(new Usuario);
+            $flag = false;
         }
-                
-        $request = $this->getRequest();
-        if ($request->getMethod() == "POST"){
-            $form->bindRequest($request);
-            if ($form->isValid()){
-                $em = $this->getDoctrine()->getEntityManager();
-                
-                if (!$funcionario->getUsuario()->getId()){
-                    $funcionario->getUsuario()->setSalt(md5(time()));
-                    $data = $form->getData();
-                    $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
-                    $password = $encoder->encodePassword($data->getPassword(), $funcionario->getUsuario()->getSalt());
-                }
-                
-                $funcionario->getUsuario()->setPassword($password);
-                $em->persist($funcionario);
-                $em->flush();
-                
-                $this->get('session')->setFlash("success","Usuário alterado com sucesso.");
-                return $this->redirect($this->generateUrl("funcionarioShow", array(
-                    "id" => $funcionario->getId(),
-                )));
-            }else{
-                $this->get('session')->setFlash("error","Fomulário não foi validado.");
-            }
+        
+        $form = $this->get("fnx_admin.usuario.form");
+        $formHandler = $this->get("fnx_admin.usuario.form.handler");
+        $process = $formHandler->process($funcionario->getUsuario(), $funcionario,$form );
+        
+        if ($process){
+           $message = $flag == true ? "edit" : "add";
             
-        }
-        if($funcionario->getUsuario()->getId()){
-            return $this->render("FnxAdminBundle:Funcionario:editUser.html.twig", array(
-                'form' => $form->createView(),
-                'usuario' => $funcionario->getUsuario(),
-                'funcionario' => $funcionario,
-            ));
+            $responseSuccess = array(
+                  'dialogName' => '.simpleDialog',
+                  'message' => $message
+                );
+            
+            $response = new Response(json_encode($responseSuccess));
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
         }
         
-        if($request->isXmlHttpRequest()){
-            return $this->render('FnxAdminBundle:Funcionario:test.html.twig',array(
-                    'form' => $form->createView(),
-                    'usuario' => $funcionario->getUsuario(),
-                    'funcionario' => $funcionario,
-            ));
-        } 
+        return $this->render("FnxAdminBundle:Usuario:form.html.twig",array(
+            "form" => $form->createView(),
+            "father" => $funcionario,
+            "responsavel" => false,
+        ));
         
-        return array(
-            'form' => $form->createView(),
-            'usuario' => $funcionario->getUsuario(),
-            'funcionario' => $funcionario,
-        );
     }
     
     /**
-     * @Route("adm/funcionario/show/remove-user/{id}/{idUsuario}", name="funcionarioRemoveUser", options={"expose" = true})
+     * @Route("/adm/funcionario/usuario/remove/{id}", name="usuarioRemoveFuncionario", options={"expose" = true})
+     * @Template()
+     * @param type $id
      */
-    public function removerUserAction($id, $idUsuario){
+    public function usuarioRemoveAction($id){
+        
+        $funcionario = $this->getDoctrine()->getRepository("FnxAdminBundle:Funcionario")->find($id);
+        if (!$funcionario){
+            throw $this->createNotFoundException("Funcionario não encontrado.");
+        }
+        
+        $usuarioLogado = $this->get('security.context')->getToken()->getUser();
+        
+        if ($funcionario->getUsuario()->getId() == $usuarioLogado->getId()){
+            throw new \Exception("Não pode excluir seu própio usuário.");
+        }
         
         $em = $this->getDoctrine()->getEntityManager();
-        $usuarioLogado = $user = $this->get('security.context')->getToken()->getUser();
-        
-        if($usuarioLogado->getId() == $idUsuario){
-            throw new \Exception("Você não pode excluir um usuário logado.");   
-        }
-        
-        $this->get('session')->setFlash("success","Usuário excluído com sucesso.");
-        $em->remove($em->find("FnxAdminBundle:Usuario", $idUsuario));
+        $em->remove($funcionario->getUsuario());
         $em->flush();
-            
-        return $this->redirect($this->generateUrl("funcionarioShow", array(
-           'id' => $id, 
-        )));
-        
-    }
-    
-    /**
-     * @Route("adm/funcionario/show/add-user/change-senha/{id}/{idFuncionario}", name="funcionarioUserSenha")
-     * @Template()
-     */
-    public function changePasswordAction($id, $idFuncionario){
-        
-        $form = $this->createForm(new ChangePasswordType());
-        $usuario = $this->getDoctrine()->getRepository("FnxAdminBundle:Usuario")->find($id);
-        $funcionario = $this->getDoctrine()->getRepository("FnxAdminBundle:Funcionario")->find($idFuncionario);
-        $request = $this->getRequest();
-            if ($request->getMethod() == "POST"){
-                $form->bindRequest($request);
-                if ($form->isValid()){
-                    
-                    $usuario->setSalt(md5(time()));
-                    $data = $form->getData();
-                    $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
-                    $password = $encoder->encodePassword($data['password'], $usuario->getSalt());
-                    $usuario->setPassword($password);
-                    $em = $this->getDoctrine()->getEntityManager();
-                    $em->merge($usuario);
-                    $em->flush();
-                    
-                    $this->get('session')->setFlash("success","Senha alterada com sucesso.");
-                    
-                    $responseSuccess = array('success' => $this->generateUrl("funcionarioAddUser", array(
-                                    "id" => $funcionario->getId(),
-                                )));
-                    $response = new Response(json_encode($responseSuccess));
-                    $response->headers->set('Content-Type', 'application/json');
-        
-                    return $response;
-                    
-                }
-            }
-         
-        
-        return $this->render("FnxAdminBundle:Funcionario:changePassword.html.twig", array(
-            "form" => $form->createView(),
-            "usuario" => $usuario,
-            "funcionario" => $funcionario,
-            ));
+        $this->get("session")->setFlash("success","Usuário excluído.");
+        return $this->redirect($this->generateUrl("funcionarioShow", array("id" => $funcionario->getId())));
 
+
+ 
     }
+
 }
 
 ?>

@@ -6,7 +6,7 @@
         Purpose of the stylesheet follows.
 */
 
-*{margin:0px; padding: 0px;}
+*{margin:0px; padding: 0px; font-family: arial, helvetica, serif;}
 root {display: block;}
 
 li{list-style: none;}
@@ -41,14 +41,24 @@ li{list-style: none;}
 #cssmenu > ul > li > a{border-right:1px solid #1b313d; color:#fff;} 
 #cssmenu > ul > li > a:after{border-color:#6696bd;} 
 #cssmenu > ul > li > a:hover{background:#436f93;} 
-#cssmenu #logout{float:right; margin-bottom:20px}
-#logout span{background-image: url("../images/logout-ico.png"); height: 32px; width: 32px;display:block}
+#info{float:right;}
+#logout img{ margin-top: 6px; margin-right: 5px;}
+.username {color:white; margin-bottom: 50px; position: relative; bottom: 8px; font-weight: bold; font-size: 13px;}
+
+/* menu inicial */
+#all-menu {margin: 20px;}
+#all-menu a {text-decoration: none; color: #025A8D}
+.box-menu{ height: 100px; width: 130px; background-color: #ffffff; border: 1px solid #cccccc; padding-top: 10px;}
+.img {text-align: center;}
+.label{text-align: center;}
+
+
 
 /* menu conteudo */
-#menuContent{padding: 5px; background-color: #F4F4F4; margin: 8px; min-height: 80px; border: 1px solid #CCCCCC; border-radius: 10px}
+#menuContent{padding: 5px 5px 10px 5px; background-color: #F4F4F4; margin: 8px; min-height: 80px; border: 1px solid #CCCCCC; border-radius: 10px}
 #menuContent > h3, h2 {display: inline; vertical-align: middle; }
 #menuContent > ul {list-style: none; float:right}
-#menuContent > ul > li {text-align: center; display: block; float:left; margin-left: 5px; margin-right: 5px; width: 48px; height: 60px; padding: 10px}
+#menuContent > ul > li {text-align: center; display: block; float:left; width: 48px; height: 60px; padding: 10px}
 /*#menuContent > ul > li:hover {border-bottom: 1px solid gray; border-right: 1px solid gray; border-top: 1px solid white; border-left: 1px solid white;}*/
 #menuContent > ul > li > a {font-size: 13px; text-decoration: none; text-align: center}
 #menuContent > ul > li > a > span{display: block; height: 48px; width: 48px;}
@@ -66,49 +76,69 @@ li{list-style: none;}
 .remove-user-link > span{background-image: url("../images/remove-user-ico.png");}
 .key-link > span{background-image: url("../images/key-ico.png");}
 .respo-link > span{background-image: url("../images/respo4-ico.png");}
+.note-show-link > span {background-image: url("../images/note-ico.png");}
+.arquive-link > span {background-image: url("../images/unarquive-ico.png");}
+.unarquive-link > span {background-image: url("../images/arquivar-ico.png");}
+
+
+/* subMenu */
+#subMenu{font-size: 0.95em; padding: 5px 0px 5px 5px; background-color: #F4F4F4; margin: 8px; min-height: 20px; border: 1px solid #CCCCCC; border-radius: 6px}
+#subMenu a {}
+#subMenu li {display: inline; border-right: 1px solid; padding-right: 10px; padding-left: 5px;}
+
 
 /* forms */
-#box-form{border: 1px solid #CCCCCC; padding: 20px; margin: 10px; display: inline-block}
+#box-form{padding: 10px; margin: 10px; display: inline-block}
 .box-form-dialog{padding:10px 10px 50px 10px; background-color: #DADCFF}
-form.cms { font-size: 16px; }
-form.cms div{ clear: left; margin-bottom: 10px;}
-form.cms div > label{ float: left; margin-right: 10px; text-align: right; width: 100px; font-weight: bold; vertical-align: top; padding-top: 10px;}
-form.cms #pessoa > label{ float:none; margin-left: 5px; padding: 0;}
-form.cms input[type="text"],
-form.cms input[type="email"],
-form.cms input[type="password"],
-form.cms input[type="checkbox"]
-    { width: 310px; line-height: 26px; font-size: 16px; min-height: 26px;}
+form.cms .myform { font-size: 16px; }
+form.cms .myform div{ clear: left; margin-bottom: 10px;}
+form.cms .myform .inputExtendido input {width: 435px !important}
+form.cms .myform div > label{ float: left; margin-right: 10px; text-align: right; width: 100px; font-weight: bold; vertical-align: top; padding-top: 10px;}
+form.cms .myform #pessoa > label{ float:none; margin-left: 5px; padding: 0;}
+form.cms .myform div > input[type="text"],
+form.cms .myform div > input[type="email"],
+form.cms .myform div > input[type="password"],
+form.cms .myform div > input[type="checkbox"],
+form.cms .myform div > input[type="file"]
+    { width: 345px; line-height: 26px; font-size: 16px; min-height: 26px; padding-left: 4px;}
     
-form.cms select{min-height: 23px; padding-top: 0.5%}
+form.cms .myform select{min-height: 23px; padding-top: 0.5%}
     
-form.cms input[type="checkbox"] {margin-top: 2%}
-form.cms input[type="file"]
+form.cms .myform input[type="checkbox"] {margin-top: 2%}
+form.cms .myform input[type="file"]
     { width: 250px; line-height: 20px; font-size: 12.5pt; min-height: 26px;  }  
-form.cms textarea { width: 500px; height: 250px; line-height: 26px; font-size: 20px; margin-top: 1.5%;}
+form.cms .myform textarea {width: 435px; height: 250px; line-height: 26px; font-size: 16px; padding-left: 4px;}
 form.cms input[type="submit"],
 form.cms input[type="button"]
-    { float: right; width: 118px; line-height: 26px; font-size: 20px; min-height: 26px; margin-top: 10px; }
-form.cms ul li { color: #ff0000; margin-bottom: 5px; }
-form.cms fieldset{padding: 15px;}
+    {float: right; width: 118px; line-height: 26px; font-size: 20px; min-height: 26px; margin-top: 10px; margin-left: 4px;}
+form.cms .myform ul li { color: #ff0000; margin-bottom: 5px; }
+form.cms .myform fieldset{padding: 15px; border: 1px solid #9FAFD1}
+form.cms .myform fieldset legend {padding: 0.2em 0.5em; border:1px solid; font-size:90%; text-align:right; display: none;}
 
+form.cms .myform a.button{margin-left: 5px; color: black; text-decoration: none; background-color: #CCCCCC; padding: 4px; border:1px solid #3f3f3f;}
+
+form.cms .myform .close {margin-left: 10px;}
+
+form.endereco .myform div > label{width: 130px;}
+form.endereco .myform div ul {margin-left: 142px;}
 .hide {display: none;}
 
 /* fix checkbox */
-form.cms > .checkbox {margin-top: 20px;}
-form.cms > .cliente input[type="checkbox"]:first-child {display: none;}
-form.cms > .cliente label:first-of-type {display: none;} 
-form.cms > .checkbox fieldset {padding: 10px; margin-top: 40px;}
-form.cms > .checkbox fieldset input[type="checkbox"] {margin-top: 0.5%;}
-form.cms > .checkbox label {float: left; margin-right: 5px; font-weight: normal;text-align:left; vertical-align: auto; padding-top: 0} 
-form.cms > .checkbox input {float: left; clear: left; margin-right: 5px;}
+form.cms .myform > .checkbox {margin-top: 20px; margin-bottom: 20px;}
+form.cms .myform > .cliente input[type="checkbox"]:first-child {display: none;}
+form.cms .myform > .cliente label:first-of-type {display: none;} 
+form.cms .myform > .checkbox fieldset {padding: 10px; margin-top: 20px;}
+form.cms .myform > .checkbox ul {margin-left: 4px;}
+form.cms .myform > .checkbox fieldset input[type="checkbox"] {margin-top: 0.5%;}
+form.cms .myform > .checkbox label {width: 300px; float: left; margin-right: 5px; font-weight: normal;text-align:left; vertical-align: auto; padding-top: 0} 
+form.cms .myform > .checkbox input {float: left; clear: left; margin-right: 5px;}
 
 .title-artigo{width: 500px !important;}
 /* erros */
-form.cms ul {margin-left: 115px;}
+form.cms .myform ul {margin-left: 115px;}
 
 /* fix erros campos repitidos */
-form.cms > .repeats > ul{margin-left: 26%;}
+form.cms .myform > .repeats > ul{margin-left: 26%;}
 
 /* tniyEditor */
 .box-tiny{margin-top: 5.5%;}
@@ -140,6 +170,11 @@ form.cms > .repeats > ul{margin-left: 26%;}
 .row_selected{background-color: #9FAFD1 ! important;}
 .row_selected td{background-color: #9FAFD1 ! important;}
 
+.info_row{background-color: #D1CFD0;border: 2px solid #A19B9E; cursor: default}
+
+/* hidden id e doubleclick*/
+.id {display: none;}
+.doubleclick thead th:last-child{display: none;}
 /* menu tabela */
 
 .menuDialog {}
@@ -152,8 +187,35 @@ form.cms > .repeats > ul{margin-left: 26%;}
         -webkit-border-radius: 3px; 
         float:right; 
         background-color: #ADD8E6;
-        margin: 1px 2px;
+        margin: 2px 2px 3px 3px;
+        text-decoration: none;
+        font-weight: bold;
+        border: 1px solid;
+        border: 1px solid #3e698c;
 
+}
+
+/* informações tabela */
+.infos {font-size: 16px; padding: 10px;}
+.infos th{text-align: left; min-width: 100px;}
+.toolbar01, .toolbar02{text-align: center; margin-left: 15%; font-size: 1.1em}
+
+
+.menuDialog a:hover, .menuDialogForm a:hover{
+        background-color: #E6FF99;
+}
+
+.menuDialogForm {margin-bottom: 15px; text-align: right}
+.menuDialogForm li{
+        display: inline;
+}
+.menuDialogForm a{
+        margin: 2px;
+        background-color: #ADD8E6;
+        padding: 3px 7px;
+        font-weight: bold;
+        text-decoration: none;
+        border: 1px solid #3e698c;
 }
 
 /* Conteudo */
@@ -169,3 +231,65 @@ form.cms > .repeats > ul{margin-left: 26%;}
 /* SmartTwig */
 
 .ui-expander-content{ padding: 5px 5px !important;}
+.ui-panel-content{margin: 10px; background: #E0E2FF !important}
+
+/* DataTables */
+
+.DTTT_button{padding: 5px !important; margin-right: 10px !important;}
+.DTTT_button:hover{border: 1px solid !important;}
+.DTTT_disabled{display: none !important;}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+/* multiselect */
+.multiselect {width: 463px;height: 200px;}
+.ui-multiselect{padding: 0px !important; border: 1px solid #ADD8E6 !important; }
+.available{border-color:#ADD8E6 !important}
+.erro-multiselect ul{color: red; font-size: 16px;}
+.timepicker div{clear: none !important}
+.linhaEscala{margin-bottom: 5px; margin-top: 1px; }
+.pointer{cursor: default}
+.pointer a{text-decoration: none; color: black}
+
+/* específicos */
+
+.funcionario{width: 80.7% !important; margin-bottom: 4px;}
+#funcionario-container{margin-left: 23.7%;}
+div.innerRow{display: none; }
+.ui-panel-content{ margin: 0px !important}
+
+/*.box-table thead tr th:last-child{display: none !important;}
+.box-table tbody tr td:last-child{display: none !important;}*/
+
+/* ajax Loading */
+
+.ajaxLoader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -32px; 
+    margin-top: -32px;  
+    display: block; 
+    z-index: 99;
+}
+
+.tooltip {
+    background-color:#000;
+    border:1px solid #fff;
+    padding:10px 15px;
+    width:200px;
+    display:none;
+    color:#fff;
+    text-align:left;
+    font-size:12px;
+ 
+    /* outline radius for mozilla/firefox only */
+    -moz-box-shadow:0 0 10px #000;
+    -webkit-box-shadow:0 0 10px #000;
+}

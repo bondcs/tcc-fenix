@@ -1,30 +1,51 @@
-<div class="box-form-dialog"> 
-<form novalidate="" id="form" action="{{ path('usuarioManager', {'id' : responsavel.id})}}" method="post" class="cms ajaxForm">
+<div class="box-form-dialog">
+    {% if (father.usuario.id) %}
+        <div class="menuDialogForm">
+            <ul>
+                <li><a class="confirm-link dialog-confirm-link" 
+                       {% if (responsavel) %}
+                            href="{{ path("usuarioRemove", { 'id' : father.id})}}"
+                            {% else %}
+                            href="{{ path("usuarioRemoveFuncionario", { 'id' : father.id})}}"
+                       {% endif %}
+                       >Deletar usuário</a></li>
+            </ul>
+        </div>
+    {% endif %}
+    <form novalidate="" id="form" 
+                        {% if (responsavel) %}
+                            action="{{ path('usuarioManager', {'id' : father.id})}}" class="cms ajaxFormTable"
+                            {% else %}
+                            action="{{ path('usuarioManagerFuncionario', {'id' : father.id})}}" class="cms ajaxForm"
+                        {% endif %}
+                            method="post">
+    <div class="myform"> 
             {{ form_errors(form) }}
                 <div> 
                     {{ form_errors(form.username)}}
                     {{ form_label(form.username)}}    
-                    {{ form_widget(form.username)}}
+                    {{ form_widget(form.username,{"attr" : {"title" : "Required to proceed"}})}}
                 </div>
 
                 <!-- Campos repitidos deve ser rendenrizados
                      apenas com form_widget-->
                 <div class="repeats">
                     <div> 
-                    {{ form_widget(form.password)}}
-                    </div>
+                    {{ form_widget(form.password, {"id" : "password"})}}
+                    </div> 
                 </div>
-
-            <div class="checkbox cliente">
+                
+            <div class="checkbox">
                 <fieldset>
-                    <legend> Permissões </legend>
+                    <legend>Permissão</legend>
                         {{ form_errors(form.userRoles)}}
                         {{ form_widget(form.userRoles)}}
                 </fieldset>
             </div>
-            
-            {{ form_rest(form)}}
-
-            <input type="button" onclick="ajaxSubmit()" value="Submit"/>
+                 
+                {{ form_row(form._token) }}
+    </div>
+            <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
+            <input type="submit" value="Submit"/>
     </form>
 </div>

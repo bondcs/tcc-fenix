@@ -40,38 +40,34 @@ class Cliente
     /**
      * @var string $telefone
      *
-     * @ORM\Column(name="telefone", type="string", length=10)
+     * @ORM\Column(name="telefone", type="string", length=14)
      * @Assert\NotBlank()
-     * @FnxAssert\ApenasNumero()
      */
     private $telefone;
 
     /**
      * @var string $cnpj
      *
-     * @ORM\Column(name="cnpj", type="string", length=14, nullable=true)
+     * @ORM\Column(name="cnpj", type="string", length=18, nullable=true)
      * @Assert\NotBlank(groups="juridico")
      * @Assert\MinLength(limit=14,groups="juridico")
-     * @FnxAssert\ApenasNumero(groups="juridico")
      */
     private $cnpj;
 
     /**
      * @var string $cnpj
      *
-     * @ORM\Column(name="cpf", type="string", length=11, nullable=true)
+     * @ORM\Column(name="cpf", type="string", length=15, nullable=true)
      * @Assert\NotBlank(groups="fisico")
      * @Assert\MinLength(limit=11,groups="fisico")
-     * @FnxAssert\ApenasNumero(groups="fisico")
      */
     private $cpf;
 
     /**
      * @var string $cep
      *
-     * @ORM\Column(name="cep", type="string", length=10, nullable=true)
+     * @ORM\Column(name="cep", type="string", length=9, nullable=true)
      * @Assert\MinLength(8)
-     * @FnxAssert\ApenasNumero()
      */
     private $cep;
 
@@ -126,12 +122,17 @@ class Cliente
      *
      */
     private $responsaveis;
-
-
-
+    /**
+     * @var ArrayCollection $contratos
+     *
+     * @ORM\OneToMany(targetEntity="Contrato", mappedBy="cliente", cascade={"remove"})
+     *
+     */
+    private $contratos;
 
     public function __construct() {
         $this->responsaveis = new ArrayCollection();
+        $this->contratos = new ArrayCollection();
     }
 
 
@@ -381,5 +382,23 @@ class Cliente
 	$this->descricao = $descricao;
     }
 
+    /**
+     * Add contratos
+     *
+     * @param Fnx\AdminBundle\Entity\Contrato $contratos
+     */
+    public function addContrato(\Fnx\AdminBundle\Entity\Contrato $contratos)
+    {
+        $this->contratos[] = $contratos;
+    }
 
+    /**
+     * Get contratos
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getContratos()
+    {
+        return $this->contratos;
+    }
 }

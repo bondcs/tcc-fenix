@@ -13,5 +13,10 @@ use Fnx\AdminBundle\Entity\Cidade;
  */
 class ClienteRepository extends EntityRepository
 {
-    
+    public function loadCliente(){
+        
+        return $this->getEntityManager()
+                ->createQuery('SELECT c.nome FROM FnxAdminBundle:Cliente c')
+                ->getResult();
+    }
 }

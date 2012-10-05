@@ -1,0 +1,22 @@
+<div class="box-form-dialog">
+    <form class="cms ajax-form-upload" action="{{ path('galeriaCreate', {'id' : id})}}" method="post" style="padding:15px;"{{ form_enctype(form) }}>     
+        <div class="myform">
+            {{form_errors(form)}}
+            <div>
+                {{ form_errors(form.nome)}}
+                {{ form_label(form.nome)}}    
+                {{ form_widget(form.nome)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.files)}}
+                {{ form_label(form.files)}}    
+                {{ form_widget(form.files)}}
+            </div>
+            
+            {{form_rest(form)}}
+        </div>
+        <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
+        <input style="margin-bottom: 15px;" type="submit" value="Submit" />
+    </form>
+</div>

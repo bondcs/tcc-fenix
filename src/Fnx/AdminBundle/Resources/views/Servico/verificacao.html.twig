@@ -1,0 +1,39 @@
+<div class="tabs">
+    <ul>
+	<li><a href="#tabs-1">Informações</a></li>
+        <li><a href="#tabs-2">Propriedade</a></li>
+        <li><a href="#tabs-3">Galeria</a></li>
+        <li><a href="#tabs-4">Endereço</a></li>
+    </ul>
+    
+    <div id="tabs-1">
+      {% include "FnxAdminBundle:Atividade:informacoes.html.twig" %} 
+    </div>
+    
+    <div id="tabs-2">
+      {% include "FnxAdminBundle:Propriedade:table.html.twig" %}
+    </div>     
+        
+    <div id="tabs-3" style="padding: 0px;">
+      {% render 'FnxAdminBundle:Galeria:show' with {'id' : atividade.id} %}
+    </div>
+        
+    <div id="tabs-4">
+        <div class="box-form-ajax">
+        {% if (atividade.enderecos is empty) %}
+            {% render 'FnxAdminBundle:Endereco:new' with {'id' : atividade.id} %}    
+        {% else %}
+            {% render 'FnxAdminBundle:Endereco:edit' with {'id' : atividade.id} %}
+        {% endif%}
+        </div>
+
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $(".gallery").galleryView();
+})    
+</script>

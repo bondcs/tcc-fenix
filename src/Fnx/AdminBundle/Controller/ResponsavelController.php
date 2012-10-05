@@ -14,15 +14,17 @@ use Fnx\AdminBundle\Entity\Responsavel;
 use Fnx\AdminBundle\Entity\Usuario;
 use Fnx\AdminBundle\Form\Type\ResponsavelType;
 use Symfony\Component\HttpFoundation\Response;
+use Fnx\AdminBundle\Form\Type\UsuarioType;
 /**
  * Description of ResponsavelController
  *
  * @author bondcs
+ * @Route("/adm/cliente/responsavel/show/")
  */
 class ResponsavelController extends Controller{
     
     /**
-     * @Route("/adm/cliente/responsavel/remove/{id}", name="responsavelRemove", options={"expose" = true})
+     * @Route("remove/{id}", name="responsavelRemove", options={"expose" = true})
      * @Template()
      * @param type $id
      */
@@ -35,13 +37,14 @@ class ResponsavelController extends Controller{
         $em = $this->getDoctrine()->getEntityManager();
         $em->remove($responsavel);
         $em->flush();
-        $this->get('session')->setFlash('success','Responsável excluído.');
-        return $this->redirect($this->generateUrl("clienteShow", array('id' => $responsavel->getCliente()->getId())));
+        $response = new Response(json_encode(array()));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
 
     }
     
     /**
-     * @Route("/adm/cliente/responsavel/add/{id}", name="responsavelAdd", options={"expose" = true})
+     * @Route("add/{id}", name="responsavelAdd", options={"expose" = true})
      * @Template()
      * @param type $id
      */
@@ -60,12 +63,14 @@ class ResponsavelController extends Controller{
                $em->merge($cliente);
                $em->flush();
                
-               $this->get('session')->setFlash("success","Responsável registrado.");
-               
-               $responseSuccess = array('success' => $this->generateUrl("clienteShow", array('id' => $id)));
-               $response = new Response(json_encode($responseSuccess));
-               $response->headers->set('Content-Type', 'application/json');
-               return $response;
+                $responseSuccess = array(
+                  'dialogName' => '.simpleDialog',
+                  'message' => 'add'
+                );
+            
+                $response = new Response(json_encode($responseSuccess));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
                
             }
             
@@ -80,7 +85,7 @@ class ResponsavelController extends Controller{
     }
     
     /**
-     * @Route("/adm/cliente/responsavel/edit/{id}", name="responsavelEdit", options={"expose" = true})
+     * @Route("edit/{id}", name="responsavelEdit", options={"expose" = true})
      * @Template()
      * @param type $id
      */
@@ -96,12 +101,14 @@ class ResponsavelController extends Controller{
                $em->merge($responsavel);
                $em->flush();
                
-               $this->get('session')->setFlash("success","Responsável alterado.");
-               
-               $responseSuccess = array('success' => $this->generateUrl("clienteShow", array('id' => $responsavel->getCliente()->getId())));
-               $response = new Response(json_encode($responseSuccess));
-               $response->headers->set('Content-Type', 'application/json');
-               return $response;
+                $responseSuccess = array(
+                  'dialogName' => '.simpleDialog',
+                  'message' => 'edit'
+                );
+            
+                $response = new Response(json_encode($responseSuccess));
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
                
             }
             
@@ -116,7 +123,7 @@ class ResponsavelController extends Controller{
     }
     
     /**
-     * @Route("/adm/cliente/responsavel/usuario/{id}", name="usuarioManager", options={"expose" = true})
+     * @Route("usuario/{id}", name="usuarioManager", options={"expose" = true})
      * @Template()
      * @param type $id
      */
@@ -126,27 +133,82 @@ class ResponsavelController extends Controller{
         if (!$responsavel){
             throw $this->createNotFoundException("Responsável não encontrado.");
         }
+        
+        $flag = true;
         if (!$responsavel->getUsuario()){
             $responsavel->setUsuario(new Usuario);
+            $flag = false;
         }
         
-        $form = $this->get("fnx_admin.usuario.form");
+        $form = $this->createForm(new UsuarioType(1,3));
         $formHandler = $this->get("fnx_admin.usuario.form.handler");
-        $process = $formHandler->process($responsavel->getUsuario(), $responsavel);
+        $process = $formHandler->process($responsavel->getUsuario(), $responsavel, $form);
         
         if ($process){
-            $this->get("session")->setFlash("success","Usuário registrado.");
-            $url = $this->generateUrl("clienteShow", array("id" => $responsavel->getCliente()->getId()));
-            $response = new Response(json_encode(array("success" => $url)));
+            $message = $flag == true ? "edit" : "add";
+            
+            $responseSuccess = array(
+                  'dialogName' => '.simpleDialog',
+                  'message' => $message
+                );
+            
+            $response = new Response(json_encode($responseSuccess));
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
         
         return $this->render("FnxAdminBundle:Usuario:form.html.twig",array(
             "form" => $form->createView(),
-            "responsavel" => $responsavel,
+            "father" => $responsavel,
+            'responsavel' => true, 
         ));
         
+    }
+    
+    /**
+     * @Route("usuario/remove/{id}", name="usuarioRemove", options={"expose" = true})
+     * @Template()
+     * @param type $id
+     */
+    public function usuarioRemoveAction($id){
+        
+        $responsavel = $this->getDoctrine()->getRepository("FnxAdminBundle:Responsavel")->find($id);
+        if (!$responsavel){
+            throw $this->createNotFoundException("Responsável não encontrado.");
+        }
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $em->remove($responsavel->getUsuario());
+        $em->flush();
+        $this->get("session")->setFlash("success","Usuário excluído.");
+        return $this->redirect($this->generateUrl("clienteShow", array("id" => $responsavel->getCliente()->getId())));
+
+
+ 
+    }
+    
+    /**
+     * @Route("ajaxResponsavel/{id}", name="ajaxResponsavel", options={"expose" = true})
+     * @return 
+     */
+    public function ajaxResponsavelAction($id){
+        
+        $responsaveisObjetos = $this->getDoctrine()->getRepository("FnxAdminBundle:Responsavel")->loadResponsavel($id);
+        
+        $responsaveis['aaData'] = array();
+        foreach ($responsaveisObjetos as $key => $value) {
+           
+              $array[0] = $value->getNome();
+              $array[1] = $value->getTelefone();
+              $array[2] = $value->getUsuario() ? $value->getUsuario()->getUsername() : "";
+              $array[3] = $value->getId();
+              $responsaveis['aaData'][] = $array;
+        }
+        
+        $response = new Response(json_encode($responsaveis));
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
     }
     
     

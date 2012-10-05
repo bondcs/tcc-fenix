@@ -28,14 +28,15 @@ class UsuarioFormHandler {
         $this->em = $em;
     }
     
-    public function process(Usuario $usuario, $father){
+    public function process(Usuario $usuario, $funcli, $form){
         
-        $this->form->setData($usuario);
+        $password = $usuario->getPassword();
+        $form->setData($usuario);
 
         if ($this->request->getMethod() == "POST"){
-            $this->form->bindRequest($this->request);
-            if($this->form->isValid()){
-                $this->onSuccess($usuario, $father);
+            $form->bindRequest($this->request);
+            if($form->isValid()){
+                $this->onSuccess($usuario, $funcli, $password, $form);
                 return true;
             }
         }
@@ -44,17 +45,19 @@ class UsuarioFormHandler {
         
     }
     
-    public function onSuccess(Usuario $usuario, $father){
+    public function onSuccess(Usuario $usuario, $funcli, $password, $form){
         
-        if (!$usuario->getId()){
+        $passwordForm = $form->getData()->getPassword();
+        
+        if (!$usuario->getId() || $passwordForm != null){
             
            $usuario->setSalt(md5(time()));
-           $data = $this->form->getData();
            $encoder = new MessageDigestPasswordEncoder('sha512', true, 10);
-           $password = $encoder->encodePassword($data->getPassword(), $usuario->getSalt());
+           $password = $encoder->encodePassword($passwordForm, $usuario->getSalt());
         }
+        
+        $funcli->getUsuario()->setPassword($password);
                 
-        $father->getUsuario()->setPassword($password);
         $this->em->persist($usuario);
         $this->em->flush();
     }

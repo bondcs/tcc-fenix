@@ -27,6 +27,7 @@ class CidadeRepository extends EntityRepository
                 ->createQuery('SELECT c FROM FnxAdminBundle:Cidade c WHERE c.estado = :idestado')
                 ->setParameter("idestado", $id)
                 ->getResult();
+        
     }
     
 }

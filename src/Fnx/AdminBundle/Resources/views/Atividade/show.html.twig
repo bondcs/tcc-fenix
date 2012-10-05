@@ -1,0 +1,45 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+{% block title %} {{ atividade.nome }} {% endblock %}
+
+{% block javascripts %}
+     {{ parent() }}
+     {#<script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/gallery/js/jquery.galleryview-3.0-dev.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/gallery/js/jquery.timers-1.2.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/tools/js/TableTools.min.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/tools/js/fnReloadAjax.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/initTable.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableEscalas.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableLocais.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tablePropriedade.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/multiselect/js/ui.multiselect.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/multiselect/js/plugins/scrollTo/jquery.scrollTo-min.js') }}"></script>
+     <link href="{{ asset('bundles/fnxadmin/multiselect/css/ui.multiselect.css') }}" type="text/css" rel="stylesheet" />#}
+     
+     
+   
+    
+{% endblock %}
+
+{% block menuContent %}
+    <div id="menuContent">
+        <h3>Atividade : {{ atividade.nome }}</h3>
+        <ul>
+            <li><a class="back-link" href="{{ path('atividadeHome')}}"><span></span>Voltar</a></li>
+        </ul> 
+    </div>
+{% endblock %}
+
+{% block conteudo %}
+    {% if atividade.servico.nome == 'Segurança de Evento'%}
+        {% include 'FnxAdminBundle:Servico:segurancadeevento.html.twig' %}
+    {% endif %}
+     
+    {% if atividade.servico.nome == 'Vigilância Eletrônica'%}
+        {% include 'FnxAdminBundle:Servico:monitoramento.html.twig' %}
+    {% endif %}
+     
+    {% if atividade.servico.nome == 'Verificação de Propriedade'%}
+        {% include 'FnxAdminBundle:Servico:verificacao.html.twig' %}
+    {% endif %}
+{% endblock %}
+

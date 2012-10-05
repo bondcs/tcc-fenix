@@ -20,7 +20,23 @@ class FuncionarioType extends AbstractType{
         
         $builder
             ->add('nome')
-            ->add('telefone');
+            ->add('telefone')
+            ->add('tipo', 'entity', array(
+               'empty_value' => 'Selecione uma opção',
+               'label' => 'Tipo:*',
+               'class' => 'FnxAdminBundle:TipoFun',
+               'property' => 'nome',
+             ))
+            ->add('escalaDiariaInicio', 'time', array(
+                        'label' => 'Início:*',
+                        'input' => 'datetime',
+                        'widget' => 'choice',   
+            ))
+            ->add('escalaDiariaFinal', 'time', array(
+                        'label' => 'Fim:*',
+                        'input' => 'datetime',
+                        'widget' => 'choice', 
+            ));
     }
 
     function getName(){

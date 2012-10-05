@@ -12,10 +12,12 @@
 {% endblock %}
 
 {% block conteudo %}
-<div id="box-form">
+ <div class="ui-panel-content ui-widget-content " style="width:auto">
+      <h4 class="ui-panel-title ui-widget-header ">Cliente</h4>
+ <div id="box-form">
     
     <form novalidate="" id="form" action="{{ cliente.id ? path('clienteEdit', { 'id' : cliente.id}) : path('clienteAdd')}}" method="post" class="cms">
-            
+    <div class="myform">         
             {{ form_errors(form) }}
           
           <fieldset style="margin-bottom: 20px;"> 
@@ -35,14 +37,14 @@
                 <div> 
                     {{ form_errors(form.telefone)}}
                     {{ form_label(form.telefone)}}    
-                    {{ form_widget(form.telefone)}}
+                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone'}})}}
                 </div>
                 
                 <div id="juridico">
                     <div> 
                         {{ form_errors(form.cnpj)}}
                         {{ form_label(form.cnpj)}}    
-                        {{ form_widget(form.cnpj)}}
+                        {{ form_widget(form.cnpj, {'attr' : {'class' : 'cnpj'}})}}
                     </div>
                 </div>
                 
@@ -50,14 +52,14 @@
                     <div> 
                         {{ form_errors(form.cpf)}}
                         {{ form_label(form.cpf)}}    
-                        {{ form_widget(form.cpf)}}
+                        {{ form_widget(form.cpf, {'attr' : {'class' : 'cpf'}})}}
                     </div>
                 </div>
                 
                 <div> 
                     {{ form_errors(form.cep)}}
                     {{ form_label(form.cep)}}    
-                    {{ form_widget(form.cep)}}
+                    {{ form_widget(form.cep, {'attr' : {'class' : 'cep'}})}}
                 </div>
                 
                 <div> 
@@ -105,20 +107,21 @@
                     <div>
                         {{ form_errors(responsavel.telefone)}}
                         {{ form_label(responsavel.telefone)}}    
-                        {{ form_widget(responsavel.telefone)}}
+                        {{ form_widget(responsavel.telefone, {'attr' : {'class' : 'telefone'}})}}
                     </div>
                 
                     <div>
                         {{ form_errors(responsavel.cpf)}}
                         {{ form_label(responsavel.cpf)}}    
-                        {{ form_widget(responsavel.cpf)}}
+                        {{ form_widget(responsavel.cpf, {'attr' : {'class' : 'cpf'}})}}
                     </div>
                 {% endfor %}
             </fieldset>
             </div>
-              
+     </div>         
              {{ form_row(form._token) }} 
             <input type="submit" value="Submit"/>
     </form>
+</div>
 </div>
 {% endblock %}

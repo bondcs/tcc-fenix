@@ -1,58 +1,89 @@
 {% extends "FnxAdminBundle::layout.html.twig" %}
 {% block title %} {{ cliente.nome }} {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/tools/js/TableTools.min.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/tools/js/fnReloadAjax.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/initTable.js') }}"></script>
+     <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableResponsavel.js') }}"></script>
+
+
+{% endblock %}
+
 {% block menuContent %}
     <div id="menuContent">
         <h3>Cliente : {{ cliente.nome }}</h3>
         <ul>
             <li><a class="back-link" href="{{ path('clienteHome')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 {% endblock %}
 
 {% block conteudo %}
-     {% ui_expander expanded=false %}
-        {% ui_header label="Informações" %}
-        {% ui_content style="height:300px" %}
+<div class="tabs">
+    <ul>
+		<li><a href="#tabs-1">Informações</a></li>
+		<li><a href="#tabs-2">Responsáveis</a></li>
+    </ul>
+  <div id="tabs-1">
+  <div class="ui-panel-content ui-widget-content " style="width:auto">
+      <h4 class="ui-panel-title ui-widget-header ">Informações</h4>
+      <table class="infos">
+            <tr>
+                <th>Nome:</th>
+                <td>{{cliente.nome}}</td>
+            <tr>
+            <tr>
+                <th>Telefone:</th>
+                <td>{{cliente.telefone}}</td>
+            <tr>
 
+            {% if cliente.pessoa == "f" %}
+                <tr>
+                    <th>Cpf:</th>
+                    <td>{{cliente.cpf}}</td>
+                <tr>
+                <tr>
+                    <th>Tipo:</th>
+                    <td>Físico</td>
+                <tr>
+            {% else %}
+                <tr>
+                    <th>Cnpj:</th>
+                    <td>{{cliente.cnpj}}</td>
+                </tr>
+                <tr>
+                    <th>Tipo:</th>
+                    <td>Jurídico</td>
+                <tr>
+            {% endif %}
 
-        {% end_ui_content %}
-     {% end_ui_expander %}
-
-     {% ui_expander expanded=false %}
-        {% ui_header label="Responsáveis" %}
-        {% ui_content %}
-             <div class="box-table table-expander" style="">
-                <div class="menuDialog">
-                    <ul>
-                        <li><a route="responsavelRemove" class="delete-link confirm-link" href="#">Deletar</a></li>
-                        <li><a route="usuarioManager" class="ajax-link" href="#">Usuário</a></li>
-                        <li><a route="responsavelEdit" class="ajax-link" href="#">Editar</a></li>
-                        <li><a class="ajax-link" href="{{ path("responsavelAdd", {'id': cliente.id})}}">Adicionar</a></li>
-                    </ul>
-                </div>
-                <table id="table" class="tablePlugin">
-                    <thead>
-                        <tr>
-                            <th class="left" style="width:400px">Nome</th>
-                            <th>Telefone</th>
-                            <th style="width:200px">Login</th>
-                            <th>ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                {% for responsavel in responsaveis %}
-                        <tr{% if loop.index is even %} class="row0" {% else %} class="row1" {% endif %}>
-                            <td>{{ responsavel.nome }}  </td>
-                            <td>{{ responsavel.telefone }}</td>
-                            <td>{{ responsavel.usuario ? responsavel.usuario.username : "Não há usuário cadastrado."  }}</td>
-                            <td class="id">{{ responsavel.id }}</td>
-                        </tr>        
-                {% endfor %}
-                    </tbody>  
-                </table>
-             </div>      
-
-        {% end_ui_content %}
-     {% end_ui_expander %}
-
+            <tr>
+                <th>Cep:</th>
+                <td>{{cliente.cep}}</td>
+            <tr>
+            <tr>
+                <th>Estado:</th>
+                <td>{{ cliente.cidade ? cliente.cidade.estado.nome : ""}}</td>
+            <tr>
+            <tr>
+                <th>Cidade:</th>
+                <td>{{ cliente.cidade ? cliente.cidade.nome : ""}}</td>
+            <tr>
+            <tr>
+                <th>Bairro:</th>
+                <td>{{ cliente.bairro }}</td>
+            <tr>
+            <tr>
+                <th>Rua:</th>
+                <td>{{ cliente.rua ~ " " ~ cliente.numero }}</td>
+            <tr>
+      </table>
+  </div>
+  </div>
+  <div id="tabs-2" style="padding: 0px;">
+      {% include "FnxAdminBundle:Responsavel:table.html.twig" %}
+  </div>
+</div>
 {% endblock %}

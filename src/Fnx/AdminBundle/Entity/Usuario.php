@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="usuario")
  * @ORM\Entity(repositoryClass="Fnx\AdminBundle\Entity\UsuarioRepository")
- * 
+ * @Assert\Callback(methods={"passwordCondition"})
  * @UniqueEntity("username")
  *
  */
@@ -85,7 +85,7 @@ class Usuario implements UserInterface
      *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
      * )
      * 
-     * @Assert\Choice(choices={"getUserRoles"},groups={"register","edit"})
+     * @Assert\Type(type="object", message="The value.",groups={"register","edit"})
      * @var ArrayCollection $userRoles
      */
     protected $userRoles;
@@ -95,6 +95,17 @@ class Usuario implements UserInterface
         $this->userRoles = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+    }
+    
+    
+    public function passwordCondition(\Symfony\Component\Validator\ExecutionContext $context){
+
+        if ($this->getId() != null){
+             $context->getGraphWalker()->walkReference($this, 'edit', $context->getPropertyPath(), true);
+        }else{
+             $context->getGraphWalker()->walkReference($this, 'register', $context->getPropertyPath(), true);
+        }
+        
     }
 
     /**

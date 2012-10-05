@@ -1,0 +1,50 @@
+<div class="box-form">
+    <div class="ui-panel-content ui-widget-content " style="width:auto;">
+    <h4 class="ui-panel-title ui-widget-header ">Endereço</h4>
+    <form novalidate="" class="cms endereco ajax-form" style="padding: 15px;" action="{{ path('enderecoCreate',{'id' : id}) }}" method="post" {{ form_enctype(form) }}>
+             {{form_errors(form)}}
+        <div class="myform">
+
+            <div>
+                {{ form_errors(form.estado)}}
+                {{ form_label(form.estado)}}    
+                {{ form_widget(form.estado, {'id' : 'estado'})}}
+            </div>
+                
+            <div>
+                {{ form_errors(form.cidade)}}
+                {{ form_label(form.cidade)}}    
+                {{ form_widget(form.cidade, {'id' : 'cidade'})}}
+            </div>
+                
+            <div>
+                {{ form_errors(form.bairro)}}
+                {{ form_label(form.bairro)}}    
+                {{ form_widget(form.bairro)}}
+            </div>
+
+            <div>
+                {{ form_errors(form.rua)}}
+                {{ form_label(form.rua)}}    
+                {{ form_widget(form.rua)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.numero)}}
+                {{ form_label(form.numero)}}    
+                {{ form_widget(form.numero)}}
+            </div>
+                
+            <div>
+                {{ form_errors(form.complemento)}}
+                {{ form_label(form.complemento)}}    
+                {{ form_widget(form.complemento)}}
+            </div>
+        </div>    
+            {{ form_row(form._token) }}
+            <input style="margin-bottom: 15px;" type="submit" value="Submit"/>
+        </form>
+    </div>
+</div>
+
+
