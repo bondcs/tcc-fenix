@@ -5,6 +5,8 @@ namespace Fnx\PedidoBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Fnx\AdminBundle\Entity\Cliente;
 
 /**
  * @Route("pedidos/")
@@ -26,7 +28,7 @@ class PedidoController extends Controller
      * @Route("cadastrar/",name="PedidoCadastrar")
      * @Template()
      */
-    public function cadastrarAction()
+    public function cadastrarAction(Request $request)
     {
         $session = $this->getRequest()->getSession();
 
@@ -35,27 +37,36 @@ class PedidoController extends Controller
         if(!$pedido):
 
             $pedido = new \Fnx\PedidoBundle\Entity\Pedido();
-//	    $pedido->setCliente(new \Fnx\AdminBundle\Entity\Cliente());
+	    $pedido->setCliente(new Cliente());
             $pedido->setStatus('r');
 
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($pedido);
 
-//	    $em->flush();
-
-//	    var_dump($pedido);
-
             $session->set('pedido', $pedido);
+
+	    $pedido->setCliente(new \Fnx\AdminBundle\Entity\Cliente());
         endif;
 
-        $form = $this->createForm(new \Fnx\PedidoBundle\Form\PedidoType(), $pedido);
+        $form = $this->createFormBuilder($pedido)
+		->add('cliente', 'entity', array('class'=>'FnxAdminBundle:Cliente', 'property'=>'nome'))
+		->add('previsao','text')
+		->getForm();
 
-        if($this->getRequest()->getMethod() == "POST"){
+	$form_item = $this->createFormBuilder()
+		->add('nome', 'text')
+		->add('preco','text')
+		->add('quantidade', 'integer')
+		->add('descricao','textarea')
+		->getForm();
 
-            $request = $this->getRequest();
-            $form->bindRequest($request);
+        if($request->getMethod() == "POST"){
+	    $form->bindRequest($request);
 
             if($form->isValid()){
+		//$this->getDoctrine()->getEntityManager()->persist($form);
+
+		return $this->redirect($this->generateUrl('PedidoListar'));
             }
         }else{
             $sth = $this->getDoctrine()->getEntityManager()->createQuery("select c.nome from \Fnx\AdminBundle\Entity\Cliente c");
@@ -74,7 +85,8 @@ class PedidoController extends Controller
 		$autoComplete = array();
 	    endif;
 
-	    return $this->render("FnxPedidoBundle:Pedido:Cadastrar.html.twig",array('form' => $form,
+	    return $this->render("FnxPedidoBundle:Pedido:Cadastrar.html.twig",array('form' => $form->createView(),
+		    'form_item' => $form_item->createView(),
                     'array_clientes' => $autoComplete
 			)
 		    );
