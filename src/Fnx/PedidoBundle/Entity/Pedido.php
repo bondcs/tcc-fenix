@@ -24,7 +24,6 @@ class Pedido
     private $id;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="\Fnx\AdminBundle\Entity\Cliente")
      */
     private $cliente;
@@ -105,7 +104,7 @@ class Pedido
         return $this->cliente;
     }
 
-    public function setCliente($cliente) {
+    public function setCliente(\Fnx\AdminBundle\Entity\Cliente $cliente) {
         $this->cliente = $cliente;
     }
 
@@ -135,8 +134,11 @@ class Pedido
     public function setDataPagamento($dataPagamento) {
         $this->dataPagamento = $dataPagamento;
     }
+    public function setId($id) {
+	$this->id = $id;
+    }
 
-    /**
+        /**
      * Set previsao
      *
      * @param date $previsao
@@ -156,15 +158,15 @@ class Pedido
         return $this->previsao;
     }
 
-    public function getStatus($realy = false) {
-	if($realy)
-	    return $this->status;
-	else{
-	    switch ($this->status){
-		case "r": return "rascunho";
-		case "a": return "em aberto";
-		case 'f': return 'fechado';
-	    }
+    public function getStatus() {
+	return $this->status;
+    }
+
+    public function getStatusToStr() {
+	switch ($this->status){
+	    case "r": return "rascunho";
+	    case "a": return "em aberto";
+	    case 'f': return 'fechado';
 	}
     }
 

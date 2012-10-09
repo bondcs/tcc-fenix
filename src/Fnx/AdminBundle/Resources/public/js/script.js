@@ -26,9 +26,7 @@ $(document).ready(function() {
 
 $(document).ajaxStart(function(){
      $(".ajaxLoader").show();
-});
-
-$(document).ajaxStop(function(){
+}).ajaxStop(function(){
      $(".ajaxLoader").hide();
 
 });
@@ -446,8 +444,6 @@ function formataDinheiroTabela(valor){
     return valor.toString().replace(".",",");
 }
 
-
-
 function ajaxSubmitTable(){
 
     $(".ajaxFormTable").submit(function(){
@@ -488,21 +484,17 @@ function notifity(tipo){
             text: 'O registro foi efetuado.',
             type: 'success'
         });
-    }
-
-    if (tipo == 'edit'){
+    }else if (tipo == 'edit'){
         $.pnotify({
             title: 'Sucesso!',
             text: 'O registro  foi alterado.',
-            type: 'info'
+            type: 'success'
         });
-    }
-
-    if (tipo == 'delete'){
+    }else if (tipo == 'delete'){
         $.pnotify({
             title: 'Sucesso!',
             text: 'O registro  foi excluído.',
-            type: 'error'
+            type: 'success'
         });
     }
 

@@ -56,6 +56,10 @@ class Item
      */
     private $preco;
 
+    public function setId($id) {
+	$this->id = $id;
+    }
+
 
     /**
      * Get id
@@ -145,5 +149,10 @@ class Item
 
     public function setNome($nome) {
 	$this->nome = $nome;
+    }
+
+    public function getName()
+    {
+        return 'Item';
     }
 }

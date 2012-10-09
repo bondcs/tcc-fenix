@@ -9,6 +9,7 @@ use Fnx\AdminBundle\Entity\Responsavel;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContext;
 use Fnx\AdminBundle\Validator\Constraints as FnxAssert;
+use Fnx\PedidoBundle\Entity\Pedido;
 
 /**
  * Fnx\AdminBundle\Entity\Cliente
@@ -130,15 +131,24 @@ class Cliente
      */
     private $contratos;
 
+    /**
+     * @var ArrayCollection $contratos
+     *
+     * @ORM\OneToMany(targetEntity="\Fnx\PedidoBundle\Entity\Pedido", mappedBy="cliente", cascade={"persist"})
+     *
+     */
+    private $pedidos;
+
     public function __construct() {
         $this->responsaveis = new ArrayCollection();
         $this->contratos = new ArrayCollection();
+	$this->pedidos = new ArrayCollection();
     }
 
 
     public function validaPessoa(ExecutionContext $ec){
 
-        if ($this->getPessoa() == 'j') {
+        if ($this->ehJuridica()) {
           $ec->getGraphWalker()->walkReference($this, 'juridico', $ec->getPropertyPath(), true);
         }else{
           $ec->getGraphWalker()->walkReference($this, 'fisico', $ec->getPropertyPath(), true);
@@ -152,6 +162,18 @@ class Cliente
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id) {
+	$this->id = $id;
+    }
+
+    public function setResponsaveis(ArrayCollection $responsaveis) {
+	$this->responsaveis = $responsaveis;
+    }
+
+    public function setContratos(ArrayCollection $contratos) {
+	$this->contratos = $contratos;
     }
 
     /**
@@ -339,8 +361,7 @@ class Cliente
      *
      * @param string $cpf
      */
-    public function setCpf($cpf)
-    {
+    public function setCpf($cpf){
         $this->cpf = $cpf;
     }
 
@@ -349,8 +370,7 @@ class Cliente
      *
      * @return string
      */
-    public function getCpf()
-    {
+    public function getCpf(){
         return $this->cpf;
     }
 
@@ -359,8 +379,7 @@ class Cliente
      *
      * @param string $pessoa
      */
-    public function setPessoa($pessoa)
-    {
+    public function setPessoa($pessoa){
         $this->pessoa = $pessoa;
     }
 
@@ -369,8 +388,7 @@ class Cliente
      *
      * @return boolean
      */
-    public function getPessoa()
-    {
+    public function getPessoa(){
         return $this->pessoa;
     }
 
@@ -387,8 +405,7 @@ class Cliente
      *
      * @param Fnx\AdminBundle\Entity\Contrato $contratos
      */
-    public function addContrato(\Fnx\AdminBundle\Entity\Contrato $contratos)
-    {
+    public function addContrato(\Fnx\AdminBundle\Entity\Contrato $contratos){
         $this->contratos[] = $contratos;
     }
 
@@ -397,8 +414,19 @@ class Cliente
      *
      * @return Doctrine\Common\Collections\Collection
      */
-    public function getContratos()
-    {
+    public function getContratos(){
         return $this->contratos;
+    }
+
+    public function getPedidos() {
+	return $this->pedidos;
+    }
+
+    public function setPedidos(ArrayCollection $pedidos) {
+	$this->pedidos = $pedidos;
+    }
+
+    public function ehJuridica(){
+	return $this->getPessoa() == 'j';
     }
 }

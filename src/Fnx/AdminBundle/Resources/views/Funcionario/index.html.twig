@@ -6,7 +6,7 @@
     <div id="menuContent">
         <h3>Gerenciamento: Lista de Funcionários</h3>
         <ul>
-            <li><a class="new-link" href="{{ path('funcionarioAdd')}}"><span ></span>Novo</a></li>
+            <li><a class="new-link" href="{{ path('funcionarioAdd')}}"><span></span>Novo</a></li>
             <li><a route="funcionarioShow" class="show-link" href="#"><span></span>Profile</a></li>
             <li><a route="funcionarioEdit" class="edit-link" href="#"><span></span>Editar</a></li>
             <li><a route="funcionarioRemove" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
@@ -26,7 +26,7 @@
 {% block conteudo %}
 
     <div class="box-table">
-        <table id="table" class="doubleclick">
+        <table id="table" class="doubleclick tablePlugin">
             <thead>
                 <tr>
                     <th class="left">Nome</th>
@@ -38,10 +38,10 @@
             <tbody>
         {% for funcionario in funcionarios %}
                 <tr{% if loop.index is even %} class="row0" {% else %} class="row1" {% endif %}>
-                    <td><a class="link-name" href="{{ path('funcionarioEdit', {'id': funcionario.id} )}}">{{ funcionario.nome }}</a></td>
-                    <td>{{ funcionario.tipo.nome }} </td>
-                    <td>{{ funcionario.telefone }}</td>
-                    <td class="id">{{ funcionario.id}}</td>
+                    <td><a class="link-name" href="{{ path('funcionarioEdit', {'id': funcionario.id} )}}">{{ funcionario.nome|default("") }}</a></td>
+                    <td>{{ funcionario.tipo.nome|default("") }} </td>
+                    <td>{{ funcionario.telefone|default("") }}</td>
+                    <td class="id">{{ funcionario.id|default("")}}</td>
                 </tr>
         {% endfor %}
             </tbody>

@@ -90,6 +90,16 @@
 	minLength: 2
     });
 
+    $('#form_new_item').submit(function(){
+
+	$('#modal_new_item').dialog('close');
+
+	$(this).ajaxSubmit({ success: addItem });
+
+	limpaDadosItem();
+
+	return false;
+    });
 
     // variavel que guarda um status da verificação do cliente
     // 1 = OK , 0 = não verificado ou não existe, -1 = erro na verificação
@@ -115,25 +125,7 @@
     });
 
     $("#frm_cli_nome").keydown(function(){
-	userRegistered = -1;
-    });
-
-    $('#form_item_submit').click(function(){
-	cadastraItem($('#form_new_item'), $('#tableItens'))
-	$('#modal_new_item').dialog('close');
-
-	$('#form_item_nome').val('');
-	$('#form_item_preco').val('');
-	$('#form_item_qtd').val('');
-	$('#label_total_item').text('');
-	$('#form_item_desc').val('');
-    });
-
-    $('form.ajax_form_append').submit(function(e){
-
-
-
-	e.preventDefault();
+	userRegistered = 0;
     });
 
 function limpaDadosCliente(){
@@ -209,29 +201,18 @@ function addItem(table,item){
     ]);
 }
 
-$('form.ajax_form_append').submit(event,function(form){
-
-    $.ajax({
-        type: $(this).attr('method'),
-        url: $(this).attr('action'),
-        data: $(this).serialize(),
-        dataType: "JSON",
-        success: function(item){
-	    $table = $($(this).attr('data-append_in'));
-
-	    $($table).attr('data-callback_append')($($table),item);
-
-	    calculaTotal($($table),$($table).attr('data-col_totalizer'),$($($table).attr('data-field_result')));
-        }
-    })
-
-    e.preventDefault();
-});
+function limpaDadosItem(){
+    $('#form_item_nome').val('');
+    $('#form_item_preco').val('');
+    $('#form_item_qtd').val('');
+    $('#label_total_item').text('');
+    $('#form_item_desc').val('');
+}
 
 function calculaTotal(table,col,fieldResult){
     var total = 0.0;
     $(table).find("tbody tr").each(function(){
-	$col = $(this).find("td").eq(col)
+	$col = $(this).find("td:eq("+col+")");
 	if($(col).hasClass('moeda'))
 	    total += desformataDinheiro($($col).text());
 	else
@@ -270,11 +251,7 @@ $(document).ready(function(){
 	    <thead>
 		<tr>
 		    <td>{{ form_label(form.cliente) }}: {{ form_errors(form.cliente) }}</td>
-		    <td>{{ form_widget(form.cliente) }}</td>
-		</tr>
-		<tr>
-		    <td><label for="frm_id_cliente_nome">Cliente: </label></td>
-		    <td><input id="frm_cli_nome"><br/></td>
+		    <td>{{ form_widget(form.cliente, {'attr' : {'class' : 'teste'} } ) }}</td>
 		</tr>
 	    </thead>
 	    <tbody  id="is_registered" class="hidden">
@@ -294,9 +271,7 @@ $(document).ready(function(){
 	</table>
     </fieldset>
     {{ form_label(form.previsao) }}
-    <label for="frm_ped_id_previsao">Previsão de entrega</label>
     {{ form_widget(form.previsao) }}
-    <input type="text" id="frm_ped_id_previsao" name="data">
 
     <hr style="margin: 15px;">
 
@@ -331,7 +306,7 @@ $(document).ready(function(){
 </div>
 
 <div id="modal_new_item" class="simple_dialog" title="Adicionar Item" style="width: 500px; height: 400px;">
-    <form id="form_new_item" class="ajax_form_append" action="{{ path('PedidoAdicionaItem') }}" method="POST">
+    <form id="form_new_item" class="ajax_form" action="{{ path('PedidoAdicionaItem') }}" method="POST">
 	<label for="form_item_nome">Item: </label>
 	<input id="form_item_nome" name="nome"><br class="clear">
 

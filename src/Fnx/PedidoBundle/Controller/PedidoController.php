@@ -35,30 +35,18 @@ class PedidoController extends Controller
         $pedido = $session->get('pedido', null);
 
         if(!$pedido):
-
             $pedido = new \Fnx\PedidoBundle\Entity\Pedido();
-	    $pedido->setCliente(new Cliente());
             $pedido->setStatus('r');
 
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($pedido);
 
             $session->set('pedido', $pedido);
+	endif;
 
-	    $pedido->setCliente(new \Fnx\AdminBundle\Entity\Cliente());
-        endif;
+	$form = $this->createForm(new \Fnx\PedidoBundle\Form\PedidoType(), $pedido);
 
-        $form = $this->createFormBuilder($pedido)
-		->add('cliente', 'entity', array('class'=>'FnxAdminBundle:Cliente', 'property'=>'nome'))
-		->add('previsao','text')
-		->getForm();
-
-	$form_item = $this->createFormBuilder()
-		->add('nome', 'text')
-		->add('preco','text')
-		->add('quantidade', 'integer')
-		->add('descricao','textarea')
-		->getForm();
+	$form_item = $this->createForm(new \Fnx\PedidoBundle\Form\ItemType(), new \Fnx\PedidoBundle\Entity\Item());
 
         if($request->getMethod() == "POST"){
 	    $form->bindRequest($request);
@@ -85,7 +73,8 @@ class PedidoController extends Controller
 		$autoComplete = array();
 	    endif;
 
-	    return $this->render("FnxPedidoBundle:Pedido:Cadastrar.html.twig",array('form' => $form->createView(),
+	    return $this->render("FnxPedidoBundle:Pedido:Cadastrar.html.twig",array(
+		    'form' => $form->createView(),
 		    'form_item' => $form_item->createView(),
                     'array_clientes' => $autoComplete
 			)
@@ -94,7 +83,7 @@ class PedidoController extends Controller
     }
 
     /**
-     * @Route("editar/{id}",name="PedidoEditar", options={ "expose" = true})
+     * @Route("editar/{id}",name="PedidoEditar")
      * @Template()
      */
      public function editarAction($id){
@@ -147,8 +136,8 @@ class PedidoController extends Controller
 	 $obj['nome'] = $cliente->getNome();
 	 $obj['tel']  = $cliente->getTelefone();
 	 $obj['desc'] = $cliente->getDescricao();
-	 $obj['tipo'] = ($cliente->getPessoa() == 'j')? 'CNPJ: ': 'CPF: ' ;
-	 $obj['disc'] = ($cliente->getPessoa() == 'j')? $cliente->getCnpj() : $cliente->getCpf();
+	 $obj['tipo'] = ($cliente->ehJuridica())? 'CNPJ: ': 'CPF: ' ;
+	 $obj['disc'] = ($cliente->ehJuridica())? $cliente->getCnpj() : $cliente->getCpf();
 
 
 	 $response = new \Symfony\Component\HttpFoundation\Response(json_encode($obj));
@@ -158,7 +147,7 @@ class PedidoController extends Controller
      }
 
      /**
-      * @Route("addItem",name="PedidoAdicionaItem", options={ "expose" = true})
+      * @Route("addItem",name="PedidoAdicionaItem")
       */
      public function adicionaItemAction(){
 
