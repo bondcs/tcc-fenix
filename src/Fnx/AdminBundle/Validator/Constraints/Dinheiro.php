@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class Dinheiro extends Constraint {
     
-    public $message = "Formato inválido - 1000,10";
+    public $message = "Formato inválido";
 }
 
 ?>

@@ -1,12 +1,13 @@
+{% include "FnxAdminBundle:Atividade:informacoes.html.twig" %} 
 <div class="tabs">
     <ul>
-	<li><a href="#tabs-1">Informações</a></li>
         <li><a href="#tabs-2">Escalas</a></li>
-        <li><a href="#tabs-3">Endereço</a></li>
+        <li><a href="#tabs-3">Pagamento</a></li>
+        <li><a href="#tabs-4">Endereço</a></li>
     </ul>
     
     <div id="tabs-1">
-      {% include "FnxAdminBundle:Atividade:informacoes.html.twig" %} 
+      
     </div>
     
     <div id="tabs-2" style="padding: 0px;">
@@ -41,15 +42,25 @@
         </script>
 
     </div>
-        
+    
     <div id="tabs-3">
+       <div class="box-form-ajax">
+        {% if (atividade.registro == null) %}
+            {% render 'FnxFinanceiroBundle:Pagamento:new' with {'id' : atividade.id} %}    
+        {% else %}
+            {% render 'FnxFinanceiroBundle:Pagamento:edit' with {'id' : atividade.id} %}
+        {% endif%}
+        </div> 
+    </div>
+        
+    <div id="tabs-4">
         <div class="box-form-ajax">
         {% if (atividade.enderecos is empty) %}
             {% render 'FnxAdminBundle:Endereco:new' with {'id' : atividade.id} %}    
         {% else %}
             {% render 'FnxAdminBundle:Endereco:edit' with {'id' : atividade.id} %}
         {% endif%}
-        <div>
+        </div>
 
     </div>
 

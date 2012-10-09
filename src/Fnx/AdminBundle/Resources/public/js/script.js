@@ -21,7 +21,11 @@ $(document).ready(function() {
         moeda();
         initTimePicker();
         tooltip();
-        masks()
+        masks();
+        onSubmitFormPagamento();
+        translateHtml5Validation();
+        sempreZero();
+        
 } );
 
 $(document).ajaxStart(function(){
@@ -49,7 +53,10 @@ function onReadyAjax(){
         ajaxUpload();
         moeda();
         tooltip();
-        masks()
+        masks();
+        onSubmitFormPagamento();
+        translateHtml5Validation();
+        sempreZero();
 
 
 }
@@ -344,27 +351,30 @@ function efeitoErro(){
 function initDatepicker() {
 
     $.datepicker.regional['pt-BR'] = {
-	closeText: 'Fechar',
-	prevText: '&#x3c;Anterior',
-	nextText: 'Pr&oacute;ximo&#x3e;',
-	currentText: 'Hoje',
-	monthNames: ['Janeiro','Fevereiro','Mar&ccedil;o','Abril','Maio','Junho',
-	'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-	monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
-	'Jul','Ago','Set','Out','Nov','Dez'],
-	dayNames: ['Domingo','Segunda-feira','Ter&ccedil;a-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sabado'],
-	dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
-	dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
-	weekHeader: 'Sm',
-	dateFormat: 'dd/mm/yy',
-	defaultDate: '00/00/00',
-	firstDay: 0,
-	isRTL: false,
-	showMonthAfterYear: false,
-	yearSuffix: ''
-    };
-
-
+		closeText: 'Fechar',
+		prevText: '&#x3c;Anterior',
+		nextText: 'Pr&oacute;ximo&#x3e;',
+		currentText: 'Hoje',
+		monthNames: ['Janeiro','Fevereiro','Mar&ccedil;o','Abril','Maio','Junho',
+		'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+		monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
+		'Jul','Ago','Set','Out','Nov','Dez'],
+		dayNames: ['Domingo','Segunda-feira','Ter&ccedil;a-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sabado'],
+		dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+		dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+		weekHeader: 'Sm',
+		dateFormat: 'dd/mm/yy',
+                defaultDate: '00/00/00',
+		firstDay: 0,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: '',
+                showOn: "button",
+		buttonImage: imageUrl+"calendar.gif",
+		buttonImageOnly: true
+            
+      };
+                
     $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
 
 //    $('#datepicker')
@@ -401,6 +411,8 @@ function initDatepicker() {
 
     $('.datepicker input').datetimepicker();
     $('.datepicker input').blur();
+    $('.picker input').datepicker();
+    $('.picker input').blur();
     return false;
 
 }
@@ -431,7 +443,9 @@ function ajaxDelete(url){
             type: 'POST',
             url: url,
             success: function(){
-                $('.redraw').dataTable().fnReloadAjax();
+                $('.redraw').each(function(){
+                         $(this).dataTable().fnReloadAjax();
+                });
                 $(".hidden").addClass("DTTT_disabled");
                 notifity("delete");
                 return false;
@@ -454,6 +468,9 @@ function ajaxSubmitTable(){
                     success: function(result){
 
                         if (result['dialogName']){
+                           $('.redraw').each(function(){
+                               $(this).dataTable().fnReloadAjax();
+                           });
                            $('.redraw').dataTable().fnReloadAjax();
                            notifity(result['message']);
                            $(result['dialogName']).dialog('close');
@@ -551,8 +568,33 @@ function onSubmitForm(){
 
         return false;
     }
-
-
+    
+function onSubmitFormPagamento(){
+        
+        $(".ajax-form-pagamento").submit(function(){
+                    var url = $('.ajax-form-pagamento').attr("action");
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: $('.ajax-form-pagamento').serialize(),
+                        success: function(result){
+                            if (result['url']){
+                                 window.location.href = result['url'];
+                                 notifity(result['notifity']);
+                                 return false;
+                            }
+                            
+                            $(".box-form-pagamento").html(result);
+                            onReadyAjax();
+                        }
+                    })
+                    
+                    return false;
+        })
+        
+        return false;
+    }
+    
 function onLoadingAjax(){
 
         $(".ajaxLoader").hide();
@@ -602,6 +644,13 @@ function moeda(){
 	     $(this).val(formataDinheiro(moeda.val()));
 	 }
     });
+    
+    var moedaTable = $('.moedaTable');
+        moedaTable.each(function(){
+            if($(this).html()){
+                $(this).html(formataDinheiro($(this).html()));
+            }
+        })
 }
 
 function number_format (number, decimals, dec_point, thousands_sep) {
@@ -658,3 +707,31 @@ function masks(){
     $(".cep").mask("99999-999")
     return false;
 }
+
+function translateHtml5Validation(){
+    
+    var elements = document.getElementsByTagName("INPUT");
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].oninvalid = function(e) {
+            e.target.setCustomValidity("");
+            if (!e.target.validity.valid) {
+                e.target.setCustomValidity("Este valor não deve ser vazio");
+            }
+        };
+        elements[i].oninput = function(e) {
+            e.target.setCustomValidity("");
+        };
+    }
+
+}
+
+function sempreZero(){
+    
+    $('.zero').focusout(function(){
+        if ($(this).val() == ""){
+        $(this).val(0)
+        }
+    })
+    
+}
+

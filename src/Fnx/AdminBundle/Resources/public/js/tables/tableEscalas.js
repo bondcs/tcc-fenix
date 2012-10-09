@@ -3,8 +3,7 @@ $(document).ready(function() {
 })
 
 function onTableAjaxEscala(){
-        
-        var imageUrl = '/tcc-fenix/web/bundles/fnxadmin/images/';
+
         oTableEscala = $('.tableEscalas').dataTable({
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
@@ -52,7 +51,7 @@ function onTableAjaxEscala(){
                 }
                 
                 var nCells = nRow.getElementsByTagName('th');
-		nCells[1].innerHTML = formataDinheiroTabela(total);
+		nCells[1].innerHTML = formataDinheiro(total+"");
             },
             "sDom": '<"H"Tfr>t<"F"ip>',
                 "oTableTools": {

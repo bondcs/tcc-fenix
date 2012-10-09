@@ -1,13 +1,10 @@
+{% include "FnxAdminBundle:Atividade:informacoes.html.twig" %} 
 <div class="tabs">
     <ul>
-	<li><a href="#tabs-1">Informações</a></li>
         <li><a href="#tabs-2">Locais</a></li>
+        <li><a href="#tabs-3">Pagamento</a></li>
     </ul>
-    
-    <div id="tabs-1">
-      {% include "FnxAdminBundle:Atividade:informacoes.html.twig" %} 
-    </div>
-    
+        
     <div id="tabs-2" style="padding: 0px;">
         <div class="box-table" style="margin: 10px 0px 10px 0px">
                 <table class="tableLocais redraw">
@@ -30,6 +27,17 @@
                      </tfoot>
                </table>
         </div>
+     </div>
+        
+     <div id="tabs-3">
+            <div class="box-form-ajax">
+            {% if (atividade.registro == null) %}
+                {% render 'FnxFinanceiroBundle:Pagamento:new' with {'id' : atividade.id} %}    
+            {% else %}
+                {% render 'FnxFinanceiroBundle:Pagamento:edit' with {'id' : atividade.id} %}
+            {% endif%}
+            </div> 
+     </div>
 
         <script type="text/javascript">
             var urlSource = Routing.generate("ajaxLocal", {"id": "{{atividade.id}}"});
@@ -37,6 +45,4 @@
             var routeEdit = "localEdit";
             var routeDelete = "localDelete";
         </script>
-
-    </div>
 </div>

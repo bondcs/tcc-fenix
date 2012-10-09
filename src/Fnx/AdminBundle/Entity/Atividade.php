@@ -8,6 +8,7 @@ use Fnx\AdminBundle\Entity\Servico;
 use Fnx\AdminBundle\Entity\Galeria;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Fnx\FinanceiroBundle\Entity\Registro;
 
 /**
  * Fnx\AdminBundle\Entity\Atividade
@@ -127,6 +128,14 @@ class Atividade
      * @var ArrayCollection $propriedades
      */
     private $propriedades;
+    
+    /**
+     *
+     * @var object $registro
+     * @ORM\OneToOne(targetEntity="Fnx\FinanceiroBundle\Entity\Registro", cascade={"all"})
+     * @ORM\JoinColumn(name="registro_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $registro;
     
    
     public function __construct() {
@@ -448,5 +457,25 @@ class Atividade
     public function getPropriedades()
     {
         return $this->propriedades;
+    }
+
+    /**
+     * Set registro
+     *
+     * @param Fnx\FinanceiroBundle\Entity\Registro; $registro
+     */
+    public function setRegistro(\Fnx\FinanceiroBundle\Entity\Registro $registro)
+    {
+        $this->registro = $registro;
+    }
+
+    /**
+     * Get registro
+     *
+     * @return Fnx\FinanceiroBundle\Entity\Registro; 
+     */
+    public function getRegistro()
+    {
+        return $this->registro;
     }
 }

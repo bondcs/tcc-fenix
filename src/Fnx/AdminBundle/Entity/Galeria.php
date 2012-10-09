@@ -5,6 +5,7 @@ namespace Fnx\AdminBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Fnx\AdminBundle\Entity\Imagem;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Fnx\AdminBundle\Entity\Galeria
@@ -27,6 +28,7 @@ class Galeria
      * @var string $nome
      *
      * @ORM\Column(name="nome", type="string", length=45)
+     * 
      */
     private $nome;
 
@@ -73,11 +75,12 @@ class Galeria
         }
 
         for ($i=0; $i < count($this->files); $i++ ){
+            $randomNumber = sha1(uniqid(mt_rand(), true));
             
             $file = $this->files[$i];
             $imagem = $this->getImagens()->get($j);
-            $file->move($imagem->getUploadRootDir(), $this->nome.".".$j.".".$file->getClientOriginalName());
-            $imagem->setCaminho($this->nome.".".$j.".".$file->getClientOriginalName());
+            $file->move($imagem->getUploadRootDir(), $randomNumber.".".$this->nome.".".$j.".".$file->getClientOriginalName());
+            $imagem->setCaminho($randomNumber.".".$this->nome.".".$j.".".$file->getClientOriginalName());
             $imagem->setGaleria($this);
             $j++;
         }

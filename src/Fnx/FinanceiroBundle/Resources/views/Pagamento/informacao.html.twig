@@ -1,0 +1,17 @@
+<div class="ui-panel-content ui-widget-content " style="width:auto">
+    <h4 class="ui-panel-title ui-widget-header">Registro</h4>
+    <table class="infos">
+                <tr>
+                    <th>Data:</th>
+                    <td>{{atividade.registro.data|date('d/m/Y H:m:i')}}</td>
+                </tr>
+                <tr>
+                    <th>Descrição:</th>
+                    <td>{{atividade.registro.descricao}}</td>
+                </tr>
+                {#<tr>
+                    <th>Total:</th>
+                    <td class="moedaTable">{{atividade.registro.getValorTotal}}</td>
+                </tr>#}
+    </table>
+</div>

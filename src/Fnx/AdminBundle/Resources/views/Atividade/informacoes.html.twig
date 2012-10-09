@@ -1,6 +1,5 @@
-
-<div class="ui-panel-content ui-widget-content " style="width:auto">
-    <h4 class="ui-panel-title ui-widget-header ">Informações</h4>
+<div class="ui-panel-content ui-widget-content " style="width:auto; margin-bottom:1% !important;">
+    <h4 class="ui-panel-title ui-widget-header">Atividade</h4>
     <table class="infos">
                 <tr>
                     <th>Cliente:</th>
@@ -11,6 +10,15 @@
                     <td>{{atividade.nome}}</td>
                 </tr>
                 <tr>
+                    <th>Serviço:</th>
+                    <td>{{atividade.servico.nome}}</td>
+                </tr>
+    </table>
+</div>
+
+<div class="ui-panel-content ui-widget-content " style="width:auto; margin-bottom:1% !important;">
+    <h4 class="ui-panel-title ui-widget-header">Sistema</h4>
+    <table class="infos">
                     <th>Criado:</th>
                     <td>{{atividade.created|date("d/m/Y h:m:i")}}</td>
                 </tr>
@@ -20,7 +28,8 @@
                 </tr>
                 <tr>
                     <th>Status:</th>
-                    <td><img width="20" height="20" title="ativo" src="{{ atividade.arquivado ? asset('bundles/fnxadmin/images/Denided.png') : asset('bundles/fnxadmin/images/Valid.png')  }}"/></td>
+                    <td>{{ atividade.arquivado ? 'Arquivado': "Ativo" }}</td>
+                    {#<td><img width="20" height="20" title="ativo" src="{{ atividade.arquivado ? asset('bundles/fnxadmin/images/Denided.png') : asset('bundles/fnxadmin/images/Valid.png')  }}"/></td>#}
                 </tr> 
-</table>
+    </table>
 </div>
