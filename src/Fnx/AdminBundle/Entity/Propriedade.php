@@ -9,7 +9,7 @@ use Fnx\AdminBundle\Validator\Constraints as FnxAssert;
 /**
  * Fnx\AdminBundle\Entity\Propriedade
  *
- * @ORM\Table()
+ * @ORM\Table(name="propriedade")
  * @ORM\Entity(repositoryClass="Fnx\AdminBundle\Entity\PropriedadeRepository")
  */
 class Propriedade

@@ -47,15 +47,16 @@ li{list-style: none;}
 
 /* menu inicial */
 #all-menu {margin: 20px;}
-#all-menu a {text-decoration: none; color: #025A8D}
-.box-menu{ height: 100px; width: 130px; background-color: #ffffff; border: 1px solid #cccccc; padding-top: 10px;}
+#all-menu a {text-decoration: none; color: #025A8D; margin-right: 15px;}
+.box-menu{ display: inline-block; height: 100px; width: 130px; background-color: #ffffff; border: 1px solid #cccccc; padding-top: 10px;}
+.box-menu:hover{border-color: black}
 .img {text-align: center;}
 .label{text-align: center;}
 
 
 
 /* menu conteudo */
-#menuContent{padding: 5px 5px 10px 5px; background-color: #F4F4F4; margin: 8px; min-height: 80px; border: 1px solid #CCCCCC; border-radius: 10px}
+#menuContent{padding: 5px 5px 10px 13px; background-color: #F4F4F4; margin: 8px; min-height: 80px; border: 1px solid #CCCCCC; border-radius: 10px}
 #menuContent > h3, h2 {display: inline; vertical-align: middle; }
 #menuContent > ul {list-style: none; float:right}
 #menuContent > ul > li {text-align: center; display: block; float:left; width: 48px; height: 60px; padding: 10px}
@@ -81,8 +82,9 @@ li{list-style: none;}
 .unarquive-link > span {background-image: url("../images/arquivar-ico.png");}
 
 
+
 /* subMenu */
-#subMenu{font-size: 0.95em; padding: 5px 0px 5px 5px; background-color: #F4F4F4; margin: 8px; min-height: 20px; border: 1px solid #CCCCCC; border-radius: 6px}
+#subMenu{font-size: 0.95em; padding: 5px 0px 5px 10px; background-color: #F4F4F4; margin: 8px; min-height: 20px; border: 1px solid #CCCCCC; border-radius: 6px}
 #subMenu a {}
 #subMenu li {display: inline; border-right: 1px solid; padding-right: 10px; padding-left: 5px;}
 
@@ -115,7 +117,7 @@ form.cms .myform ul li { color: #ff0000; margin-bottom: 5px; }
 form.cms .myform fieldset{padding: 15px; border: 1px solid #9FAFD1}
 form.cms .myform fieldset legend {padding: 0.2em 0.5em; border:1px solid; font-size:90%; text-align:right; display: none;}
 
-form.cms .myform a.button{margin-left: 5px; color: black; text-decoration: none; background-color: #CCCCCC; padding: 4px; border:1px solid #3f3f3f;}
+form.cms .myform a.button{margin-left: 5px; color: black; text-decoration: none; background-color: #ADD8E6; padding: 3.5px; border:1px solid #3399ff;}
 
 form.cms .myform .close {margin-left: 10px;}
 
@@ -198,6 +200,7 @@ form.cms .myform > .repeats > ul{margin-left: 26%;}
 /* informações tabela */
 .infos {font-size: 16px; padding: 10px;}
 .infos th{text-align: left; min-width: 100px;}
+.infos th,td {padding: 5px;}
 .toolbar01, .toolbar02{text-align: center; margin-left: 15%; font-size: 1.1em}
 
 
@@ -254,8 +257,7 @@ form.cms .myform > .repeats > ul{margin-left: 26%;}
 .erro-multiselect ul{color: red; font-size: 16px;}
 .timepicker div{clear: none !important}
 .linhaEscala{margin-bottom: 5px; margin-top: 1px; }
-.pointer{cursor: default}
-.pointer a{text-decoration: none; color: black}
+
 
 /* específicos */
 
@@ -263,6 +265,11 @@ form.cms .myform > .repeats > ul{margin-left: 26%;}
 #funcionario-container{margin-left: 23.7%;}
 div.innerRow{display: none; }
 .ui-panel-content{ margin: 0px !important}
+.pointer{cursor: default}
+.pointer a{text-decoration: none; color: black}
+.empty-title{height: 17px;}
+.riscado{text-decoration: line-through;}
+.verde{background-color: #99ff99 !important}
 
 /*.box-table thead tr th:last-child{display: none !important;}
 .box-table tbody tr td:last-child{display: none !important;}*/

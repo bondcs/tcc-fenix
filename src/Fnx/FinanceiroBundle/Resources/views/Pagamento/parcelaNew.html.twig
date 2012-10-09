@@ -1,0 +1,29 @@
+<div class="box-form-dialog">
+    <form novalidate="" id="form" action="{{path('parcelaCreate', {'id' : id})}}" method="post" class="cms ajaxFormTable">
+        <div class="myform">         
+                    {{ form_errors(form) }}
+                    <div class="picker">
+                        {{ form_errors(form.parcela.dt_vencimento)}}
+                        {{ form_label(form.parcela.dt_vencimento)}}    
+                        {{ form_widget(form.parcela.dt_vencimento)}}
+                    </div>
+                
+                    <div>
+                        {{ form_errors(form.valor)}}
+                        {{ form_label(form.valor)}}    
+                        {{ form_widget(form.valor, {'attr' : { 'style' : 'width:30%'}})}}
+                    </div>
+            
+                    <div>
+                        {{ form_errors(form.formaPagamento)}}
+                        {{ form_label(form.formaPagamento)}}    
+                        {{ form_widget(form.formaPagamento)}}
+                    </div>
+           
+        </div>                   
+             {{ form_row(form._token) }} 
+        <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
+        <input type="submit" value="Submit"/>
+    </form>
+</div>
+

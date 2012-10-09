@@ -85,7 +85,8 @@ class GaleriaController extends Controller {
             
         }
         
-        return array("form" => $formView);
+        return array("form" => $formView,
+                      "id" => $id);
     }
     
     /**

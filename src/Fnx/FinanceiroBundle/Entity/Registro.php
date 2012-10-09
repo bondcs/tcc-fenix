@@ -1,0 +1,165 @@
+<?php
+
+namespace Fnx\FinanceiroBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Fnx\FinanceiroBundle\Entity\Registro
+ *
+ * @ORM\Table(name="registro")
+ * @ORM\Entity
+ */
+class Registro
+{
+    /**
+     * @var integer $id
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var datetime $data
+     *
+     * @ORM\Column(name="data", type="datetime")
+     */
+    private $data;
+
+    /**
+     * @var string $descricao
+     *
+     * @ORM\Column(name="descricao", type="string", length=255)
+     */
+    private $descricao;
+    
+    /**
+     *
+     * @var object $conta
+     * @ORM\ManyToOne(targetEntity="Conta", inversedBy="registros", cascade={"persist"}, fetch="LAZY")
+     * @Assert\NotBlank()
+     */
+    private $conta;
+    
+    /**
+     * @var array collection $parcelas
+     * @ORM\OneToMany(targetEntity="Parcela", mappedBy="registro", cascade={"all"}, orphanRemoval=true)
+     */
+    private $parcelas;
+    
+    public function __construct() {
+        $this->parcelas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->data = new \DateTime();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set data
+     *
+     * @param datetime $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * Get data
+     *
+     * @return datetime 
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * Set descricao
+     *
+     * @param string $descricao
+     */
+    public function setDescricao($descricao)
+    {
+        $this->descricao = $descricao;
+    }
+
+    /**
+     * Get descricao
+     *
+     * @return string 
+     */
+    public function getDescricao()
+    {
+        return $this->descricao;
+    }
+
+    /**
+     * Set conta
+     *
+     * @param Fnx\FinanceiroBundle\Entity\Instancia $conta
+     */
+    public function setConta(\Fnx\FinanceiroBundle\Entity\Conta $conta)
+    {
+        $this->conta = $conta;
+    }
+
+    /**
+     * Get conta
+     *
+     * @return Fnx\FinanceiroBundle\Entity\Instancia 
+     */
+    public function getConta()
+    {
+        return $this->conta;
+    }
+
+    /**
+     * Add parcelas
+     *
+     * @param Fnx\FinanceiroBundle\Entity\Parcela $parcelas
+     */
+    public function addParcela(\Fnx\FinanceiroBundle\Entity\Parcela $parcelas)
+    {
+        $this->parcelas[] = $parcelas;
+    }
+
+    /**
+     * Get parcelas
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getParcelas()
+    {
+        return $this->parcelas;
+    }
+    
+    public function calculaParcela($parcelas, $valor){
+        return floatval($this->formataDinheiro($valor))/(int)$parcelas;
+        
+    }
+    
+    public function formataDinheiro($valor){
+        return substr(str_replace(",", ".", $valor),3);
+        
+    }
+    
+    public function getValorTotal(){
+        $total = 0;
+        foreach ($this->parcelas as $parcela){
+            $total += $parcela->getMovimentacao()->getValor();
+        }
+        return $total;
+    }
+}

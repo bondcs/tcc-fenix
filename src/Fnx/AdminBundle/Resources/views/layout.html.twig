@@ -8,8 +8,9 @@
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <script type="text/javascript"> 
-            url_dominio = "tcc-fenix";
-            urlSource = "";
+            var url_dominio = "tcc-fenix";
+            var urlSource = "";
+            var imageUrl = '/tcc-fenix/web/bundles/fnxadmin/images/';
         </script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery.tools.min.js') }}"></script>
@@ -28,6 +29,7 @@
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableEscalas.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableLocais.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tablePropriedade.js') }}"></script>
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxfinanceiro/js/tables/tableParcelas.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/multiselect/js/ui.multiselect.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/multiselect/js/plugins/scrollTo/jquery.scrollTo-min.js') }}"></script>     
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/pnotify/jquery.pnotify.min.js') }}"></script>
@@ -62,9 +64,7 @@
                     <ul>
                     <li class='has-sub '><a href='{{ path('adminHome')}}'><span>Home</span></a>
                         <ul>
-                            <li><a href='#'><span>Profile</span></a></li>
                             <li><a href='#'><span>Alterar Senha</span></a></li>
-                            <li><a href='#'><span>Item</span></a></li>
                         </ul>
                     </li>
                     <li class='has-sub '><a href='#'><span>Gerência</span></a>
@@ -76,9 +76,8 @@
                     </li>
                     <li class='has-sub '><a href='#'><span>Financeiro</span></a>
                         <ul>
-                            <li><a href='#'><span>Item</span></a></li>
-                            <li><a href='#'><span>Item</span></a></li>
-                            <li><a href='#'><span>Item</span></a></li>
+                            <li><a href='{{ path('financeiro_instancia')}}'><span>Instância</span></a></li>
+                            <li><a href='{{ path('financeiro_conta')}}'><span>Conta</span></a></li>
                         </ul>
                     </li>
                     <li class='has-sub '><a href='#'><span>Item</span></a>
@@ -120,13 +119,25 @@
                                 <div class="label"><span>Atividade</span></div>
                             </div>
                         </a>
+                        <a href="{{path('clienteAdd')}}">
+                            <div class="box-menu">
+                                <div class="img"><img height="60px" src="{{ asset("bundles/fnxadmin/images/cli-menu.png")}}" /></div>
+                                <div class="label"><span>Cliente</span></div>
+                            </div>
+                        </a>
+                        <a href="{{path('funcionarioAdd')}}">
+                            <div class="box-menu">
+                                <div class="img"><img height="60px" src="{{ asset("bundles/fnxadmin/images/worker-menu.png")}}" /></div>
+                                <div class="label"><span>Funcionário</span></div>
+                            </div>
+                        </a>
                     </div>
                 {% endblock %}
             </section>
 
             <div id="footer">
                 {% block footer %}
-                    Fenix-System 1.0 - All right reserved
+                    Fenix Sistema 1.0 - Todos os direitos reservados.
                 {% endblock %}
             </div>
         </section>

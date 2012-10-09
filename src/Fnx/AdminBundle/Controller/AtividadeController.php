@@ -155,7 +155,7 @@ class AtividadeController extends Controller{
         $em->flush();
         
         $this->get("session")->setFlash("success", "Atividade excluída.");
-        return $this->redirect($this->generateUrl("atividadeHome"));
+        return $this->redirect($this->generateUrl("atividadeArquivado"));
         
         
     }
@@ -205,7 +205,7 @@ class AtividadeController extends Controller{
         $em->persist($atividade);
         $em->flush();
         $this->get("session")->setFlash("success", "Atividade arquivada.");
-        return $this->redirect($this->generateUrl("atividadeHome"));
+        return $this->redirect($this->generateUrl("atividadeArquivado"));
     }
     
     /**

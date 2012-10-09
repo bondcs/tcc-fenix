@@ -1,0 +1,43 @@
+<div class="box-form-pagamento">
+    <div class="ui-panel-content ui-widget-content " style="width:auto;">
+    <h4 class="ui-panel-title ui-widget-header empty-title"></h4>
+    <form novalidate="" class="cms ajax-form-pagamento" style="padding: 15px;" action="{{ path('pagamentoCreate',{'id' : id}) }}" method="post" {{ form_enctype(form) }}>
+             {{form_errors(form)}}
+            <div class="myform">
+
+            <div>
+                {{ form_errors(form.conta)}}
+                {{ form_label(form.conta)}}    
+                {{ form_widget(form.conta)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.descricao)}}
+                {{ form_label(form.descricao)}}    
+                {{ form_widget(form.descricao)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.formaPagamento)}}
+                {{ form_label(form.formaPagamento)}}    
+                {{ form_widget(form.formaPagamento)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.valor)}}
+                {{ form_label(form.valor)}}    
+                {{ form_widget(form.valor, {'attr' : { 'style' : 'width:22%'}})}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.parcela)}}
+                {{ form_label(form.parcela)}}    
+                {{ form_widget(form.parcela, {'attr' : { 'style' : 'width:11%'}})}}
+            </div>
+
+        </div>    
+            {{ form_row(form._token) }}
+            <input style="margin-bottom: 5px;" type="submit" value="Submit"/>
+        </form>
+    </div>
+</div>

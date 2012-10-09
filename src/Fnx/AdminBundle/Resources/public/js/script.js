@@ -21,7 +21,10 @@ $(document).ready(function() {
         moeda();
         initTimePicker();
         tooltip();
-        masks()
+        masks();
+        onSubmitFormPagamento();
+        translateHtml5Validation();
+        sempreZero();
         
 } );
 
@@ -52,7 +55,10 @@ function onReadyAjax(){
         ajaxUpload();
         moeda();
         tooltip();
-        masks()
+        masks();
+        onSubmitFormPagamento();
+        translateHtml5Validation();
+        sempreZero();
 
         
 }
@@ -373,7 +379,12 @@ function initDatepicker() {
 		firstDay: 0,
 		isRTL: false,
 		showMonthAfterYear: false,
-		yearSuffix: ''};
+		yearSuffix: '',
+                showOn: "button",
+		buttonImage: imageUrl+"calendar.gif",
+		buttonImageOnly: true
+            
+      };
                 
     
     $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
@@ -412,6 +423,8 @@ function initDatepicker() {
       
     $('.datepicker input').datetimepicker();
     $('.datepicker input').blur();
+    $('.picker input').datepicker();
+    $('.picker input').blur();
     return false;
 
 }
@@ -442,7 +455,9 @@ function ajaxDelete(url){
             type: 'POST',
             url: url,
             success: function(){
-                $('.redraw').dataTable().fnReloadAjax();
+                $('.redraw').each(function(){
+                         $(this).dataTable().fnReloadAjax();
+                });
                 $(".hidden").addClass("DTTT_disabled");
                 notifity("delete");
                 return false;
@@ -467,6 +482,9 @@ function ajaxSubmitTable(){
                     success: function(result){
 
                         if (result['dialogName']){
+                           $('.redraw').each(function(){
+                               $(this).dataTable().fnReloadAjax();
+                           });
                            $('.redraw').dataTable().fnReloadAjax();
                            notifity(result['message']);
                            $(result['dialogName']).dialog('close');
@@ -569,6 +587,31 @@ function onSubmitForm(){
         return false;
     }
     
+function onSubmitFormPagamento(){
+        
+        $(".ajax-form-pagamento").submit(function(){
+                    var url = $('.ajax-form-pagamento').attr("action");
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: $('.ajax-form-pagamento').serialize(),
+                        success: function(result){
+                            if (result['url']){
+                                 window.location.href = result['url'];
+                                 notifity(result['notifity']);
+                                 return false;
+                            }
+                            
+                            $(".box-form-pagamento").html(result);
+                            onReadyAjax();
+                        }
+                    })
+                    
+                    return false;
+        })
+        
+        return false;
+    }
     
 function onLoadingAjax(){
         
@@ -605,21 +648,32 @@ function gallery(){
     }
     
 function moeda(){
-    
-        $('.moeda').focus(function(){
+        
+        var moeda = $('.moeda');
+        moeda.focus(function(){
 	    if($(this).val() != '')
 		$(this).val(desformataDinheiro($(this).val()));
 	});
 
-	$('.moeda').blur(function(){
+	moeda.blur(function(){
 	    if($(this).val() != '')
 		$(this).val(formataDinheiro($(this).val()));
 	});
            
-        var moeda = $('.moeda');
-        if(moeda.val()){
-	   moeda.val(formataDinheiro(moeda.val()));
-        }
+        moeda.each(function(){
+            if($(this).val()){
+                $(this).val(formataDinheiro($(this).val()));
+            }
+        })
+        
+        var moedaTable = $('.moedaTable');
+        moedaTable.each(function(){
+            if($(this).html()){
+                $(this).html(formataDinheiro($(this).html()));
+            }
+        })
+
+        
 }
 
 function number_format (number, decimals, dec_point, thousands_sep) {
@@ -676,4 +730,32 @@ function masks(){
     $(".cep").mask("99999-999")
     return false;
 }
+
+function translateHtml5Validation(){
+    
+    var elements = document.getElementsByTagName("INPUT");
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].oninvalid = function(e) {
+            e.target.setCustomValidity("");
+            if (!e.target.validity.valid) {
+                e.target.setCustomValidity("Este valor não deve ser vazio");
+            }
+        };
+        elements[i].oninput = function(e) {
+            e.target.setCustomValidity("");
+        };
+    }
+
+}
+
+function sempreZero(){
+    
+    $('.zero').focusout(function(){
+        if ($(this).val() == ""){
+        $(this).val(0)
+        }
+    })
+    
+}
+
     
