@@ -7,16 +7,16 @@
      <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/tools/js/fnReloadAjax.js') }}"></script>
      <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/initTable.js') }}"></script>
      <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableResponsavel.js') }}"></script>
-   
-    
+
+
 {% endblock %}
-     
+
 {% block menuContent %}
     <div id="menuContent">
         <h3>Cliente : {{ cliente.nome }}</h3>
         <ul>
             <li><a class="back-link" href="{{ path('clienteHome')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 {% endblock %}
 
@@ -38,7 +38,7 @@
                 <th>Telefone:</th>
                 <td>{{cliente.telefone}}</td>
             <tr>
-            
+
             {% if cliente.pessoa == "f" %}
                 <tr>
                     <th>Cpf:</th>
@@ -58,7 +58,7 @@
                     <td>Jurídico</td>
                 <tr>
             {% endif %}
-            
+
             <tr>
                 <th>Cep:</th>
                 <td>{{cliente.cep}}</td>
@@ -82,9 +82,8 @@
       </table>
   </div>
   </div>
-  <div id="tabs-2" style="padding: 0px;"> 
+  <div id="tabs-2" style="padding: 0px;">
       {% include "FnxAdminBundle:Responsavel:table.html.twig" %}
   </div>
-
 </div>
 {% endblock %}

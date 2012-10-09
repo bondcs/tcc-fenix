@@ -9,15 +9,15 @@
             <li><a route="clienteShow" class="show-link" href="#"><span></span>Profile</a></li>
             <li><a route="clienteEdit" class="edit-link" href="#"><span></span>Editar</a></li>
             <li><a route="clienteRemove" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
-        </ul> 
+        </ul>
     </div>
 
 {% endblock %}
 
 {% block conteudo %}
-     
+
     <div class="box-table">
-        <table id="table" class="doubleclick" route="clienteShow">
+        <table id="table" class="doubleclick">
             <thead>
                 <tr>
                     <th class="left">Nome</th>
@@ -33,9 +33,9 @@
                     <td>{{ cliente.pessoa == "f" ? "Físico" : "Jurídico"}}</td>
                     <td>{{ cliente.telefone }}</td>
                     <td class="id">{{ cliente.id}}</td>
-                </tr>        
+                </tr>
         {% endfor %}
-            </tbody>  
+            </tbody>
         </table>
      </div>
 

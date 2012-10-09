@@ -1,5 +1,5 @@
 $(document).ready(function() {
-        
+
         onTable();
         onTabs();
         onFnAction();
@@ -9,7 +9,7 @@ $(document).ready(function() {
         populaCidade();
         ajaxDialog();
         confirmDialog();
-        cpfCnpj(); 
+        cpfCnpj();
         onChangecpfCnpj();
         efeitoErro();
         populaComplete();
@@ -28,20 +28,20 @@ $(document).ready(function() {
         
 } );
 
-$(document).ajaxStart(function(){  
-            $(".ajaxLoader").show();
-});  
-          
-$(document).ajaxStop(function(){  
-            $(".ajaxLoader").hide();
-              
-});  
+$(document).ajaxStart(function(){
+     $(".ajaxLoader").show();
+});
+
+$(document).ajaxStop(function(){
+     $(".ajaxLoader").hide();
+
+});
 
 function onReadyAjax(){
-    
+
         simpleDialog();
         confirmDialog();
-        cpfCnpj(); 
+        cpfCnpj();
         onChangecpfCnpj();
         populaCidade();
         initDatepicker();
@@ -60,12 +60,12 @@ function onReadyAjax(){
         translateHtml5Validation();
         sempreZero();
 
-        
+
 }
 
 function onTable(){
-    
-        oTable = $('#table').dataTable({
+
+        oTable = $('table.tablePlugin').dataTable({
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
             "bRetrieve": true,
@@ -80,17 +80,17 @@ function onTable(){
                 "sSearch":       "Buscar:",
                 "sUrl":          "",
                 "oPaginate": {
-                    "sFirst":    "Primeiro",
-                    "sPrevious": "Anterior",
-                    "sNext":     "Seguinte",
-                    "sLast":     "Último"
-                }
+                    "sFirst": "Inicio",
+                    "sLast": "Ultima",
+                    "sNext": "Próxima",
+                    "sPrevious": "Anterior"
+                  },
+                "iDisplayLength": 25
             }
-            
         });
-        
-        $("#table tbody tr").click( function() {
-            
+
+        $("table.tablePlugin tbody tr").click( function() {
+
             // alterar a cor do fundo da linha
             if ( $(this).hasClass('row_selected') ) {
                 $(this).removeClass('row_selected');
@@ -98,9 +98,9 @@ function onTable(){
             else {
                 oTable.$('tr.row_selected').removeClass('row_selected');
                 $(this).addClass('row_selected');
-            }   
+            }
         });
-    
+
 }
 
 function onTabs(){
@@ -109,16 +109,13 @@ function onTabs(){
 
 function onMultiSelect(){
    $(".multiselect").multiselect();
-    
 }
 
-
 function ajaxDialog(){
-    
         $(".ajax-link").live("click",function(event){
              event.preventDefault();
              var url = $(this).attr("href");
-             if (url != '#'){                
+             if (url != '#'){
                 $.ajax({
                        type: 'GET',
                        url: url,
@@ -127,21 +124,21 @@ function ajaxDialog(){
                                $(".simpleDialog").dialog( "option", "title", $(".ajax-link").attr('title') );
                                $(".simpleDialog").dialog('open');
                                $("#menuContent a[route], .menuDialog a[route]").attr('href', "#");
-                               
+
                                /* hack para recarregar funcões previamente carregadas no onReady()*/
                                onReadyAjax();
-                               
+
                        }
                    })
             }
-            
+
         })
-             
+
 
 }
 
 function ajaxSubmit(){
-    
+
                 $(".ajaxForm").submit(function(){
                     var url = $('.ajaxForm').attr("action");
                     $.ajax({
@@ -149,12 +146,11 @@ function ajaxSubmit(){
                         url: url,
                         data: $('.ajaxForm').serialize(),
                         success: function(result){
-
                             if (result['dialogName']){
                                notifity(result['message']);
                                $(result['dialogName']).dialog('close');
                                return false;
-                            } 
+                            }
 
                             $(".simpleDialog").html(result);
                             $('.simpleDialog').dialog('close');
@@ -164,19 +160,19 @@ function ajaxSubmit(){
                             onReadyAjax();
                         }
                     })
-                    
+
                     return false;
               })
-}           
+}
 
 
 function onFnAction(){
-        
+
         $("#menuContent a[route], .menuDialog a[route]").click(function(e){
                 if (key = $(".row_selected").find(".id").html()){
                     var url = Routing.generate($(this).attr('route') , {"id": key});
                     $(this).attr('href', url);
-                    
+
                     if ($(this).hasClass("confirm-link")){
                         $("#dialog-confirm").dialog('open');
                         return false;
@@ -187,9 +183,9 @@ function onFnAction(){
                     e.preventdefault()
                     return false;
                 }
-                
+
         })
-    
+
 }
 
 function doubleclick(){
@@ -197,16 +193,16 @@ function doubleclick(){
         var key = $(this).find(".id").html();
         var url = Routing.generate($('.doubleclick').attr('route') , {"id": key});
         window.location.href = url;
-        
+
     })
-    
+
     return false;
 }
 
 function confirmDialog(){
-    
+
         var url;
-        
+
 	$( "#dialog-confirm" ).dialog({
                 autoOpen: false,
 		resizable: false,
@@ -216,22 +212,22 @@ function confirmDialog(){
                      $("#menuContent a[route], .menuDialog a[route]").attr('href', "#");
                 },
 		buttons: {
-			"Confirmar": function() { 
+			"Confirmar": function() {
                                 if (url == null){
-                                    window.location.href = $(".confirm-link").attr("href"); 
+                                    window.location.href = $(".confirm-link").attr("href");
                                 }else{
                                     window.location.href = url;
                                 }
 				$( this ).dialog( "close" );
-                                
+
 			},
 			"Cancelar": function() {
-				$( this ).dialog( "close" ); 
+				$( this ).dialog( "close" );
                                 return false;
 			}
 		}
 	});
-        
+
         $( ".dialog-confirm-link" ).on("click",function(){
             url = $(this).attr('href');
             $("#dialog-confirm").dialog('open');
@@ -253,9 +249,7 @@ function actionDialog(){
                                 return false;
 			}
 		}
-	});        
-       
-    
+	});
 }
 
 function simpleDialog(){
@@ -264,9 +258,9 @@ function simpleDialog(){
 		resizable: false,
                 height:"auto",
                 width:"auto",
-		modal: true 
-	});        
-       
+		modal: true
+	});
+
 }
 
 function dialogClose(){
@@ -274,30 +268,30 @@ function dialogClose(){
 }
 
 function populaCidade(){
-    
+
     $("#estado").change(function(){
-        
+
         $.ajax({
             type: 'POST',
             url: Routing.generate('ajaxCidade', { estadoId: $('#estado').val() }),
             success: function(valores){
                 $('#cidade').empty();
                 var options = "";
-                
+
                 $.each(valores,function(key,valor){
                        options += '<option value="'+ valor['id']+ '">'+ valor['nome']+'</option>';
                 })
                 $("#cidade").html(options);
             }
-        
+
         })
 })
 }
 
 function populaComplete(){
-    
+
     $(".complete input").focus(function(){
-        
+
         $.ajax({
             type: 'POST',
             url: Routing.generate("ajaxCliente"),
@@ -310,57 +304,54 @@ function populaComplete(){
                     source: nomes
                 })
             }
-        
+
         })
     })
-    
+
     return false;
 }
 
  function onChangecpfCnpj(){
-     
-     
      $("#pessoa input").on('change',function(){
         cpfCnpj();
      })
-     
+
      return false;
-     
+
  }
 
 function cpfCnpj(){
-    
+
         var valor = $("#form input[type='radio']:checked").val();
-        
+
         if (valor == 'j'){
 
              $("#fisico").addClass("hide");
-            
+
              if ($("#juridico").hasClass("hide")){
                   $("#juridico").removeClass("hide");
                   $("#responsavel").removeClass("hide");
              }
-            
+
         }else{
              $("#juridico").addClass("hide");
              $("#responsavel").addClass("hide");
              if ($("#fisico").hasClass("hide")){
                   $("#fisico").removeClass("hide");
              }
-            
+
         }
-        
+
         return false;
 }
 
 function efeitoErro(){
     $(".flash-success, .flash-error").delay(4000).slideUp("slow");
     return false;
-    
 }
 
 function initDatepicker() {
-    
+
     $.datepicker.regional['pt-BR'] = {
 		closeText: 'Fechar',
 		prevText: '&#x3c;Anterior',
@@ -386,9 +377,8 @@ function initDatepicker() {
             
       };
                 
-    
     $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
-    
+
 //    $('#datepicker')
 //        .attr('readonly', 'readonly')
 //        .datepicker({
@@ -397,15 +387,15 @@ function initDatepicker() {
 //            yearRange: "1920:2000",
 //	    changeYear: true
 //        });
-//        
+//
 //    $('.datepicker input')
 //        .datepicker('disable')
 //        .attr('readonly', 'readonly')
 //        .datepicker({
 //            dateFormat: 'dd/mm/yy'
 //        });
-//        
-//        
+//
+//
     $.timepicker.regional['pt-BR'] = {
         timeFormat: 'hh:mm:ss',
 	timeOnlyTitle: 'Escolha um tempo',
@@ -418,9 +408,9 @@ function initDatepicker() {
 	closeText: 'Add',
 	ampm: false
     };
-    
+
     $.timepicker.setDefaults($.timepicker.regional['pt-BR']);
-      
+
     $('.datepicker input').datetimepicker();
     $('.datepicker input').blur();
     $('.picker input').datepicker();
@@ -435,7 +425,7 @@ function initTimePicker(){
 }
 
 function ajaxLoadDialog(url){
-    
+
     $.ajax({
             type: 'GET',
             url: url,
@@ -446,11 +436,11 @@ function ajaxLoadDialog(url){
                 return false;
             }
    })
-    
+
 }
 
 function ajaxDelete(url){
-    
+
     $.ajax({
             type: 'POST',
             url: url,
@@ -463,7 +453,7 @@ function ajaxDelete(url){
                 return false;
             }
    })
-    
+
 }
 
 function formataDinheiroTabela(valor){
@@ -473,7 +463,7 @@ function formataDinheiroTabela(valor){
 
 
 function ajaxSubmitTable(){
-    
+
     $(".ajaxFormTable").submit(function(){
                 $.ajax({
                     type: 'POST',
@@ -490,25 +480,25 @@ function ajaxSubmitTable(){
                            $(result['dialogName']).dialog('close');
                            $(".hidden").addClass("DTTT_disabled");
                            return false;
-                        } 
+                        }
                         $(".simpleDialog").html(result);
                         $('.simpleDialog').dialog('close');
                         $('.simpleDialog').dialog('open');
-                        
+
                         /* hack para recarregar funcões previamentes carregadas no onReady()*/
                         onReadyAjax();
                     }
                 })
-                
+
         return false;
     })
-    
+
 }
 
 
 function notifity(tipo){
     $.pnotify.defaults.styling = "jqueryui";
-    
+
     if (tipo == 'add'){
         $.pnotify({
             title: 'Sucesso!',
@@ -516,27 +506,27 @@ function notifity(tipo){
             type: 'success'
         });
     }
-    
+
     if (tipo == 'edit'){
         $.pnotify({
             title: 'Sucesso!',
             text: 'O registro  foi alterado.',
             type: 'info'
-        }); 
+        });
     }
-    
+
     if (tipo == 'delete'){
         $.pnotify({
             title: 'Sucesso!',
             text: 'O registro  foi excluído.',
             type: 'error'
-        }); 
+        });
     }
-    
+
 }
 
 function addFuncionario(){
-    
+
     $("#funcionarioAdd").on("click", function(){
         var widget = $("#funcionario-container").attr("data-prototype");
         widget = widget.replace(/\$\$name\$\$/g, funcionarioCount);
@@ -547,22 +537,22 @@ function addFuncionario(){
         removeFuncionario();
         return false;
     });
-   
+
     return false;
 }
 
 function removeFuncionario(){
-   
+
     $(".funcionarioClose").on("click",function(){
         $(this).parent().remove();
         return false;
     })
-    
+
     return false;
 }
-    
+
 function onSubmitForm(){
-        
+
         $(".ajax-form").submit(function(){
                     var url = $('.ajax-form').attr("action");
                     $.ajax({
@@ -575,15 +565,15 @@ function onSubmitForm(){
                                  notifity(result['notifity']);
                                  return false;
                             }
-                            
+
                             $(".box-form").html(result);
                             onReadyAjax();
                         }
                     })
-                    
+
                     return false;
         })
-        
+
         return false;
     }
     
@@ -614,16 +604,16 @@ function onSubmitFormPagamento(){
     }
     
 function onLoadingAjax(){
-        
+
         $(".ajaxLoader").hide();
         return false;
     }
-    
+
 function ajaxUpload(){
         var options = {
             success: showResponse
         };
-       
+
         $(".ajax-form-upload").ajaxForm(options);
         return false;
     }
@@ -633,7 +623,7 @@ function showResponse(responseText, statusText, xhr, $form){
         if (responseText['url']){
             window.location.href = responseText['url'];
             return false;
-        } 
+        }
 
         $(".simpleDialog").html(responseText);
         $('.simpleDialog').dialog('close');
@@ -642,38 +632,33 @@ function showResponse(responseText, statusText, xhr, $form){
         /* hack para recarregar funcões previamentes carregadas no onReady()*/
         onReadyAjax();
     }
-    
-function gallery(){
-        
-    }
-    
-function moeda(){
-        
-        var moeda = $('.moeda');
-        moeda.focus(function(){
-	    if($(this).val() != '')
-		$(this).val(desformataDinheiro($(this).val()));
-	});
 
-	moeda.blur(function(){
-	    if($(this).val() != '')
-		$(this).val(formataDinheiro($(this).val()));
-	});
-           
-        moeda.each(function(){
-            if($(this).val()){
-                $(this).val(formataDinheiro($(this).val()));
-            }
-        })
-        
-        var moedaTable = $('.moedaTable');
+function gallery(){
+
+    }
+
+function moeda(){
+
+    var moeda = $('.moeda');
+
+    $(moeda).focus(function(){
+	if($(this).val() != '')
+	    $(this).val(desformataDinheiro($(this).val()));
+    }).blur(function(){
+	if($(this).val() != '')
+	    $(this).val(formataDinheiro($(this).val()));
+    }).each(function(){
+	 if($(this).val()){
+	     $(this).val(formataDinheiro(moeda.val()));
+	 }
+    });
+    
+    var moedaTable = $('.moedaTable');
         moedaTable.each(function(){
             if($(this).html()){
                 $(this).html(formataDinheiro($(this).html()));
             }
         })
-
-        
 }
 
 function number_format (number, decimals, dec_point, thousands_sep) {
@@ -716,14 +701,14 @@ $(function() {
 });
 
 function tooltip(){
-    
+
     //$(".myform :input").tooltip();
-      
+
       return false;
 }
 
 function masks(){
-    
+
     $(".telefone").mask("(99) 9999-9999");
     $(".cpf").mask("999.999.999-99");
     $(".cnpj").mask("99.999.999/9999-99");
@@ -758,4 +743,3 @@ function sempreZero(){
     
 }
 
-    

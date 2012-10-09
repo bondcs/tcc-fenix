@@ -1,0 +1,42 @@
+{% extends "FnxPedidoBundle:Default:index.html.twig" %}
+
+{% block conteudo %}
+<style>
+        #DataTables_Table_0_wrapper{
+            max-width: 450px;
+        }
+</style>
+<form>    
+    
+    {{ form_label(form.cliente) }}
+    {{ form_errors(form.cliente) }}
+    {#{ form_widget(form.cliente) }#}<br/>
+    
+    {{ form_label(form.previsao) }}
+    {{ form_errors(form.previsao) }}
+    {% ui_datepicker dateFormat="dd/mm/yy"%}<br>
+    
+    <table class="tablePlugin">
+        <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Quantidade</th>
+                <th>Valor</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in pedido.itens %}
+            <tr data-id="{{ i.getId() }}">
+                <td>{{ i.getDescricao() }}</td>
+                <td>{{ i.getQuantidade() }}</td>
+                <td>{{ i.getPreco() }}</td>
+                <td>{{ i.getTotal() }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <input type="submit" value="Salvar" />
+</form>
+{% endblock %}

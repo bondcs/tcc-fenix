@@ -11,4 +11,7 @@ FnxAdminBundle:
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
-    
+FnxPedidoBundle:
+    resource: "@FnxPedidoBundle/Controller/"
+    type:      annotation
+    prefix:   "adm/"
