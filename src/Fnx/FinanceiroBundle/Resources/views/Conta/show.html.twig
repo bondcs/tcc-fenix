@@ -17,7 +17,7 @@
 
 {% block conteudo %}
 <div class="ui-panel-content ui-widget-content" style="width:auto; margin-bottom:1% !important">
-      <h4 class="ui-panel-title ui-widget-header">Informações   </h4>
+      <h4 class="ui-panel-title ui-widget-header">Informações</h4>
       <table class="infos">
             <tr>
                 <th>Conta:</th>
@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <th>Valor (Futuro):</th>
-                <td class="moedaTable">{{entity.getValorFuturo}}</td>
+                <td class="moedaTable">{{entity.valorFuturo}}</td>
             </tr>
 
       </table>
@@ -44,10 +44,10 @@
 
 <div class="tabs">
     <ul>
-	<li><a href="#tabs-1">Transações</a></li>
+	<li><a href="#tabs-1">Movimentações</a></li>
     </ul>
     <div id="tabs-1">
-
+        {% include 'FnxFinanceiroBundle:Conta:tableTransacoes.html.twig' %}
     </div>
 </div>
 {% endblock %}

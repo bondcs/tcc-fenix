@@ -48,6 +48,7 @@ class PagamentoController extends Controller{
         $atividade = $em->find("FnxAdminBundle:Atividade", $id);
         $registro = new Registro();
         $atividade->setRegistro($registro);
+        $registro->setDescricao($atividade->getContrato()->getCliente()->getNome()." - ".$atividade->getNome());
         $process = $formHandler->process($registro);
         
         if ($process){
@@ -123,7 +124,8 @@ class PagamentoController extends Controller{
      */
     public function parcelaNewAction($id){
         
-        $form = $this->createForm(new MovimentacaoType(), null, array(
+        $movimentacao = new Movimentacao;
+        $form = $this->createForm(new MovimentacaoType(), $movimentacao, array(
             'em' => $this->getDoctrine()->getEntityManager()
         ));
         

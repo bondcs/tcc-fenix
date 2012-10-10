@@ -641,7 +641,7 @@ function moeda(){
 	    $(this).val(formataDinheiro($(this).val()));
     }).each(function(){
 	 if($(this).val()){
-	     $(this).val(formataDinheiro(moeda.val()));
+	     $(this).val(formataDinheiro($(this).val()));
 	 }
     });
     
@@ -705,6 +705,7 @@ function masks(){
     $(".cpf").mask("999.999.999-99");
     $(".cnpj").mask("99.999.999/9999-99");
     $(".cep").mask("99999-999")
+    $(".data").mask("99/99/9999")
     return false;
 }
 

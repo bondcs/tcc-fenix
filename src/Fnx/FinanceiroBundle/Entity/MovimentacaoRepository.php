@@ -25,4 +25,47 @@ class MovimentacaoRepository extends EntityRepository
                 ->setParameter("id", $id)
                 ->getArrayResult();
     }
+    
+    public function getMovimentacoes($inicio, $fim, $tipo, $conta){
+        
+        
+        $inicio = new \DateTime($this->conv_data_to_us($inicio));
+        $fim = new \DateTime($this->conv_data_to_us($fim));
+        $fim->add(new \DateInterval("P1D"));
+        switch ($tipo){
+            case "ativas":
+                $param = false;
+                break;
+            case "finalizadas":
+                $param = true;
+                break;
+            case "todas":
+                $param = "";
+        }
+ 
+        return $this->getEntityManager()
+                ->createQuery('SELECT m,p,r,fp
+                               FROM FnxFinanceiroBundle:Movimentacao m
+                               JOIN m.parcela p
+                               JOIN p.registro r
+                               JOIN r.conta c
+                               JOIN m.formaPagamento fp
+                               WHERE m.data_pagamento > :inicio AND 
+                               m.data_pagamento < :fim AND 
+                               p.finalizado = :param AND 
+                               c.id = :conta')
+                ->setParameters(array("inicio" => $inicio,
+                                      "fim" => $fim,
+                                      "param" => $param,
+                                      "conta" => $conta))
+                ->getArrayResult();
+        
+    }
+    
+    public static function conv_data_to_us($date){
+	$dia = substr($date,0,2);
+	$mes = substr($date,3,2);
+	$ano = substr($date,6,4);
+	return "{$ano}-{$mes}-{$dia}";
+     }
 }

@@ -30,6 +30,7 @@
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableLocais.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tablePropriedade.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxfinanceiro/js/tables/tableParcelas.js') }}"></script>
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxfinanceiro/js/tables/tableTransacoes.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/multiselect/js/ui.multiselect.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/multiselect/js/plugins/scrollTo/jquery.scrollTo-min.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/pnotify/jquery.pnotify.min.js') }}"></script>
@@ -66,7 +67,7 @@
                             <li><a href='{{ path('atividadeHome')}}'><span>Atividade</span></a></li>
                         </ul>
                     </li>
-                    <li class='has-sub '><a href='#'><span>Financeiro</span></a>
+                    <li class='has-sub '><a href='{{path('financeiroShow')}}'><span>Financeiro</span></a>
                         <ul>
                             <li><a href='{{ path('financeiro_instancia')}}'><span>Instância</span></a></li>
                             <li><a href='{{ path('financeiro_conta')}}'><span>Conta</span></a></li>

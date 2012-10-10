@@ -13,9 +13,6 @@ class RegistroType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder
-            ->add('descricao','text', array(
-                  'label' => 'Descrição:',
-            ))
             ->add('conta', 'entity', array(
                   'label' => 'Conta:*',
                   'class' => 'FnxFinanceiroBundle:Conta',
@@ -41,7 +38,7 @@ class RegistroType extends AbstractType
     {
         $collectionConstraint = new Collection(array(
             'conta' => new NotBlank(),
-            'descricao' => new NotBlank(),
+//            'descricao' => new NotBlank(),
             'valor' => new Dinheiro(),
             'formaPagamento' => new NotBlank(),
             'parcela' => new NotBlank(),

@@ -11,11 +11,11 @@
                 {{ form_widget(form.conta)}}
             </div>
             
-            <div>
+            {#<div>
                 {{ form_errors(form.descricao)}}
                 {{ form_label(form.descricao)}}    
                 {{ form_widget(form.descricao)}}
-            </div>
+            </div>#}
             
             <div>
                 {{ form_errors(form.formaPagamento)}}
@@ -26,7 +26,7 @@
             <div>
                 {{ form_errors(form.valor)}}
                 {{ form_label(form.valor)}}    
-                {{ form_widget(form.valor, {'attr' : { 'style' : 'width:22%'}})}}
+                {{ form_widget(form.valor, {'attr' : { 'style' : 'width:33%'}})}}
             </div>
             
             <div>

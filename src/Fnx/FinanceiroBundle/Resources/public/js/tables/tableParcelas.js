@@ -223,7 +223,7 @@ function notifityParcela(tipo){
     if (tipo == 'erro03'){
         $.pnotify({
             title: 'Atenção!',
-            text: 'Data de pagamento inválida.',
+            text: 'Insira uma data de pagamento.',
             type: 'info'
         }); 
     }

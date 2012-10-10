@@ -47,7 +47,7 @@ class RegistroFormHandler {
         
         $data = $this->form->getData();
         $registro->setConta($data['conta']);
-        $registro->setDescricao($data['descricao']);
+//        $registro->setDescricao($data['descricao']);
         
         for ($i = 0; $i < $data['parcela']; $i++){
              $parcela = new Parcela();

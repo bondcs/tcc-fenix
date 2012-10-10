@@ -15,7 +15,6 @@ class ParcelaType extends AbstractType
                         'label' => 'Vencimento:*',
                         'input' => 'datetime',
                         'widget' => 'single_text',
-                        'required' => true,
                         'format' => 'dd/MM/yyyy'
              ))
 //            ->add('conta', new ContaType())

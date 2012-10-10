@@ -34,7 +34,6 @@ class Parcela
      * @var date $finalizado
      *
      * @ORM\Column(name="finalizado", type="boolean")
-     * @Assert\NotBlank()
      */
     private $finalizado;
     

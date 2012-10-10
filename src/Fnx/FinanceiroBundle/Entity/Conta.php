@@ -85,8 +85,10 @@ class Conta
     public function getValorFuturo(){
         $total = 0;
         foreach ($this->getRegistros() as $registro){
-            foreach ($registro->getParcela() as $parcela){
-                $total += $parcela->getMovimentacao()->getValor();
+            foreach ($registro->getParcelas() as $parcela){
+                if($parcela->getMovimentacao() != null){
+                    $total += $parcela->getMovimentacao()->getValor();
+                }
             }
         }
         return $total;

@@ -1,10 +1,10 @@
 {% extends "FnxAdminBundle::layout.html.twig" %}
-{% block title %}Instâncias{% endblock %}
+{% block title %}Administração: Financeiro{% endblock %}
 
 {% block menuContent %}
 
     <div id="menuContent">
-        <h3>Lista de Instâncias</h3>
+        <h3>Financeiro</h3>
         <ul>
             <li><a class="new-link" href="{{ path('financeiro_instancia_new')}}"><span ></span>Novo</a></li>
             <li><a route="financeiro_instancia_show" class="show-link" href="#"><span></span>Profile</a></li>
@@ -16,24 +16,4 @@
 {% endblock %}
 
 {% block conteudo %}
-<div class="box-table">
-<table class="tablePlugin">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th class="hide">Id</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for entity in entities %}
-        <tr>
-            <td>{{ entity.nome }}</td>
-            <td>{{ entity.descricao }}</td>
-            <td class="id">{{ entity.id }}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-</div>
 {% endblock %}

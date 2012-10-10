@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Fnx\FinanceiroBundle\Entity\Conta;
 use Fnx\FinanceiroBundle\Form\Type\ContaType;
+use Fnx\FinanceiroBundle\Form\Type\FilterType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Conta controller.
@@ -42,12 +44,15 @@ class ContaController extends Controller
         $em = $this->getDoctrine()->getEntityManager();
 
         $entity = $em->getRepository('FnxFinanceiroBundle:Conta')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Conta entity.');
         }
+        
+        $formFilter = $this->createForm(new FilterType());
+        
         return array(
-            'entity' => $entity);
+            'entity' => $entity,
+            'formFilter' => $formFilter->createView());
     }
 
     /**
@@ -166,18 +171,48 @@ class ContaController extends Controller
      */
     public function deleteAction($id)
     {
-            $em = $this->getDoctrine()->getEntityManager();
-            $entity = $em->getRepository('FnxFinanceiroBundle:Conta')->find($id);
+        $em = $this->getDoctrine()->getEntityManager();
+        $entity = $em->getRepository('FnxFinanceiroBundle:Conta')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Conta entity.');
-            }
+        if (!$entity) {
+             throw $this->createNotFoundException('Unable to find Conta entity.');
+        }
 
-            $em->remove($entity);
-            $em->flush();
+        $em->remove($entity);
+        $em->flush();
             
-            $this->get("session")->setFlash("success","Cadastro excluído.");
-            return $this->redirect($this->generateUrl("financeiro_conta"));
+        $this->get("session")->setFlash("success","Cadastro excluído.");
+        return $this->redirect($this->generateUrl("financeiro_conta"));
+    }
+    
+    /**
+     * Deletes a Conta entity.
+     *
+     * @Route("/ajaxTransacao/{inicio}//{fim}/{tipo}/{conta}", name="ajaxTransacao", options={"expose" = true},requirements={"inicio" = ".+", "fim" = ".+"})
+     */
+    public function ajaxTransacao($inicio, $fim, $tipo, $conta){
+        $movimentacoesBanco = $this->getDoctrine()->getRepository("FnxFinanceiroBundle:Movimentacao")->getMovimentacoes($inicio, $fim, $tipo, $conta);
+    
+        $movimentacoes['aaData'] = array();
+        
+        foreach ($movimentacoesBanco as $key => $value) {
+            $value['data']= $value['data']->format('d/m/Y H:s:i');
+            $value['valorNumber'] = $value['valor'];
+            $value['valor'] = number_format($value['valor'],2,',','.');
+            $value['tipo'] = $value['movimentacao'] == 'r' ? "Recebimento" : "Pagamento";
+            $value['descricao'] = $value['parcela']['registro']['descricao'];
+            $value['data_pagamento'] = $value['data_pagamento']->format('d/m/Y H:s:i');
+            
+            $movimentacoes['aaData'][] = $value;
+        }
+        
+        return $this->responseAjax($movimentacoes);
+    }
+    
+    public function responseAjax($json){
+        $response = new Response(json_encode($json));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
 }

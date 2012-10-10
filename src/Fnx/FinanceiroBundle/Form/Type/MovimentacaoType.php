@@ -47,7 +47,7 @@ class MovimentacaoType extends AbstractType
     }
     
     public function getDefaultOptions(array $options) {
-        return array('em' => 'lala');
+        return array('em' => null);
     }
 
     public function getName()

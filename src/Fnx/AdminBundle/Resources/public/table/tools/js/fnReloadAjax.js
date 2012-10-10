@@ -43,3 +43,12 @@ oSettings.fnServerData( oSettings.sAjaxSource, aData, function(json) {
 }, oSettings );
 };
 
+$.fn.dataTableExt.oApi.fnNewAjax = function ( oSettings, sNewSource  )
+{
+    if ( typeof sNewSource != 'undefined' && sNewSource != null )
+    {
+        oSettings.sAjaxSource = sNewSource;
+    }
+    this.fnDraw();
+}
+

@@ -16,9 +16,20 @@ use Fnx\FinanceiroBundle\Form\MovimentacaoType;
  * Description of MovimentacaoController
  *
  * @author bondcs
+ * @Route("/financeiro")
  */
 class MovimentacaoController extends Controller{
     
+    /**
+     * @Route("/", name="financeiroShow")
+     * @Template()
+     *
+     */
+    function indexAction(){
+        
+        return array();
+    }
+
     /**
      * @Route("/new/{id}", name="movimentacaoNew")
      * @Template()
