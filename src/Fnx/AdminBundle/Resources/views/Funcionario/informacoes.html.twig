@@ -12,13 +12,19 @@
                 </tr>
                 <tr>
                     <th>Tipo:</th>
-                    <td>{{funcionario.tipo.nome}}</td>
+                    <td>{{funcionario.tipo == 'fun' ? "Funcionário" : "Free-lancer"}}</td>
                 </tr>
-                {% if funcionario.tipo.id != 2 %}    
                 <tr>
-                    <th>Turno:</th>
-                    <td>{{funcionario.escalaDiariaInicio|date('H:m')~' - '~funcionario.escalaDiariaFinal|date('H:m')}}</td>
+                    <th>Rg:</th>
+                    <td>{{funcionario.rg|default("#")}}</td>
                 </tr>
-                {% endif %}
+                <tr>
+                    <th>Cpf:</th>
+                    <td>{{funcionario.cpf|default("#")}}</td>
+                </tr>
+                <tr>
+                    <th>Dependentes:</th>
+                    <td>{{funcionario.dependentes|default("#")}}</td>
+                </tr>
     </table>
 </div>

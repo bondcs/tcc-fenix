@@ -24,7 +24,14 @@
     <div id="menuContent">
         <h3>Atividade : {{ atividade.nome }}</h3>
         <ul>
-            <li><a class="back-link" href="{{ path('atividadeHome')}}"><span></span>Voltar</a></li>
+           
+            {% if (atividade.arquivado) %}
+                <li><a class="unarquive-link confirm-link" href="{{ path('atividadeAtivar',{'id' : atividade.id})}}"><span></span>Ativar</a></li>
+                <li><a class="back-link" href="{{ path('atividadeArquivado')}}"><span></span>Voltar</a></li>
+            {% else %}
+                <li><a class="arquive-link confirm-link" href="{{ path('atividadeArquivar',{'id' : atividade.id})}}"><span></span>Arquivar</a></li>
+                <li><a class="back-link" href="{{ path('atividadeHome')}}"><span></span>Voltar</a></li>
+            {% endif %}
         </ul> 
     </div>
 {% endblock %}

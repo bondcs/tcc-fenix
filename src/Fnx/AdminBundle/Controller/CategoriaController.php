@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormError;
 /**
  * Categoria controller.
  *
- * @Route("/adm/categoria")
+ * @Route("/adm/funcionario/sevico")
  */
 class CategoriaController extends Controller
 {
@@ -45,7 +45,7 @@ class CategoriaController extends Controller
         $entity = $em->getRepository('FnxAdminBundle:Categoria')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Categoria não encontrada.');
+            throw $this->createNotFoundException('Serviço não encontrado.');
         }
 
         return array(
@@ -89,7 +89,7 @@ class CategoriaController extends Controller
             $em = $this->getDoctrine()->getEntityManager();
             $em->persist($entity);
             $em->flush();
-            $this->get("session")->setFlash('success',"Categoria registrada.");
+            $this->get("session")->setFlash('success',"Serviço registrado.");
             return $this->redirect($this->generateUrl('categoriaHome'));
             
         }
@@ -113,7 +113,7 @@ class CategoriaController extends Controller
         $entity = $em->getRepository('FnxAdminBundle:Categoria')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Categoria não encontrada.');
+            throw $this->createNotFoundException('Serviço não encontrado.');
         }
 
         $editForm = $this->createForm(new CategoriaType(), $entity);
@@ -138,7 +138,7 @@ class CategoriaController extends Controller
         $entity = $em->getRepository('FnxAdminBundle:Categoria')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Categoria entity.');
+            throw $this->createNotFoundException('Serviço não encontrado.');
         }
 
         $editForm   = $this->createForm(new CategoriaType(), $entity);
@@ -151,7 +151,7 @@ class CategoriaController extends Controller
             $em->persist($entity);
             $em->flush();
           
-           $this->get("session")->setFlash('success', "Categoria alterada.");
+           $this->get("session")->setFlash('success', "Serviço alterado.");
            return $this->redirect($this->generateUrl('categoriaHome'));
         }
 
@@ -173,12 +173,12 @@ class CategoriaController extends Controller
        $entity = $em->getRepository('FnxAdminBundle:Categoria')->find($id);
 
        if (!$entity) {
-                throw $this->createNotFoundException('Categoria não encontrada.');
+                throw $this->createNotFoundException('Serviço não encontrado.');
        }
 
        $em->remove($entity);
        $em->flush();
-       $this->get("session")->setFlash('success', "Categoria excluída.");
+       $this->get("session")->setFlash('success', "Serviço excluído.");
        return $this->redirect($this->generateUrl('categoriaHome'));
     }
 

@@ -3,6 +3,12 @@
     <div class="myform">         
                     {{ form_errors(form) }}
                     <div>
+                        {{ form_errors(form.descricao)}}
+                        {{ form_label(form.descricao)}}    
+                        {{ form_widget(form.descricao)}}
+                    </div>
+            
+                    <div>
                         {{ form_errors(form.cidade)}}
                         {{ form_label(form.cidade)}}    
                         {{ form_widget(form.cidade)}}

@@ -26,6 +26,9 @@ class LocalType extends AbstractType {
             ->add('custo','text', array(
                 'label' => 'Custo:*'
             ))
+            ->add('descricao','text', array(
+                'label' => 'Descrição:'
+            ))
             ->add('bairro','text', array(
                 'label' => 'Bairro:*'
             ))

@@ -48,7 +48,10 @@ class ContaController extends Controller
             throw $this->createNotFoundException('Unable to find Conta entity.');
         }
         
-        $formFilter = $this->createForm(new FilterType());
+        $formFilter = $this->createForm(new FilterType(), null, array(
+                    'choices' => array('finalizadas' => 'Finalizadas' 
+                     )
+        ));
         
         return array(
             'entity' => $entity,
@@ -186,7 +189,6 @@ class ContaController extends Controller
     }
     
     /**
-     * Deletes a Conta entity.
      *
      * @Route("/ajaxTransacao/{inicio}//{fim}/{tipo}/{conta}", name="ajaxTransacao", options={"expose" = true},requirements={"inicio" = ".+", "fim" = ".+"})
      */
@@ -196,12 +198,12 @@ class ContaController extends Controller
         $movimentacoes['aaData'] = array();
         
         foreach ($movimentacoesBanco as $key => $value) {
-            $value['data']= $value['data']->format('d/m/Y H:s:i');
+            $value['data']= $value['data']->format('d/m/Y H:i:s');
             $value['valorNumber'] = $value['valor'];
             $value['valor'] = number_format($value['valor'],2,',','.');
             $value['tipo'] = $value['movimentacao'] == 'r' ? "Recebimento" : "Pagamento";
             $value['descricao'] = $value['parcela']['registro']['descricao'];
-            $value['data_pagamento'] = $value['data_pagamento']->format('d/m/Y H:s:i');
+            $value['data_pagamento'] = $value['data_pagamento']->format('d/m/Y H:i:s');
             
             $movimentacoes['aaData'][] = $value;
         }

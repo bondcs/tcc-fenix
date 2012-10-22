@@ -46,6 +46,11 @@ class PagamentoController extends Controller{
         $formHandler = $this->get("fnx_financeiro.registro.form.handler");
         $em = $this->getDoctrine()->getEntityManager();
         $atividade = $em->find("FnxAdminBundle:Atividade", $id);
+        
+        if ($atividade->getArquivado()){
+             return $this->responseAjax(array("url" => "arquivado" ));
+        }
+        
         $registro = new Registro();
         $atividade->setRegistro($registro);
         $registro->setDescricao($atividade->getContrato()->getCliente()->getNome()." - ".$atividade->getNome());
@@ -149,8 +154,13 @@ class PagamentoController extends Controller{
         if ($form->isValid()){
             $em = $this->getDoctrine()->getEntityManager();
             $atividade = $em->find("FnxAdminBundle:Atividade", $id);
-            $atividade->getRegistro()->addParcela($movimentacao->getParcela());
-            $movimentacao->getParcela()->setRegistro($atividade->getRegistro());
+            $registro = $atividade->getRegistro();
+            $parcela = $movimentacao->getParcela();
+            $registro->addParcela($parcela);
+            $parcela->setNumero($registro->getParcelas()->count());
+            $movimentacao->getParcela()->setRegistro($registro);
+            
+            
             $movimentacao->setMovimentacao('r');
             $em->persist($movimentacao);
             $em->flush();
@@ -175,13 +185,13 @@ class PagamentoController extends Controller{
         $movimentacao = $this->getDoctrine()->getEntityManager()->find("FnxFinanceiroBundle:Movimentacao", $id);
         //$movimentacao->setDataPagamento(new \DateTime());
         $form = $this->createForm(new MovimentacaoType(),$movimentacao, array(
-             'validation_groups' => array('edit'),
+//             'validation_groups' => array('Default','edit'),
              'em' => $this->getDoctrine()->getEntityManager()
         ));
         
-        if ($movimentacao->getParcela()->getFinalizado()){
-            return $this->responseAjax(array('erro' => 'erro'));
-        }
+//        if ($movimentacao->getParcela()->getFinalizado()){
+//            return $this->responseAjax(array('erro' => 'erro'));
+//        }
         
         return array('form' => $form->createView(),
                      'id' => $id);
@@ -195,13 +205,21 @@ class PagamentoController extends Controller{
     function parcelaUpdateAction($id){
         
         $movimentacao = $this->getDoctrine()->getEntityManager()->find("FnxFinanceiroBundle:Movimentacao", $id);
+        $valorCaixaOld = $movimentacao->getValorPago();
+        
         $form = $this->createForm(new MovimentacaoType(), $movimentacao, array(
-             'validation_groups' => array('edit'),
              'em' => $this->getDoctrine()->getEntityManager())); 
         
         $request = $this->getRequest();
         $form->bindRequest($request);
         if ($form->isValid()){
+            
+            if ($movimentacao->getParcela()->getFinalizado()){
+                  $diferenca = substr(str_replace(",", ".", $movimentacao->getValorPago()),3) - $valorCaixaOld;
+                  $registro = $movimentacao->getParcela()->getRegistro();
+                  $registro->getConta()->deposita($diferenca);
+            }
+            
             
             $movimentacao->setMovimentacao('r');
             $em = $this->getDoctrine()->getEntityManager();
@@ -210,7 +228,7 @@ class PagamentoController extends Controller{
             $responseSuccess = array(
                   'dialogName' => '.simpleDialog',
                   'message' => 'edit'
-                );
+            );
             return $this->responseAjax($responseSuccess);
         }
 
@@ -230,10 +248,6 @@ class PagamentoController extends Controller{
             throw $this->createNotFoundException("Movimentação não encontrada.");
         }
         
-        if ($movimentacao->getParcela()->getFinalizado()){
-            return $this->responseAjax(array('erro' => 'erro'));
-        }
-        
         $em->remove($movimentacao);
         $em->flush();
         
@@ -247,6 +261,7 @@ class PagamentoController extends Controller{
         
         $em = $this->getDoctrine()->getEntityManager();
         $movimentacao = $em->find("FnxFinanceiroBundle:Movimentacao", $id);
+        $conta = $movimentacao->getParcela()->getRegistro()->getConta();
         if (!$movimentacao){
             throw $this->createNotFoundException("Movimentação não encontrada.");
         }
@@ -263,13 +278,21 @@ class PagamentoController extends Controller{
         if ($movimentacao->getDataPagamento() == null){ 
             $erros[] = 'erro03';      
         }
+        if ($movimentacao->getMovimentacao() == 'p' && $movimentacao->getValor() > $conta->getValor()){
+            $erros[] = 'erro04';
+        }
         
         if(count($erros) > 0){
             return $this->responseAjax($erros);
         }else{
             $movimentacao->getParcela()->setFinalizado(true);
-            $registro = $movimentacao->getParcela()->getRegistro();
-            $registro->getConta()->deposita($movimentacao->getValorPago());
+            $valorPago = $movimentacao->getValorPago();
+            
+            if ($movimentacao->getMovimentacao() == 'r'){
+                $conta->deposita($valorPago);
+            }else{
+                $conta->saque($valorPago);
+            }
             
             $em->persist($movimentacao);
             $em->flush();

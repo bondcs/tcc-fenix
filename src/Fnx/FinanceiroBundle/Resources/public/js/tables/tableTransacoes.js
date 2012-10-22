@@ -1,7 +1,7 @@
 $(document).ready(function() {
     onTableAjaxTransacaoSistema();
     confirmDialogParcela();
-    notifityParcela();
+    notifityParcelaTransacoes();
     filtrar();
     
     
@@ -117,7 +117,7 @@ function filtrar(){
     
 } 
 
-function notifityParcela(tipo){
+function notifityParcelaTransacoes(tipo){
     $.pnotify.defaults.styling = "jqueryui";
     
     if (tipo == 'erro01'){

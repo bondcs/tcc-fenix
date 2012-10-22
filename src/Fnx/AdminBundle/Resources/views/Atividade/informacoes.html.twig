@@ -28,7 +28,7 @@
                 </tr>
                 <tr>
                     <th>Status:</th>
-                    <td>{{ atividade.arquivado ? 'Arquivado': "Ativo" }}</td>
+                    <td id="status" class="{{ atividade.arquivado ? ' vermelhoCel': ' verdeCel' }}">{{ atividade.arquivado ? 'Arquivado': "Ativo" }}</td>
                     {#<td><img width="20" height="20" title="ativo" src="{{ atividade.arquivado ? asset('bundles/fnxadmin/images/Denided.png') : asset('bundles/fnxadmin/images/Valid.png')  }}"/></td>#}
                 </tr> 
     </table>

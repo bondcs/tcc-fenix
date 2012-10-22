@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Fnx\AdminBundle\Entity\EscalaFun;
 use Fnx\AdminBundle\Entity\Funcionario;
 use Fnx\AdminBundle\Form\Type\EscalaFunType;
+use Fnx\FinanceiroBundle\Form\Type\FilterType;
 
 /**
  * Description of EscalaFunController
@@ -28,8 +29,9 @@ class EscalaFunController extends Controller{
      * @Template()
      */
     public function indexAction(){
-        $funcionarios = $this->getDoctrine()->getRepository("FnxAdminBundle:EscalaFun")->loadEscalaFunTurno();
-        return array("funcionarios" => $funcionarios);
+        $formFilter = $this->createForm(new FilterType());
+        
+        return array("formFilter" => $formFilter->createView());
     }
     
     /**
@@ -52,11 +54,12 @@ class EscalaFunController extends Controller{
     public function createAction(){
         
         $escala = new EscalaFun();
-        $form = $this->createForm(new EscalaFunType(),$escala);
+        $em = $this->getDoctrine()->getEntityManager();
+        $form = $this->createForm(new EscalaFunType(),$escala, array("em" => $em));
         $form->bindRequest($this->getRequest());
         
         if ($form->isValid()){
-            $em = $this->getDoctrine()->getEntityManager();
+            
             $em->persist($escala);
             $em->flush();
             $responseSuccess = array(
@@ -96,11 +99,11 @@ class EscalaFunController extends Controller{
         
         $em = $this->getDoctrine()->getEntityManager();
         $escala = $em->find("FnxAdminBundle:EscalaFun", $id);
-        $form = $this->createForm(new EscalaFunType(), $escala);
+        $form = $this->createForm(new EscalaFunType(),$escala, array("em" => $em));
 
         $form->bindRequest($this->getRequest());
         if ($form->isValid()){
-            $em = $this->getDoctrine()->getEntityManager();
+            
             $em->merge($escala);
             $em->flush();
             $responseSuccess = array(
@@ -116,6 +119,30 @@ class EscalaFunController extends Controller{
             "form" => $form->createView(),
             "id" => $id
         );
+    }
+    
+    /**
+     * @Route("/check/{id}", name="escalaFunCheck", options={"expose" = true})
+     * @Method({"POST"})
+     */
+    function checkAction($id){
+        
+        $em = $this->getDoctrine()->getEntityManager();
+        $escala = $em->find("FnxAdminBundle:EscalaFun", $id);
+        if (!$escala){
+            throw $this->createNotFoundException("Escala não encontrada.");
+        }
+        
+        $valor =  $escala->getAtivo() ? false : true;
+        $escala->setAtivo($valor);
+        
+        $em->merge($escala);
+        $em->flush();
+
+        $response = new Response(json_encode(array()));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+        
     }
     
     /**
@@ -135,20 +162,21 @@ class EscalaFunController extends Controller{
     }
 
     /**
-     * @Route("/ajaxEscalaFun", name="escalaFunAjax", options={"expose" = true})
+     * @Route("/ajaxEscalaFun/{status}/{categoria}/", name="escalaFunAjax", options={"expose" = true},requirements={"inicio" = ".+", "fim" = ".+"})
      * @Template()
      */
-    public function ajaxAction(){
+    public function ajaxAction($status, $categoria){
         
-        $escalasBanco = $this->getDoctrine()->getRepository("FnxAdminBundle:EscalaFun")->loadEscalaFun();
+        $escalasBanco = $this->getDoctrine()->getRepository("FnxAdminBundle:EscalaFun")->loadEscalaFun($status, $categoria);
         $escalas['aaData'] = array();
-       
+        
         foreach ($escalasBanco as $key => $value) {
-//            for ($i = 0; $i < (50 - strlen($value['descricao'])); $i++){
-//                $value['descricao'] = $value['descricao']."a";
-//            }
-//            var_dump(50 - strlen($value['descricao']));
-//            $value['escalaN'] = $value['funcionario']['escalaDiariaInicio']->format('H:i:s')." - ".$value['funcionario']['escalaDiariaFinal']->format('H:i:s');
+            $value['funcionariosString'] = "";
+            foreach ($value['funcionarios'] as $keyFun => $funcionario ){
+                $value['funcionariosString'] = $keyFun == 0 ? $funcionario['nome'] : $value['funcionariosString']." - ".$funcionario['nome'];
+                
+            }
+//          $value['escalaN'] = $value['funcionario']['escalaDiariaInicio']->format('H:i:s')." - ".$value['funcionario']['escalaDiariaFinal']->format('H:i:s');
             $value['escalaEx'] = $value['inicio']->format('d/m/Y H:i')." - ". $value['fim'] = $value['fim']->format('d/m/Y H:i');
             $escalas['aaData'][] = $value;
         }

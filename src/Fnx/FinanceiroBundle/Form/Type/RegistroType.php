@@ -38,7 +38,7 @@ class RegistroType extends AbstractType
     {
         $collectionConstraint = new Collection(array(
             'conta' => new NotBlank(),
-//            'descricao' => new NotBlank(),
+            //'descricao' => new NotBlank(),
             'valor' => new Dinheiro(),
             'formaPagamento' => new NotBlank(),
             'parcela' => new NotBlank(),

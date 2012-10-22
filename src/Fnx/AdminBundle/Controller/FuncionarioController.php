@@ -49,7 +49,7 @@ class FuncionarioController extends Controller{
                 $em->persist($funcionario);
                 $em->flush();
                 
-                $session = $this->get("session")->setFlash("success","Cadastro concluído.");
+                $this->get("session")->setFlash("success","Cadastro concluído.");
                 return $this->redirect($this->generateUrl("funcionarioHome"));
             }
         }
@@ -75,10 +75,12 @@ class FuncionarioController extends Controller{
             $form->bindRequest($request);
             if ($form->isValid()){
                 $em = $this->getDoctrine()->getEntityManager();
-                $em->merge($funcionario);
+                $salario = $funcionario->getSalario();
+                $salario->setSalarioPago(substr(str_replace(",", ".", $salario->getSalario()),3) + $salario->getBonus());
+                $em->persist($funcionario);
                 $em->flush();
                 
-                $session = $this->get("session")->setFlash("success","Alteração concluída.");
+                $this->get("session")->setFlash("success","Alteração concluída.");
                 return $this->redirect($this->generateUrl("funcionarioHome"));
             }
         }

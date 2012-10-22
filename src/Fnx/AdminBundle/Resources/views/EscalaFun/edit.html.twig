@@ -17,19 +17,33 @@
                     </div>
             
                     <div>
+                        {{ form_errors(form.local)}}
+                        {{ form_label(form.local)}}    
+                        {{ form_widget(form.local)}}
+                    </div>
+            
+                    <div>
                         {{ form_errors(form.descricao)}}
                         {{ form_label(form.descricao)}}    
                         {{ form_widget(form.descricao)}}
                     </div>
             
                     <div>
-                        {{ form_errors(form.funcionario)}}
-                        {{ form_label(form.funcionario)}}    
-                        {{ form_widget(form.funcionario)}}
+                        {{ form_errors(form.categoria)}}
+                        {{ form_label(form.categoria)}}    
+                        {{ form_widget(form.categoria)}}
                     </div>
             
-    </div>                        
+  </div>    
+                    <h5 style="text-align: center; margin-bottom: 5px; font-size: 19px !important">{{ form_label(form.funcionarios)}}</h5>
+                    <div class="erro-multiselect">
+                    {{ form_errors(form.funcionarios)}}
+                    </div>
+                    <div>
+                    {{ form_widget(form.funcionarios, {'attr' : {'class' : 'multiselect'}})}}
+                    </div>             
              {{ form_row(form._token) }} 
+                    
         <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
         <input type="submit" value="Submit"/>
     </form>

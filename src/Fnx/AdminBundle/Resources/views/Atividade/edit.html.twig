@@ -43,15 +43,43 @@
             {{ form_label(form.servico)}}    
             {{ form_widget(form.servico, {"id" : "servico"})}}
         </div>
-        <!--<div class="checkbox">
-                <fieldset>
-                        <legend>Categoria</legend>
-                        {# form_errors(form.categorias)#}
-                        {# form_widget(form.categorias)#}
-                </fieldset>
-        </div>!-->
-             {# ui_tooltip for=".checkbox" label="Categoria para atividade.<br/>Obs: Selecione uma ou mais." #}
-        
+            
+        <div> 
+            {{ form_errors(form.cep)}}
+            {{ form_label(form.cep)}}    
+            {{ form_widget(form.cep, {'attr' : {'class' : 'cep' ,'style' : 'width:20%' }})}}
+        </div>
+
+        <div> 
+            {{ form_errors(form.estado)}}
+            {{ form_label(form.estado)}}    
+            {{ form_widget(form.estado, {'id': 'estado'})}}
+        </div>
+
+        <div> 
+            {{ form_errors(form.cidade)}}
+            {{ form_label(form.cidade)}}    
+            {{ form_widget(form.cidade, {'id': 'cidade'})}}
+        </div>
+
+        <div class="inputExtendido"> 
+            {{ form_errors(form.bairro)}}
+            {{ form_label(form.bairro)}}    
+            {{ form_widget(form.bairro)}}
+        </div>
+
+        <div class="inputExtendido"> 
+            {{ form_errors(form.rua)}}
+            {{ form_label(form.rua)}}    
+            {{ form_widget(form.rua)}}
+        </div>
+
+        <div class="inputExtendido"> 
+            {{ form_errors(form.numero)}}
+            {{ form_label(form.numero)}}    
+            {{ form_widget(form.numero)}}
+        </div>
+
     </div>
         {{ form_row(form._token) }}
     <input type="submit" value="Submit"/>

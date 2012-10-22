@@ -1,0 +1,64 @@
+<div class="box-form-dialog" style="padding: 2% 2% 11%;">    
+    <form novalidate="" class="cms ajaxFormTable" action="{{ path('parcelaGeralUpdate', {'id' : id})}}" method="post" {{ form_enctype(form) }}>
+             {{form_errors(form)}}
+        <div class="myform">
+
+            <div class="hide">
+                {{ form_errors(form.parcela.registro.conta)}}
+                {{ form_label(form.parcela.registro.conta)}}    
+                {{ form_widget(form.parcela.registro.conta)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.parcela.registro.descricao)}}
+                {{ form_label(form.parcela.registro.descricao)}}    
+                {{ form_widget(form.parcela.registro.descricao)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.valor)}}
+                {{ form_label(form.valor)}}    
+                {{ form_widget(form.valor, {'attr' : { 'style' : 'width:33%'}})}}
+            </div>
+            
+            <div class="hide">
+                {{ form_errors(form.parcela.finalizado)}}
+                {{ form_label(form.parcela.finalizado)}}    
+                {{ form_widget(form.parcela.finalizado)}}
+            </div>
+   
+            <div>
+                {{ form_errors(form.formaPagamento)}}
+                {{ form_label(form.formaPagamento)}}    
+                {{ form_widget(form.formaPagamento)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.valor_pago)}}
+                {{ form_label(form.valor_pago)}}    
+                {{ form_widget(form.valor_pago, {'attr' : { 'style' : 'width:33%'}})}}
+            </div>
+            
+            <div class="datepicker">
+                        {{ form_errors(form.data_pagamento)}}
+                        {{ form_label(form.data_pagamento)}}    
+                        {{ form_widget(form.data_pagamento)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.movimentacao)}}
+                {{ form_label(form.movimentacao)}}    
+                {{ form_widget(form.movimentacao)}}
+            </div>
+            
+            <div class="picker">
+                {{ form_errors(form.parcela.dt_vencimento)}}
+                {{ form_label(form.parcela.dt_vencimento)}}    
+                {{ form_widget(form.parcela.dt_vencimento)}}
+            </div>
+
+        </div>    
+            {{ form_row(form._token) }}
+            <input style="margin-bottom: 15px;" type="submit" value="Submit"/>
+   </form>
+</div>

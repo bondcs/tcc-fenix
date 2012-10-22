@@ -4,7 +4,7 @@
 
 {% block menuContent %}
     <div id="menuContent">
-        <h3>Categoria Manager: Formulário</h3>
+        <h3>Gerenciamento: Formulário de Serviço</h3>
         <ul>
             <li><a class="back-link" href="{{ path('categoriaHome')}}"><span></span>Voltar</a></li>
         </ul> 
@@ -12,11 +12,12 @@
 {% endblock %}
 
 {% block conteudo %}
-{% ui_panel title="Categoria" style="width:auto"%}
-<div id="box-form">
-<form class="cms" action="{{ path('adm_categoria_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    {{form_errors(edit_form)}}
-        
+<div class="ui-panel-content ui-widget-content " style="width:auto">
+   <h4 class="ui-panel-title ui-widget-header empty-title "></h4>
+    <div id="box-form">
+    <form class="cms" action="{{ path('adm_categoria_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+        {{form_errors(edit_form)}}
+        <div class="myform">
             <div class="inputExtendido">
                 {{ form_errors(edit_form.nome)}}
                 {{ form_label(edit_form.nome)}}    
@@ -28,12 +29,12 @@
                 {{ form_label(edit_form.descricao)}}    
                 {{ form_widget(edit_form.descricao)}}
             </div>
-            
+        </div>      
             {{ form_row(edit_form._token) }}
         
-    <input type="submit" value="Submit" />
-</form>
+        <input type="submit" value="Submit" />
+    </form>
+    </div>
 </div>
-{% end_ui_panel %}
 {% endblock %}
 

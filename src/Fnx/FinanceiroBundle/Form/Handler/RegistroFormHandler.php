@@ -53,6 +53,7 @@ class RegistroFormHandler {
              $parcela = new Parcela();
              $parcela->setDtVencimento(new \DateTime('+'.$i.' month'));
              $parcela->setRegistro($registro);
+             $parcela->setNumero($i+1);
              
              $movimentacao = new Movimentacao();
              $movimentacao->setFormaPagamento($data['formaPagamento']);

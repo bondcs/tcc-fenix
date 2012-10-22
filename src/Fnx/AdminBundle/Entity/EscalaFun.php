@@ -48,13 +48,38 @@ class EscalaFun
     private $descricao;
     
     /**
+     * @var string $local
      *
-     * @ORM\ManyToOne(targetEntity="Funcionario", cascade={"persist"}, fetch="LAZY")
+     * @ORM\Column(name="local", type="string", length=80)
      * @Assert\NotBlank()
      */
-    private $funcionario;
-
-        /**
+    private $local;
+    
+    /**
+     *
+     * @var object $categoria
+     * 
+     * @ORM\ManyToOne(targetEntity="Categoria", cascade={"persist"})
+     * @Assert\NotBlank()
+     */
+    private $categoria;
+    
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Funcionario", inversedBy="escalasEx", cascade={"persist, remove"}, fetch="LAZY")
+     * @Assert\NotBlank()
+     * @ORM\OrderBy({"nome" = "ASC"})
+     */
+    private $funcionarios;
+    
+    /**
+     * @var boolean $ativo
+     *
+     * @ORM\Column(name="ativo", type="boolean")
+     */
+    private $ativo;
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -124,23 +149,89 @@ class EscalaFun
         return $this->descricao;
     }
 
-    /**
-     * Set funcionario
-     *
-     * @param Fnx\AdminBundle\Entity\Funcionario $funcionario
-     */
-    public function setFuncionario(\Fnx\AdminBundle\Entity\Funcionario $funcionario)
+    public function __construct()
     {
-        $this->funcionario = $funcionario;
+        $this->funcionarios = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->ativo = true;
+    }
+    
+    /**
+     * Set categoria
+     *
+     * @param Fnx\AdminBundle\Entity\Categoria $categoria
+     */
+    public function setCategoria(\Fnx\AdminBundle\Entity\Categoria $categoria)
+    {
+        $this->categoria = $categoria;
     }
 
     /**
-     * Get funcionario
+     * Get categoria
      *
-     * @return Fnx\AdminBundle\Entity\Funcionario 
+     * @return Fnx\AdminBundle\Entity\Categoria 
      */
-    public function getFuncionario()
+    public function getCategoria()
     {
-        return $this->funcionario;
+        return $this->categoria;
+    }
+
+    /**
+     * Add funcionarios
+     *
+     * @param Fnx\AdminBundle\Entity\Funcionario $funcionarios
+     */
+    public function addFuncionario(\Fnx\AdminBundle\Entity\Funcionario $funcionarios)
+    {
+        $this->funcionarios[] = $funcionarios;
+    }
+
+    /**
+     * Get funcionarios
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getFuncionarios()
+    {
+        return $this->funcionarios;
+    }
+
+    /**
+     * Set ativo
+     *
+     * @param boolean $ativo
+     */
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+    }
+
+    /**
+     * Get ativo
+     *
+     * @return boolean 
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    /**
+     * Set local
+     *
+     * @param string $local
+     */
+    public function setLocal($local)
+    {
+        $this->local = $local;
+    }
+
+    /**
+     * Get local
+     *
+     * @return string 
+     */
+    public function getLocal()
+    {
+        return $this->local;
     }
 }

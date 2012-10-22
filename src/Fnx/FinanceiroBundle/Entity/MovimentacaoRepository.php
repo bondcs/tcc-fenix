@@ -62,6 +62,72 @@ class MovimentacaoRepository extends EntityRepository
         
     }
     
+    public function getMovimentacoesGerais($inicio, $fim, $tipo, $data, $conta  ){
+        
+        
+        $inicio = new \DateTime($this->conv_data_to_us($inicio));
+        $inicio->format("Y-m-d");
+        $fim = new \DateTime($this->conv_data_to_us($fim));
+        $fim->format("Y-m-d");
+        $fim->add(new \DateInterval("P1D"));
+
+        
+        $qb = $this->createQueryBuilder('m')
+              ->select('m','p','r','fp')
+              ->innerJoin('m.parcela', 'p')
+              ->innerJoin('p.registro', 'r')
+              ->innerJoin('r.conta', 'c')
+              ->innerJoin('m.formaPagamento', 'fp');
+        
+        
+        switch ($data){
+            case "r":
+                $qb->where('m.data > :inicio AND m.data < :fim');
+                break;
+            case "p":
+                $qb->where('m.data_pagamento > :inicio AND m.data_pagamento < :fim');
+                break;
+            case "v":
+                $qb->where('p.dt_vencimento > :inicio AND p.dt_vencimento < :fim');
+                break;
+        }
+        
+        $dayAgo = new \DateTime("-1 day");
+        $dayAgo->setTime(0, 0, 0);
+        //var_dump($dayAgo);
+        switch ($tipo){
+            case "atraso":
+                $qb->andWhere('p.dt_vencimento <= :param');
+                $qb->andWhere('p.finalizado = :false');
+                
+                $qb->setParameter("false", false);
+                $qb->setParameter("param", $dayAgo);
+                break;
+            case "aberto":
+                $qb->andWhere('p.finalizado = :false');
+                $qb->andWhere('p.dt_vencimento > :param');
+                
+                $qb->setParameter("param", $dayAgo);
+                $qb->setParameter("false", false);
+                break;
+            case "quitada":
+                $qb->andWhere('p.finalizado = :true');
+                $qb->setParameter("true", true);
+                break;
+        }
+        
+        $qb->andWhere('c.id = :conta');
+        $qb->andWhere('r.ativo = :true');
+        $qb->setParameters(array("inicio" => $inicio,
+                                 "fim" => $fim,
+                                 "conta" => $conta,
+                                 "true" => true));
+        
+        //var_dump($qb->getDQL());
+        return $qb->getQuery()->getArrayResult();
+        
+    }
+    
     public static function conv_data_to_us($date){
 	$dia = substr($date,0,2);
 	$mes = substr($date,3,2);

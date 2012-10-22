@@ -56,7 +56,7 @@ li{list-style: none;}
 
 
 /* menu conteudo */
-#menuContent{padding: 5px 5px 10px 13px; background-color: #F4F4F4; margin: 8px; min-height: 80px; border: 1px solid #CCCCCC; border-radius: 0px}
+#menuContent{padding: 5px 5px 10px 5px; background-color: #F4F4F4; margin: 8px; min-height: 80px; border: 1px solid #CCCCCC; border-radius: 0px}
 #menuContent > h3, h2 {display: inline; vertical-align: middle; }
 #menuContent > ul {list-style: none; float:right}
 #menuContent > ul > li {text-align: center; display: block; float:left; width: 48px; height: 60px; padding: 10px}
@@ -84,7 +84,7 @@ li{list-style: none;}
 
 
 /* subMenu */
-#subMenu{font-size: 0.95em; padding: 5px 0px 5px 10px; background-color: #F4F4F4; margin: 8px; min-height: 20px; border: 1px solid #CCCCCC; border-radius: 0px}
+#subMenu{font-size: 0.95em; padding: 5px 0px 5px 0px; background-color: #F4F4F4; margin: 8px; min-height: 20px; border: 1px solid #CCCCCC; border-radius: 0px}
 #subMenu a {}
 #subMenu li {display: inline; border-right: 1px solid; padding-right: 10px; padding-left: 5px;}
 
@@ -158,12 +158,12 @@ form.cms .myform > .repeats > ul{margin-left: 26%;}
 .error{margin-left: 26%; margin-bottom: 4px; font-weight: bold; color:red;}
 
 /* tabela */
-.box-table {margin-left: 10px; margin:10px; font-size: 14px; background-color: #ABC6DD;}
+.box-table {font-size: 14px; background-color: #ABC6DD;}
 .table-expander {border:1px solid #025A8D;}
 .table-expander .fg-toolbar {border-top-left-radius: 0px !important; border-top-right-radius: 0px !important;}
 .box-table tbody {cursor: pointer}
-.link-name {color: #025A8D}
-.link-name:link{color: #025A8D;outline: medium none;text-decoration: none;}
+.link-name {color: #025A8D !important}
+.link-name:link{color: #025A8D !important ;outline: medium none;text-decoration: none; }
 .link-name:hover{text-decoration: underline;}
 .publicado, .unpublicado {display: block; height: 24px; width: 24px;}
 .publicado {background-image: url("../images/ok-ico2.png")}
@@ -251,7 +251,7 @@ form.cms .myform > .repeats > ul{margin-left: 26%;}
 .ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 
 /* multiselect */
-.multiselect {width: 463px;height: 200px;}
+.multiselect {width: 98%;height: 300px;}
 .ui-multiselect{padding: 0px !important; border: 1px solid #ADD8E6 !important; }
 .available{border-color:#ADD8E6 !important}
 .erro-multiselect ul{color: red; font-size: 16px;}
@@ -270,6 +270,10 @@ div.innerRow{display: none; }
 .empty-title{height: 17px;}
 .riscado{text-decoration: line-through;}
 .verde{background-color: #99ff99 !important}
+.bold > label{font-weight: bold;}
+#status { font-weight: bold; }
+.verdeCel {color: #0a0}
+.vermelhoCel {color:#ff0000}
 
 /*.box-table thead tr th:last-child{display: none !important;}
 .box-table tbody tr td:last-child{display: none !important;}*/
@@ -301,7 +305,9 @@ div.innerRow{display: none; }
     -webkit-box-shadow:0 0 10px #000;
 }
 
-.box-filter {margin-left: 3px;}
-.filter > div {display: inline; margin-right: 1%}
+.box-filter {margin-left: 3px; margin-top: 0.5%}
+.inicio,.fim {height: 20px}
+.filter div {display: inline; margin-right: 1%}
 .filter .picker > input {width: 9%;}
-.filter input[type="button"]{padding: 1px;}
+.filter input[type="button"]{padding: 0px;}
+.tipoData input{margin-right: 0.5em; margin-left: 0.2em}

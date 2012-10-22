@@ -19,6 +19,8 @@
 <div id="subMenu">
     <ul>
         <li><a href="{{ path("escalaFunIndex")}}">Escalas</a></li>
+        <li><a href="{{ path("categoriaHome")}}">Serviços</a></li>
+        <li><a href="{{ path("salarioHome")}}">Salários</a></li>
     </ul>
 </div>
 {% endblock %}
@@ -26,11 +28,11 @@
 {% block conteudo %}
 
     <div class="box-table">
-        <table class="tablePlugin" class="doubleclick tablePlugin">
+        <table class="tablePlugin doubleclick" route="funcionarioShow">
             <thead>
                 <tr>
                     <th class="left">Nome</th>
-                    <th>Cargo</th>
+                    <th style="width: 10%">Tipo</th>
                     <th style="width: 10%">Telefone</th>
                     <th class="hide">Id</th>
                 </tr>
@@ -39,7 +41,7 @@
         {% for funcionario in funcionarios %}
                 <tr{% if loop.index is even %} class="row0" {% else %} class="row1" {% endif %}>
                     <td><a class="link-name" href="{{ path('funcionarioEdit', {'id': funcionario.id} )}}">{{ funcionario.nome|default("") }}</a></td>
-                    <td>{{ funcionario.tipo.nome|default("") }} </td>
+                    <td>{{ funcionario.tipo  == 'fun' ? 'Funcionário' : 'Free-lancer' |default("") }} </td>
                     <td>{{ funcionario.telefone|default("") }}</td>
                     <td class="id">{{ funcionario.id|default("")}}</td>
                 </tr>

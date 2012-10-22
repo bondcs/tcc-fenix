@@ -82,6 +82,11 @@ class Conta
         
     }
     
+    public function saque($valor){
+        $this->valor -= $valor;
+        
+    }
+    
     public function getValorFuturo(){
         $total = 0;
         foreach ($this->getRegistros() as $registro){

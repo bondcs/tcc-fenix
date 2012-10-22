@@ -21,6 +21,13 @@ class Registro
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    
+    /**
+     * @var boolean $ativo
+     *
+     * @ORM\Column(name="ativo", type="boolean")
+     */
+    private $ativo;
 
     /**
      * @var datetime $data
@@ -40,7 +47,6 @@ class Registro
      *
      * @var object $conta
      * @ORM\ManyToOne(targetEntity="Conta", inversedBy="registros", cascade={"persist"}, fetch="LAZY")
-     * @Assert\NotBlank()
      */
     private $conta;
     
@@ -53,6 +59,7 @@ class Registro
     public function __construct() {
         $this->parcelas = new \Doctrine\Common\Collections\ArrayCollection();
         $this->data = new \DateTime();
+        $this->ativo = true;
     }
 
     /**
@@ -161,5 +168,25 @@ class Registro
             $total += $parcela->getMovimentacao()->getValor();
         }
         return $total;
+    }
+
+    /**
+     * Set ativo
+     *
+     * @param boolean $ativo
+     */
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+    }
+
+    /**
+     * Get ativo
+     *
+     * @return boolean 
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
     }
 }

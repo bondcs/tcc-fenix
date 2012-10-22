@@ -4,7 +4,6 @@ namespace Fnx\FinanceiroBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
-use Fnx\FinanceiroBundle\Form\ContaType;
 
 class ParcelaType extends AbstractType
 {
@@ -17,7 +16,11 @@ class ParcelaType extends AbstractType
                         'widget' => 'single_text',
                         'format' => 'dd/MM/yyyy'
              ))
-//            ->add('conta', new ContaType())
+            ->add('finalizado', "checkbox", array(
+                        'label' => 'Finalizado:*'
+              ))
+            ->add('registro', new RegistroMovType(), array(
+            ))
         ;
     }
     

@@ -7,6 +7,7 @@ $(document).ready(function() {
         simpleDialog();
         initDatepicker()
         populaCidade();
+        populaCidadeDialog()
         ajaxDialog();
         confirmDialog();
         cpfCnpj();
@@ -268,10 +269,9 @@ function dialogClose(){
 function populaCidade(){
 
     $("#estado").change(function(){
-
         $.ajax({
             type: 'POST',
-            url: Routing.generate('ajaxCidade', { estadoId: $('#estado').val() }),
+            url: Routing.generate('ajaxCidade', { estadoId: $(this).val() }),
             success: function(valores){
                 $('#cidade').empty();
                 var options = "";
@@ -284,6 +284,29 @@ function populaCidade(){
 
         })
 })
+
+    return false;
+}
+
+function populaCidadeDialog(){
+
+    $("#estado").live("change",function(){
+        $.ajax({
+            type: 'POST',
+            url: Routing.generate('ajaxCidade', { estadoId: $(this).val() }),
+            success: function(valores){
+                $('#cidadeDialog').empty();
+                var options = "";
+
+                $.each(valores,function(key,valor){
+                       options += '<option value="'+ valor['id']+ '">'+ valor['nome']+'</option>';
+                })
+                $("#cidadeDialog").html(options);
+            }
+
+        })
+})
+    return false;
 }
 
 function populaComplete(){
@@ -368,10 +391,8 @@ function initDatepicker() {
 		firstDay: 0,
 		isRTL: false,
 		showMonthAfterYear: false,
-		yearSuffix: '',
-                showOn: "button",
-		buttonImage: imageUrl+"calendar.gif",
-		buttonImageOnly: true
+		yearSuffix: ''
+                
             
       };
                 
@@ -380,20 +401,22 @@ function initDatepicker() {
 //    $('#datepicker')
 //        .attr('readonly', 'readonly')
 //        .datepicker({
-//            dateFormat: 'dd/mm/yy h:i:',
+//            dateFormat: 'dd/mm/yy h:i:s',
 //            changeMonth: true,
 //            yearRange: "1920:2000",
 //	    changeYear: true
 //        });
-//
-//    $('.datepicker input')
-//        .datepicker('disable')
-//        .attr('readonly', 'readonly')
-//        .datepicker({
-//            dateFormat: 'dd/mm/yy'
-//        });
-//
-//
+
+    $('.datepicker input')
+        .datetimepicker({
+            showOn: "button",
+	    buttonImage: imageUrl+"calendar.gif",
+	    buttonImageOnly: true
+    });
+    
+    $('.picker input').attr("readonly", 'readonly');
+
+
     $.timepicker.regional['pt-BR'] = {
         timeFormat: 'hh:mm:ss',
 	timeOnlyTitle: 'Escolha um tempo',
@@ -408,7 +431,8 @@ function initDatepicker() {
     };
 
     $.timepicker.setDefaults($.timepicker.regional['pt-BR']);
-
+    
+        
     $('.datepicker input').datetimepicker();
     $('.datepicker input').blur();
     $('.picker input').datepicker();
@@ -438,20 +462,30 @@ function ajaxLoadDialog(url){
 }
 
 function ajaxDelete(url){
+    
+        $.ajax({
+                type: 'POST',
+                url: url,
+                success: function(){
+                    $('.redraw').each(function(){
+                             $(this).dataTable().fnReloadAjax();
+                    });
+                    $(".hidden").addClass("DTTT_disabled");
+                    notifity("delete");
+                    return false;
+                }
+       })
 
-    $.ajax({
-            type: 'POST',
-            url: url,
-            success: function(){
-                $('.redraw').each(function(){
-                         $(this).dataTable().fnReloadAjax();
-                });
-                $(".hidden").addClass("DTTT_disabled");
-                notifity("delete");
-                return false;
-            }
-   })
+}
 
+function clickTableTerminate(){
+    
+    if ($("#status").html() == 'Arquivado'){
+        notifity('arquivado');
+        return false;
+    }
+    
+    return true;
 }
 
 function formataDinheiroTabela(valor){
@@ -468,6 +502,11 @@ function ajaxSubmitTable(){
                     success: function(result){
 
                         if (result['dialogName']){
+                           if (result['message'] == 'erroSaldo'){
+                               notifity(result['message']);
+                               return false;
+                           } 
+                            
                            $('.redraw').each(function(){
                                $(this).dataTable().fnReloadAjax();
                            });
@@ -512,6 +551,18 @@ function notifity(tipo){
             title: 'Sucesso!',
             text: 'O registro  foi excluído.',
             type: 'success'
+        });
+    }else if (tipo == 'erroSaldo'){
+        $.pnotify({
+            title: 'Erro!',
+            text: 'Saldo insuficiente na conta.',
+            type: 'error'
+        });
+    }else if (tipo == 'arquivado'){
+        $.pnotify({
+            title: 'Erro!',
+            text: 'Atividade arquivada.',
+            type: 'error'
         });
     }
 
@@ -570,27 +621,31 @@ function onSubmitForm(){
     }
     
 function onSubmitFormPagamento(){
-        
-        $(".ajax-form-pagamento").submit(function(){
-                    var url = $('.ajax-form-pagamento').attr("action");
-                    $.ajax({
-                        type: 'POST',
-                        url: url,
-                        data: $('.ajax-form-pagamento').serialize(),
-                        success: function(result){
-                            if (result['url']){
-                                 window.location.href = result['url'];
-                                 notifity(result['notifity']);
-                                 return false;
+            $(".ajax-form-pagamento").submit(function(){
+                        var url = $('.ajax-form-pagamento').attr("action");
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            data: $('.ajax-form-pagamento').serialize(),
+                            success: function(result){
+                                if (result['url']){
+                                     if (result['url'] == "arquivado"){
+                                         notifity("arquivado");
+                                         return false;
+                                     }
+                                     
+                                     window.location.href = result['url'];
+                                     notifity(result['notifity']);
+                                     return false;
+                                }
+
+                                $(".box-form-pagamento").html(result);
+                                onReadyAjax();
                             }
-                            
-                            $(".box-form-pagamento").html(result);
-                            onReadyAjax();
-                        }
-                    })
-                    
-                    return false;
-        })
+                        })
+
+                        return false;
+            })
         
         return false;
     }

@@ -62,7 +62,9 @@ function onTableAjaxEscala(){
                             "sExtends": "text",
                             "sButtonText": "Adicionar",
                             "fnClick" : function(){
-                                 ajaxLoadDialog(urlAdd);
+                                 if (clickTableTerminate()){
+                                    ajaxLoadDialog(urlAdd);
+                                 }
                             }
                         },
                         
@@ -71,9 +73,11 @@ function onTableAjaxEscala(){
                             "sButtonText": "Editar",
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
-                                 var aaData = this.fnGetSelectedData()
-                                 id = aaData[0]["id"];
-                                 ajaxLoadDialog(Routing.generate(routeEdit, {"id" : id}));
+                                 if (clickTableTerminate()){
+                                    var aaData = this.fnGetSelectedData()
+                                    id = aaData[0]["id"];
+                                    ajaxLoadDialog(Routing.generate(routeEdit, {"id" : id}));
+                                 }
                                  
                             }
                         },
@@ -83,18 +87,20 @@ function onTableAjaxEscala(){
                             "sButtonText": "Deletar",
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
-                                 var aaData = this.fnGetSelectedData()
-                                 id = aaData[0]["id"];
-                                 $( "#dialog-confirm" ).dialog("open");
-                                 $( "#dialog-confirm" ).dialog("option", "buttons", {
-                                     "Deletar": function() {
-                                            ajaxDelete(Routing.generate(routeDelete, {"id" : id})); 
-                                            $(this).dialog("close");
-                                     },
-                                     "Cancelar": function(){
-                                            $(this).dialog("close");
-                                     }
-                                 } );
+                                 if (clickTableTerminate()){
+                                    var aaData = this.fnGetSelectedData()
+                                    id = aaData[0]["id"];
+                                    $( "#dialog-confirm" ).dialog("open");
+                                    $( "#dialog-confirm" ).dialog("option", "buttons", {
+                                        "Deletar": function() {
+                                               ajaxDelete(Routing.generate(routeDelete, {"id" : id})); 
+                                               $(this).dialog("close");
+                                        },
+                                        "Cancelar": function(){
+                                               $(this).dialog("close");
+                                        }
+                                    } );
+                                 }
                                  return false;
                                  
                             }
@@ -104,6 +110,26 @@ function onTableAjaxEscala(){
                 }
         });
         
+//         $('.DTTT_button').on("click", function(){
+//             alert("ola");
+//         })
+        
+         $('.tableEscalas tbody td.control').live('click', function () {
+    
+            nTr = this.parentNode;
+            if ( oTableEscala.fnIsOpen(nTr) ) {
+              $('img', this).attr('src', imageUrl+'details_open.png');
+              $('div.innerRow', $(nTr).next()[0]).slideUp( function () {
+                    oTableEscala.fnClose( nTr );
+              } );
+            } else {
+              $('img', this).attr('src', imageUrl+'details_close.png');
+              var nDetailsRow = oTableEscala.fnOpen( nTr, getContent(nTr), "info_row" );
+              $('div.innerRow', nDetailsRow).slideDown();
+            }
+        });
+        
+}  
    
    function getContent(tr){
        
@@ -125,22 +151,7 @@ function onTableAjaxEscala(){
        
        return sOut;
    }
-   
-   $('.tableEscalas tbody td.control').live('click', function () {
-    
-    nTr = this.parentNode;
-    if ( oTableEscala.fnIsOpen(nTr) ) {
-      $('img', this).attr('src', imageUrl+'details_open.png');
-      $('div.innerRow', $(nTr).next()[0]).slideUp( function () {
-            oTableEscala.fnClose( nTr );
-      } );
-    } else {
-      $('img', this).attr('src', imageUrl+'details_close.png');
-      var nDetailsRow = oTableEscala.fnOpen( nTr, getContent(nTr), "info_row" );
-      $('div.innerRow', nDetailsRow).slideDown();
-    }
-    });
  
-}
+
 
 

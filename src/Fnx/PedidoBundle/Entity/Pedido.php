@@ -187,4 +187,14 @@ class Pedido
 
         return $sum;
     }
+
+    /**
+     * Add itens
+     *
+     * @param Fnx\PedidoBundle\Entity\Item $itens
+     */
+    public function addItem(\Fnx\PedidoBundle\Entity\Item $itens)
+    {
+        $this->itens[] = $itens;
+    }
 }

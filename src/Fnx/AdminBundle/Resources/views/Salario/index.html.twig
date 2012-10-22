@@ -1,0 +1,44 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+{% block title %} Escala {% endblock %}
+
+{% block menuContent %}
+
+    <div id="menuContent">
+        <h3>Gerenciamento: Salário de Funcionários</h3>
+        <ul>
+            <li><a class="back-link" href="{{ path('funcionarioHome')}}"><span></span>Voltar</a></li>
+        </ul> 
+    </div>
+
+{% endblock %}
+
+{% block subMenu %} 
+<div id="subMenu">
+    <ul>
+        <li><a href="{{ path("funcionarioHome")}}">Funcionários</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+     <div>
+       <div class="box-table">
+           <table class="tableSalario redraw">
+                <thead>
+                    <tr>
+                        <th style="width: 3%"></th>
+                        <th class="left">Nome</th>
+                        <th style="width: 10%">Salário</th>
+                        <th style="width: 10%">Á pagar</th>
+                        <th style="width: 20%">Último pagamento</th>
+                        <th>id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>  
+            </table>
+         </div>
+    </div>  
+     
+
+{% endblock %}

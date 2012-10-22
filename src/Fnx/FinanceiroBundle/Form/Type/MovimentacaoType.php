@@ -30,6 +30,7 @@ class MovimentacaoType extends AbstractType
                         'format' => 'dd/MM/yyyy HH:mm:ss',
              ))
             ->add('movimentacao', 'choice', array(
+                  'label' => 'Tipo:*',
                   'choices' => array('p' => 'Pagamento', 'r' => 'Recebimento')
             ))
             ->add('lembrar')

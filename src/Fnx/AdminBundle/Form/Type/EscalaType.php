@@ -49,14 +49,7 @@ class EscalaType extends AbstractType{
                         'label' => 'Agentes',
                         'class' => 'FnxAdminBundle:Funcionario',
                         'expanded' => false,
-                        'multiple' => true,
-                        'query_builder' => function(EntityRepository $er) {
-                            return $er->createQueryBuilder('f')
-                                    ->join('f.tipo', 't')
-                                    ->where("t.id = ?1 OR t.id = ?2 ")
-                                    ->setParameters(array(1=>2, 2=>3))
-                                    ->orderBy('t.nome', 'ASC');
-                        },
+                        'multiple' => true, 
                      
                 ))
                  ->add('local','text', array(

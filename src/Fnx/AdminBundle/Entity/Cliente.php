@@ -429,4 +429,14 @@ class Cliente
     public function ehJuridica(){
 	return $this->getPessoa() == 'j';
     }
+
+    /**
+     * Add pedidos
+     *
+     * @param Fnx\PedidoBundle\Entity\Pedido $pedidos
+     */
+    public function addPedido(\Fnx\PedidoBundle\Entity\Pedido $pedidos)
+    {
+        $this->pedidos[] = $pedidos;
+    }
 }

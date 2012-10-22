@@ -11,5 +11,15 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class FuncionarioRepository extends EntityRepository
-{  
+{ 
+    public function loadSalario(){
+       
+            $qb = $this->createQueryBuilder('f')
+                  ->select('f')
+                  ->where('f.tipo = :param')
+                  ->setParameter("param", "fun");
+
+            return $qb->getQuery()->getArrayResult();
+                 
+       }
 }

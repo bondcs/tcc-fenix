@@ -1,19 +1,28 @@
 {% extends "FnxAdminBundle::layout.html.twig" %}
-{% block title %}Administração: Financeiro{% endblock %}
+{% block title %}Gerenciamento: Financeiro{% endblock %}
 
 {% block menuContent %}
 
     <div id="menuContent">
-        <h3>Financeiro</h3>
+        <h3>Gerenciamento: Financeiro</h3>
         <ul>
-            <li><a class="new-link" href="{{ path('financeiro_instancia_new')}}"><span ></span>Novo</a></li>
+            {#<li><a class="new-link" href="{{ path('financeiro_instancia_new')}}"><span ></span>Novo</a></li>
             <li><a route="financeiro_instancia_show" class="show-link" href="#"><span></span>Profile</a></li>
             <li><a route="financeiro_instancia_edit" class="edit-link" href="#"><span></span>Editar</a></li>
-            <li><a route="financeiro_instancia_delete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
+            <li><a route="financeiro_instancia_delete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>#}
         </ul> 
     </div>
 
 {% endblock %}
 
 {% block conteudo %}
+    {% include 'FnxFinanceiroBundle:Movimentacao:tableTransacoes.html.twig' %}
+
+{% endblock %}
+
+{% block dialogCofirm %} 
+       {{ parent() }}
+       <div id="dialog-confirm-parcela" title="">
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 0px 0;"></span>Finalizará esta movimentação?</p>
+       </div>
 {% endblock %}

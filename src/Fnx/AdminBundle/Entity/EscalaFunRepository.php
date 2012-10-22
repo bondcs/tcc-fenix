@@ -12,22 +12,33 @@ use Doctrine\ORM\EntityRepository;
  */
 class EscalaFunRepository extends EntityRepository
 {
-       public function loadEscalaFun(){
+       public function loadEscalaFun($status, $categoria){
         
-        return $this->getEntityManager()
-                ->createQuery('SELECT e,f
-                               FROM FnxAdminBundle:EscalaFun e
-                               JOIN e.funcionario f
-                               JOIN f.tipo t
-                               WHERE t.id <> ?1
-                               AND e.fim > ?2')
-                ->setParameters(array(1 => 2,
-                                      2 => new \DateTime()))
-                ->getArrayResult();
-        
+//        $inicio = new \DateTime($this->conv_data_to_us($inicio));   
+//        $fim = new \DateTime($this->conv_data_to_us($fim));
+           
+            $qb = $this->createQueryBuilder('e')
+                  ->select('e','f','c')
+                  ->innerJoin('e.funcionarios', 'f')
+                  ->innerJoin('e.categoria', 'c');
+
+            if ($status == "a"){
+                $qb->where("e.ativo = 1");
+
+            }elseif ($status == "c"){
+                $qb->where("e.ativo = 0");
+            }
+
+            if ($categoria != 0){
+                $qb->andWhere("c.id = :categoria")
+                ->setParameter("categoria", $categoria);
+            }
+
+            return $qb->getQuery()->getArrayResult();
+                 
        }
        
-       public function loadEscalaFunTurno(){
+  public function loadEscalaFunTurno(){
         
         return $this->getEntityManager()
                 ->createQuery('SELECT f,t
@@ -37,4 +48,27 @@ class EscalaFunRepository extends EntityRepository
                 ->setParameter(1, 2)
                 ->getResult();
        }
+       
+    public function verificaEscala($id, $dataInicial, $dataFinal){
+       
+        return $this->getEntityManager()
+                ->createQuery('SELECT e FROM FnxAdminBundle:EscalaFun e 
+                               JOIN e.funcionarios f
+                               WHERE e.inicio <= :final AND e.fim >= :inicial
+                               AND f.id = :id')
+                ->setParameters(array("inicial" => $dataInicial,
+                                      "final" => $dataFinal,
+                                      "id" => $id,
+                                ))
+                ->getResult();
+    }
+    
+    public static function conv_data_to_us($date){
+	$dia = substr($date,0,2);
+	$mes = substr($date,3,2);
+	$ano = substr($date,6,4);
+        $hora = substr($date, 11,2);
+        $min = substr($date, 14,2);
+	return "{$ano}-{$mes}-{$dia} {$hora}:{$min} ";
+     }
 }

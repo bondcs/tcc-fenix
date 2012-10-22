@@ -16,7 +16,19 @@ use Fnx\AdminBundle\Form\Listener\CategoriaListener;
  */
 class AtividadeType extends AbstractType{
     
+    protected $atividade;
+    protected $cidades;
+
+
+    public function __construct($atividade, $cidades = array()) {
+        
+        $this->atividade = $atividade;
+        $this->cidades = $cidades;
+    } 
+    
     function buildForm(FormBuilder $builder, array $options) {
+        
+        $estado = $this->atividade->getCidade() ? $this->atividade->getCidade()->getEstado() : null;
         
         $builder
             ->add("nome","text", array(
@@ -31,19 +43,40 @@ class AtividadeType extends AbstractType{
                 "class" => "FnxAdminBundle:Servico",
                 "label" => "Serviço:*"
             ))
-//            ->add('categorias', 'entity', array(
-//                'property' => 'nome',
-//                'multiple' => true,
-//                'expanded' => true,
-//                'class' => 'FnxAdminBundle:Categoria',
-//            ))
             ->add('cliente','text', array(
                 'property_path' => false,
                 'label' => 'Cliente:*'
+            ))
+            ->add('cep','text', array(
+                'max_length' => 8,
+                'label' => 'Cep:'
+            ))
+            ->add('estado', 'entity', array(
+                'empty_value' => 'Selecione uma opcão',
+                'property' => 'nome',
+                'class' => 'FnxAdminBundle:Estado',
+                'property_path' => false,
+                'data' => $estado,
+                'label' => 'Estado:'
+            ))
+            ->add('cidade', 'entity', array(
+                'empty_value' => 'Selecione um estado antes',
+                'class' => 'FnxAdminBundle:Cidade',
+                'property' => 'nome',
+                'choices' => $this->cidades,
+                'label' => 'Cidade:'
+
+            ))
+            ->add('bairro','text', array(
+                'label' => 'Bairro:'
+            ))
+            ->add('rua','text', array(
+                'label' => 'Rua:'
+            ))
+            ->add('numero','text', array(
+                'label' => 'Numero:'
             ));
          
-//        $subscriber = new CategoriaListener($builder->getFormFactory());
-//        $builder->addEventSubscriber($subscriber);
     }
 
     function getName() {

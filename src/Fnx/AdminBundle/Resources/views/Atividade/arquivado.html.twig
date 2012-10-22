@@ -5,7 +5,6 @@
  <div id="menuContent">
       <h3>Gerenciamento: Atividades Arquivadas</h3>
       <ul>
-         <li><a route="atividadeAtivar" class="unarquive-link" href="#"><span></span>Ativar</a></li>
          <li><a route="atividadeDelete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
          <li><a class="back-link" href="{{ path("atividadeHome")}}"><span></span>Voltar</a></li>
       </ul> 
@@ -23,7 +22,7 @@
 
 {% block conteudo %}
 <div class="box-table">
-<table class="tablePlugin" >
+<table class="tablePlugin doubleclick" route="atividadeShow">
     <thead>
         <tr>
             

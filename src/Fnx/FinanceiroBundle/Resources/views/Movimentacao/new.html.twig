@@ -1,48 +1,52 @@
-<div class="box-form">
-    <div class="ui-panel-content ui-widget-content " style="width:auto;">
-    <h4 class="ui-panel-title ui-widget-header empty-title"></h4>
-    <form novalidate="" class="cms endereco ajax-form" style="padding: 15px;" action="{{ path('enderecoCreate',{'id' : id}) }}" method="post" {{ form_enctype(form) }}>
+<div class="box-form-dialog" style="padding: 2% 2% 11%;">    
+    <form novalidate="" class="cms ajaxFormTable" action="{{ path('movimentacaoCreate')}}" method="post" {{ form_enctype(form) }}>
              {{form_errors(form)}}
         <div class="myform">
 
             <div>
-                {{ form_errors(form.estado)}}
-                {{ form_label(form.estado)}}    
-                {{ form_widget(form.estado, {'id' : 'estado'})}}
-            </div>
-                
-            <div>
-                {{ form_errors(form.cidade)}}
-                {{ form_label(form.cidade)}}    
-                {{ form_widget(form.cidade, {'id' : 'cidade'})}}
-            </div>
-                
-            <div>
-                {{ form_errors(form.bairro)}}
-                {{ form_label(form.bairro)}}    
-                {{ form_widget(form.bairro)}}
-            </div>
-
-            <div>
-                {{ form_errors(form.rua)}}
-                {{ form_label(form.rua)}}    
-                {{ form_widget(form.rua)}}
+                {{ form_errors(form.parcela.registro.conta)}}
+                {{ form_label(form.parcela.registro.conta)}}    
+                {{ form_widget(form.parcela.registro.conta)}}
             </div>
             
             <div>
-                {{ form_errors(form.numero)}}
-                {{ form_label(form.numero)}}    
-                {{ form_widget(form.numero)}}
+                {{ form_errors(form.parcela.registro.descricao)}}
+                {{ form_label(form.parcela.registro.descricao)}}    
+                {{ form_widget(form.parcela.registro.descricao)}}
             </div>
-                
+            
             <div>
-                {{ form_errors(form.complemento)}}
-                {{ form_label(form.complemento)}}    
-                {{ form_widget(form.complemento)}}
+                {{ form_errors(form.valor)}}
+                {{ form_label(form.valor)}}    
+                {{ form_widget(form.valor, {'attr' : { 'style' : 'width:33%'}})}}
             </div>
+            
+            <div>
+                {{ form_errors(form.parcela.finalizado)}}
+                {{ form_label(form.parcela.finalizado)}}    
+                {{ form_widget(form.parcela.finalizado)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.formaPagamento)}}
+                {{ form_label(form.formaPagamento)}}    
+                {{ form_widget(form.formaPagamento)}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.movimentacao)}}
+                {{ form_label(form.movimentacao)}}    
+                {{ form_widget(form.movimentacao)}}
+            </div>
+            
+            <div class="picker">
+                {{ form_errors(form.parcela.dt_vencimento)}}
+                {{ form_label(form.parcela.dt_vencimento)}}    
+                {{ form_widget(form.parcela.dt_vencimento)}}
+            </div>
+
         </div>    
             {{ form_row(form._token) }}
             <input style="margin-bottom: 15px;" type="submit" value="Submit"/>
-        </form>
-    </div>
+   </form>
 </div>

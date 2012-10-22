@@ -12,14 +12,7 @@
 {% endblock %}
 
 {% block conteudo %}
-
-{% if funcionario.tipo.id == 3 %}
-    {% include 'FnxAdminBundle:Funcionario:agente.html.twig' %}
-{% elseif funcionario.tipo.id == 2 %}
-    {% include 'FnxAdminBundle:Funcionario:agente.html.twig' %}
-{% else %}
     {% include 'FnxAdminBundle:Funcionario:padrao.html.twig' %}
-{% endif %}
 
 {% endblock %}
 

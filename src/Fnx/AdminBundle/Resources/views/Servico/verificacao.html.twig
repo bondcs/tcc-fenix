@@ -4,7 +4,6 @@
         <li><a href="#tabs-2">Propriedade</a></li>
         <li><a href="#tabs-3">Galeria</a></li>
         <li><a href="#tabs-4">Pagamento</a></li>
-        <li><a href="#tabs-5">Endereço</a></li>
     </ul>
         
     <div id="tabs-2">
@@ -25,17 +24,6 @@
         {% endif%}
         </div>
       
-    </div>
-        
-    <div id="tabs-5">
-        <div class="box-form-ajax">
-        {% if (atividade.enderecos is empty) %}
-            {% render 'FnxAdminBundle:Endereco:new' with {'id' : atividade.id} %}    
-        {% else %}
-            {% render 'FnxAdminBundle:Endereco:edit' with {'id' : atividade.id} %}
-        {% endif%}
-        </div>
-
     </div>
 
 

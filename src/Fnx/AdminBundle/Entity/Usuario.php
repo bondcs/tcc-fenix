@@ -268,4 +268,24 @@ class Usuario implements UserInterface
         $this->userRoles[] = $userRoles;
     }
 
+
+    /**
+     * Add pedidos
+     *
+     * @param Fnx\PedidoBundle\Entity\Pedido $pedidos
+     */
+    public function addPedido(\Fnx\PedidoBundle\Entity\Pedido $pedidos)
+    {
+        $this->pedidos[] = $pedidos;
+    }
+
+    /**
+     * Get pedidos
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPedidos()
+    {
+        return $this->pedidos;
+    }
 }

@@ -59,7 +59,9 @@ function onTableAjaxPropriedade(){
                             "sExtends": "text",
                             "sButtonText": "Adicionar",
                             "fnClick" : function(){
+                                if (clickTableTerminate()){
                                  ajaxLoadDialog(urlAdd);
+                                }
                             }
                         },
                         
@@ -68,9 +70,11 @@ function onTableAjaxPropriedade(){
                             "sButtonText": "Editar",
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
+                                if (clickTableTerminate()){
                                  var aaData = this.fnGetSelectedData()
                                  id = aaData[0]["id"];
                                  ajaxLoadDialog(Routing.generate(routeEdit, {"id" : id}));
+                                }
                                  
                             }
                         },
@@ -80,6 +84,7 @@ function onTableAjaxPropriedade(){
                             "sButtonText": "Deletar",
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
+                                if (clickTableTerminate()){
                                  var aaData = this.fnGetSelectedData()
                                  id = aaData[0]["id"];
                                  $( "#dialog-confirm" ).dialog("open");
@@ -93,6 +98,7 @@ function onTableAjaxPropriedade(){
                                      }
                                  } );
                                  return false;
+                                }
                                  
                             }
                         }

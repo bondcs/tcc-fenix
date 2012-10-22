@@ -43,7 +43,7 @@ class AtividadeController extends Controller{
     public function addAction(){
         
         $atividade = new Atividade();
-        $form =  $this->createForm(new AtividadeType, $atividade);
+        $form =  $this->createForm(new AtividadeType($atividade), $atividade);
         
         return array(
             'atividade' => $atividade,
@@ -61,7 +61,8 @@ class AtividadeController extends Controller{
         
         $atividade = new Atividade();
         $atividade->setContrato(new Contrato());
-        $form =  $this->createForm(new AtividadeType, $atividade);
+        $cidades = $this->getDoctrine()->getRepository("FnxAdminBundle:Cidade")->loadCidadeObject($_POST['fnx_admin_atividade']['estado']);
+        $form =  $this->createForm(new AtividadeType($atividade,$cidades), $atividade);
         
         $form->bindRequest($this->getRequest());   
         $cliente = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")
@@ -91,7 +92,14 @@ class AtividadeController extends Controller{
         if (!$atividade){
             throw $this->createNotFoundException("Atividade não encontrada.");
         }
-        $form =  $this->createForm(new AtividadeType, $atividade);
+        
+        if ($atividade->getCidade()){
+            $cidades = $this->getDoctrine()->getRepository("FnxAdminBundle:Cidade")->loadCidadeObject($atividade->getCidade()->getEstado()->getId());
+        }else{
+            $cidades = array();
+        }
+        
+        $form =  $this->createForm(new AtividadeType($atividade, $cidades), $atividade);
         $form->get("cliente")->setData($atividade->getContrato()->getCliente()->getNome());
         
         return array(
@@ -104,7 +112,7 @@ class AtividadeController extends Controller{
     /**
      * @Route("/update/{id}", name="atividadeUpdate")
      * @Method({"POST"})
-     * @Template()
+     * @Template("FnxAdminBundle:Atividade:edit.html.twig")
      */
     public function updateAction($id){
             
@@ -112,8 +120,8 @@ class AtividadeController extends Controller{
         if (!$atividade){
             throw $this->createNotFoundException("Atividade não encontrada.");
         }
-        $form =  $this->createForm(new AtividadeType, $atividade);
-        
+        $cidades = $this->getDoctrine()->getRepository("FnxAdminBundle:Cidade")->loadCidadeObject($_POST['fnx_admin_atividade']['estado']);
+        $form =  $this->createForm(new AtividadeType($atividade,$cidades), $atividade);
         $servicoOld = $atividade->getServico();
         $form->bindRequest($this->getRequest());   
         $cliente = $this->getDoctrine()->getRepository("FnxAdminBundle:Cliente")
@@ -155,7 +163,7 @@ class AtividadeController extends Controller{
         $em->flush();
         
         $this->get("session")->setFlash("success", "Atividade excluída.");
-        return $this->redirect($this->generateUrl("atividadeArquivado"));
+        return $this->redirect($this->generateUrl("atividadeHome"));
         
         
     }
@@ -171,11 +179,11 @@ class AtividadeController extends Controller{
             throw $this->createNotFoundException("Atividade não encontrada.");
         }
         
-        if ($atividade->getArquivado()){
-            $this->get("session")->setFlash("error", "Esta atividade está arquivada.");
-            return $this->redirect($this->generateUrl("atividadeHome"));
-            
-        }
+//        if ($atividade->getArquivado()){
+//            $this->get("session")->setFlash("error", "Esta atividade está arquivada.");
+//            return $this->redirect($this->generateUrl("atividadeHome"));
+//            
+//        }
         
         return array("atividade" => $atividade);
         
@@ -202,10 +210,13 @@ class AtividadeController extends Controller{
         
         $em = $this->getDoctrine()->getEntityManager();
         $atividade->setArquivado(true);
+        if ($atividade->getRegistro()){
+            $atividade->getRegistro()->setAtivo(false);
+        }
         $em->persist($atividade);
         $em->flush();
         $this->get("session")->setFlash("success", "Atividade arquivada.");
-        return $this->redirect($this->generateUrl("atividadeArquivado"));
+        return $this->redirect($this->generateUrl("atividadeShow", array("id" => $atividade->getId())));
     }
     
     /**
@@ -231,6 +242,9 @@ class AtividadeController extends Controller{
         }
         
         $atividade->setArquivado(false);
+        if ($atividade->getRegistro()){
+            $atividade->getRegistro()->setAtivo(true);
+        }
         $em = $this->getDoctrine()->getEntityManager();
         
         foreach ($atividade->getEscalas() as $escala){
@@ -242,7 +256,7 @@ class AtividadeController extends Controller{
         $em->persist($atividade);
         $em->flush();
         $this->get("session")->setFlash("success", "Atividade ativada.");
-        return $this->redirect($this->generateUrl("atividadeArquivado"));
+        return $this->redirect($this->generateUrl("atividadeShow", array("id" => $atividade->getId())));
     }
     
     public function changeEvento($atividade){

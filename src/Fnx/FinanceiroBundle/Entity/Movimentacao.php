@@ -98,6 +98,30 @@ class Movimentacao
         $this->valor_pago = 0;
     }
     
+    public function atualizaCaixa(){
+        $conta = $this->getParcela()->getRegistro()->getConta();
+        if ($this->getParcela()->getFinalizado()){
+            $this->data_pagamento = new \DateTime();
+
+            if ($this->movimentacao == 'p' && substr(str_replace(",", ".", $this->valor),3) > $conta->getValor()){
+                return false;
+            }
+            
+            if ($this->valor_pago == 0){
+                $this->setValorPago($this->valor);
+            }
+            
+            $valorPago = substr(str_replace(",", ".", $this->valor_pago),3);
+            if ($this->movimentacao == 'r'){
+                $conta->deposita($valorPago);
+            }else{
+                $conta->saque($valorPago);
+            }
+        }
+        
+    }
+
+
     /**
      * @ORM\PrePersist @ORM\PreUpdate
      */
@@ -110,6 +134,21 @@ class Movimentacao
             $this->valor_pago = substr(str_replace(",", ".", $this->valor_pago),3);
         }
     }
+    
+    /**
+     * @ORM\PreRemove
+     */
+    public function removeDinheiroConta(){
+        if ($this->getParcela()->getFinalizado()){
+            $conta = $this->getParcela()->getRegistro()->getConta();
+            if ($this->movimentacao == 'r'){
+                $conta->saque($this->valor_pago);
+            }else{
+                $conta->deposita($this->valor_pago);
+            }
+        }
+    }
+
 
     /**
      * Get id

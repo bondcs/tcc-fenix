@@ -1,8 +1,17 @@
 $(document).ready(function() {
-    onTableAjaxEscalaFun()
+    onTableAjaxEscalaFun();
+    filtrarEscalas();
+    habilitarEscala();
+  
 })
 
 function onTableAjaxEscalaFun(){
+        
+        var categoria = $(".categoria").val();
+        if (!$(".categoria").val()){
+             categoria = 0;
+        }
+        
         
         oTableEscalaFun = $('.tableEscalaFun').dataTable({
             "bJQueryUI": true,
@@ -30,18 +39,36 @@ function onTableAjaxEscalaFun(){
             "bInfo": false,
             "bRetrieve": true,
             "bProcessing": true,
-            "sAjaxSource": Routing.generate("escalaFunAjax"),
+            "sAjaxSource": Routing.generate("escalaFunAjax", {
+//                                                'inicio' : $(".inicio").val(),
+//                                                'fim' : $(".fim").val(),
+                                                'status' : $(".status").val(),
+                                                'categoria' : categoria
+            }),
             "aoColumns": [
-                { "mDataProp": "funcionario.nome" },
+                { "mDataProp": "funcionariosString" },
+                
 //                { "mDataProp": "escalaN",
 //                    "sClass": "center"},
+                { "mDataProp": "categoria.nome"},
                 { "mDataProp": "descricao"},
+                { "mDataProp": "local" },
                 { "mDataProp": "escalaEx",
-                    "sClass": "pointer center"},
+                    "sClass": "center"},
+                { "mDataProp": "ativo",
+                    "sClass": "center check"},
                 { "mDataProp": "id" },
                     
              ],
-            "aoColumnDefs": [{"bVisible": false, "aTargets": [3]}],
+            "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+                if (aData['ativo'] == true){
+                    $('td:eq(5)', nRow).html('<img src="'+imageUrl+'check2.png">');
+                }else{
+                    $('td:eq(5)', nRow).html('<img src="'+imageUrl+'uncheck2.png">');
+                }
+            },
+            "aoColumnDefs": [{"bVisible": false, "aTargets": [6]},
+                              {"bSortable": false, "aTargets": [5]}],
             "bAutoWidth": false,
     //           "fnDrawCallback": function ( oSettings ) {
     //            if ( oSettings.aiDisplay.length == 0 )
@@ -81,7 +108,7 @@ function onTableAjaxEscalaFun(){
                             "sExtends": "pdf",
                             "mColumns": "visible",
                             "sPdfOrientation": "landscape",
-                            "sPdfMessage": "Escalas Adicionais"
+                            "sPdfMessage": "Escalas"
                         },
                         {
                             "sExtends": "text",
@@ -126,6 +153,73 @@ function onTableAjaxEscalaFun(){
                 }
         });
         
-         $("div.toolbar02").html('<b>Escalas Adicionais</b>');
+         $("div.toolbar02").html('<b>Escalas</b>');
         
 }
+
+function filtrarEscalas(){
+    
+    $('#filtrarEscala').click(function(){
+        
+        var categoria = $(".categoria").val();
+        if (!$(".categoria").val()){
+            categoria = 0;
+        }
+
+        var flag = false;
+        if ($(".inicio").val() == ""){
+            notifityParcela('erro01');
+            flag = true;
+        }
+        
+        if ($(".fim").val() == ""){
+            notifityParcela('erro02')
+            flag = true
+        }
+        
+        if (flag){
+            return false;
+        }
+        
+        oTableEscalaFun.fnNewAjax(Routing.generate("escalaFunAjax", {
+//                                                'inicio' : $(".inicio").val(),
+//                                                'fim' : $(".fim").val(),
+                                                'status' : $(".status").val(),
+                                                'categoria' : categoria
+                        }));
+                            
+        oTableEscalaFun.dataTable().fnReloadAjax();
+
+        return false;
+    })
+    
+    
+}
+
+function habilitarEscala(){
+    
+    $("#habilitarEscala").change(function(){
+        if ($('#habilitarEscala').is(':checked')){
+           $(".inicio").removeAttr("disabled");
+           $(".fim").removeAttr("disabled");
+        }else{
+           $(".inicio").attr("disabled", "disabled");
+           $(".fim").attr("disabled", "disabled") 
+        }
+    });
+}
+
+$(".tableEscalaFun tbody td.check").live("click", function(){
+    
+            var data = oTableEscalaFun.fnGetData(this.parentNode);
+            var url = Routing.generate("escalaFunCheck", {"id" : data['id']})
+            $.ajax({
+                type: 'POST',
+                url: url,
+                success: function(){
+                    $('.redraw').dataTable().fnReloadAjax();
+                    onReadyAjax();  
+                    return false;
+                }
+            })
+})

@@ -31,6 +31,13 @@ class Parcela
     private $dt_vencimento;
     
     /**
+     * @var integer $numero
+     *
+     * @ORM\Column(name="numero", type="integer")
+     */
+    private $numero;
+    
+    /**
      * @var date $finalizado
      *
      * @ORM\Column(name="finalizado", type="boolean")
@@ -143,5 +150,25 @@ class Parcela
     public function getFinalizado()
     {
         return $this->finalizado;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param integer $numero
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return integer 
+     */
+    public function getNumero()
+    {
+        return $this->numero;
     }
 }

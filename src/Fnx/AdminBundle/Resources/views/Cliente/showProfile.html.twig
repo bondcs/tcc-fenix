@@ -25,7 +25,6 @@
     <ul>
 		<li><a href="#tabs-1">Informações</a></li>
 		<li><a href="#tabs-2">Responsáveis</a></li>
-                <li><a href="#tabs-3">Transações</a></li>
                 <li><a href="#tabs-3">Atividades</a></li>
     </ul>
   <div id="tabs-1">
@@ -67,19 +66,19 @@
             <tr>
             <tr>
                 <th>Estado:</th>
-                <td>{{ cliente.cidade.nome|default("-")}}</td>
+                <td>{{ cliente.cidade.estado.nome|default("#")}}</td>
             <tr>
             <tr>
                 <th>Cidade:</th>
-                <td>{{ cliente.cidade.nome|default("-")}}</td>
+                <td>{{ cliente.cidade.nome|default("#")}}</td>
             <tr>
             <tr>
                 <th>Bairro:</th>
-                <td>{{ cliente.bairro|default("-") }}</td>
+                <td>{{ cliente.bairro|default("#") }}</td>
             <tr>
             <tr>
                 <th>Rua:</th>
-                <td>{{ cliente.rua ~ " " ~ cliente.numero|default("-") }}</td>
+                <td>{{ cliente.rua ~ " " ~ cliente.numero|default("#") }}</td>
             <tr>
       </table>
   </div>
@@ -89,9 +88,27 @@
       
   </div>
   <div id="tabs-3" style="padding: 0px;">
-      {% include "FnxAdminBundle:Cliente:tableTransacoes.html.twig" %}
-  </div>
-  <div id="tabs-4" style="padding: 0px;">
+      
+    <div class="box-table">
+        <table class="tablePlugin">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for contrato in cliente.contratos %}
+                {% for atividade in contrato.atividades %}
+                <tr>
+                    <td><a class="link-name" href="{{path('atividadeShow', {'id' : atividade.id})}}">{{ atividade.nome }}</a></td>
+                    <td>{{ atividade.arquivado ? "Arquivado" : "Ativo"}}</td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
       
   </div>
 </div>

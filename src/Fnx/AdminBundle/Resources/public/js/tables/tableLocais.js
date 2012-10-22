@@ -35,7 +35,8 @@ function onTableAjaxLocal(){
                 { "mDataProp": "rua" },
                 { "mDataProp": "numero" },
                 { "mDataProp": "complemento" },
-                { "mDataProp": "custo" },
+                { "mDataProp": "custo",
+                    "sClass": "center"},
                 { "mDataProp": "id" },
                     
              ],
@@ -48,7 +49,7 @@ function onTableAjaxLocal(){
                 }
                 
                 var nCells = nRow.getElementsByTagName('th');
-		nCells[1].innerHTML = formataDinheiroTabela(total);
+		nCells[1].innerHTML = formataDinheiro(total+"");
             },
             "sDom": '<"H"Tfr>t<"F"ip>',
                 "oTableTools": {
@@ -59,7 +60,9 @@ function onTableAjaxLocal(){
                             "sExtends": "text",
                             "sButtonText": "Adicionar",
                             "fnClick" : function(){
-                                 ajaxLoadDialog(urlAdd);
+                                if (clickTableTerminate()){
+                                   ajaxLoadDialog(urlAdd);
+                                }
                             }
                         },
                         
@@ -68,9 +71,11 @@ function onTableAjaxLocal(){
                             "sButtonText": "Editar",
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
+                               if (clickTableTerminate()){
                                  var aaData = this.fnGetSelectedData()
                                  id = aaData[0]["id"];
                                  ajaxLoadDialog(Routing.generate(routeEdit, {"id" : id}));
+                               }
                                  
                             }
                         },
@@ -80,6 +85,7 @@ function onTableAjaxLocal(){
                             "sButtonText": "Deletar",
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
+                                if (clickTableTerminate()){
                                  var aaData = this.fnGetSelectedData()
                                  id = aaData[0]["id"];
                                  $( "#dialog-confirm" ).dialog("open");
@@ -93,6 +99,7 @@ function onTableAjaxLocal(){
                                      }
                                  } );
                                  return false;
+                                }
                                  
                             }
                         }

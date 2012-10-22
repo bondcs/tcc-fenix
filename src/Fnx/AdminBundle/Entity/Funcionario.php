@@ -12,6 +12,7 @@ use Fnx\AdminBundle\Entity\Escala;
  *
  * @ORM\Table(name="funcionario")
  * @ORM\Entity(repositoryClass="Fnx\AdminBundle\Entity\FuncionarioRepository")
+ * @ORM\HasLifecycleCallbacks();
  */
 class Funcionario
 {
@@ -27,11 +28,43 @@ class Funcionario
     /**
      * @var string $nome
      *
-     * @ORM\Column(name="nome", type="string", length=255)
+     * @ORM\Column(name="nome", type="string", length=45)
      * @Assert\NotBlank()
      */
     private $nome;
     
+    /**
+     * @var string $cpf
+     *
+     * @ORM\Column(name="cpf", type="string", length=45)
+     */
+    private $cpf;
+    
+    /**
+     * @var string $rg
+     *
+     * @ORM\Column(name="rg", type="string", length=45, nullable=true)
+     * @FnxAssert\ApenasNumero()
+     */
+    private $rg;
+    
+    /**
+     * @var string $nome
+     *
+     * @ORM\Column(name="dependentes", type="integer")
+     * @FnxAssert\ApenasNumero()
+     */
+    private $dependentes;
+    
+    /**
+     *
+     * @var array collection $categorias
+     * 
+     * @ORM\ManyToMany(targetEntity="Categoria")
+     */
+    private $categorias;
+
+
     /**
      * @var object Usuario
      * 
@@ -62,34 +95,38 @@ class Funcionario
     /**
      *
      * @var type object
-     * @ORM\ManyToOne(targetEntity="TipoFun", fetch="LAZY")
+     * @ORM\Column(name="tipo", type="string", length=5)
      * 
-     * @Assert\NotBlank()
      */
     private $tipo;
-    
-    /**
-     *
-     * @ORM\Column(type="time", nullable=true)
-     */
-    private $escalaDiariaInicio;
-    
-    /**
-     *
-     * @ORM\Column(type="time", nullable=true)
-     */
-    private $escalaDiariaFinal;
-    
+       
     /**
      * Escalas excepcionais.
-     * @ORM\OneToMany(targetEntity="EscalaFun", mappedBy="funcionario", cascade={"persist, remove"}, orphanRemoval=true)
+     * @ORM\ManyToMany(targetEntity="EscalaFun", mappedBy="funcionarios", cascade={"persist, remove"})
      */
     private $escalasEx;
+    
+    /**
+     *
+     * @var object $salario
+     * @ORM\OneToOne(targetEntity="Salario", cascade={"all"})
+     */
+    private $salario;
     
     public function __construct() {
         
         $this->escalas = new \Doctrine\Common\Collections\ArrayCollection();
         $this->escalasEx = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categorias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->dependentes = 0;
+    }
+    
+    /**
+     * @ORM\PrePersist @ORM\PreUpdate
+     */
+    public function formataDinheiro(){
+        $this->salario = substr(str_replace(",", ".", $this->salario),3);
+
     }
 
     /**
@@ -164,8 +201,8 @@ class Funcionario
     
     public function __toString() {
         
-        switch ($this->tipo->getNome()){
-            case "FreeLancer":
+        switch ($this->tipo){
+            case "free":
                 return $this->nome." (FreeLancer)";
                 break;
             
@@ -199,9 +236,9 @@ class Funcionario
     /**
      * Set tipo
      *
-     * @param Fnx\AdminBundle\Entity\TipoFun $tipo
+     * @param string $tipo
      */
-    public function setTipo(\Fnx\AdminBundle\Entity\TipoFun $tipo)
+    public function setTipo($tipo)
     {
         $this->tipo = $tipo;
     }
@@ -209,52 +246,13 @@ class Funcionario
     /**
      * Get tipo
      *
-     * @return Fnx\AdminBundle\Entity\TipoFun 
+     * @return string
      */
     public function getTipo()
     {
         return $this->tipo;
     }
-
-    /**
-     * Set escalaDiariaInicio
-     *
-     * @param time $escalaDiariaInicio
-     */
-    public function setEscalaDiariaInicio($escalaDiariaInicio)
-    {
-        $this->escalaDiariaInicio = $escalaDiariaInicio;
-    }
-
-    /**
-     * Get escalaDiariaInicio
-     *
-     * @return time 
-     */
-    public function getEscalaDiariaInicio()
-    {
-        return $this->escalaDiariaInicio;
-    }
-
-    /**
-     * Set escalaDiariaFinal
-     *
-     * @param time $escalaDiariaFinal
-     */
-    public function setEscalaDiariaFinal($escalaDiariaFinal)
-    {
-        $this->escalaDiariaFinal = $escalaDiariaFinal;
-    }
-
-    /**
-     * Get escalaDiariaFinal
-     *
-     * @return time 
-     */
-    public function getEscalaDiariaFinal()
-    {
-        return $this->escalaDiariaFinal;
-    }
+ 
 
     /**
      * Add escalasEx
@@ -274,5 +272,106 @@ class Funcionario
     public function getEscalasEx()
     {
         return $this->escalasEx;
+    }
+
+    /**
+     * Set cpf
+     *
+     * @param string $cpf
+     */
+    public function setCpf($cpf)
+    {
+        $this->cpf = $cpf;
+    }
+
+    /**
+     * Get cpf
+     *
+     * @return string 
+     */
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    /**
+     * Set rg
+     *
+     * @param string $rg
+     */
+    public function setRg($rg)
+    {
+        $this->rg = $rg;
+    }
+
+    /**
+     * Get rg
+     *
+     * @return string 
+     */
+    public function getRg()
+    {
+        return $this->rg;
+    }
+
+    /**
+     * Set dependentes
+     *
+     * @param integer $dependentes
+     */
+    public function setDependentes($dependentes)
+    {
+        $this->dependentes = $dependentes;
+    }
+
+    /**
+     * Get dependentes
+     *
+     * @return integer 
+     */
+    public function getDependentes()
+    {
+        return $this->dependentes;
+    }
+
+    /**
+     * Add categorias
+     *
+     * @param Fnx\AdminBundle\Entity\Categoria $categorias
+     */
+    public function addCategoria(\Fnx\AdminBundle\Entity\Categoria $categorias)
+    {
+        $this->categorias[] = $categorias;
+    }
+
+    /**
+     * Get categorias
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getCategorias()
+    {
+        return $this->categorias;
+    }
+
+
+    /**
+     * Set salario
+     *
+     * @param Fnx\AdminBundle\Entity\Salario $salario
+     */
+    public function setSalario(\Fnx\AdminBundle\Entity\Salario $salario)
+    {
+        $this->salario = $salario;
+    }
+
+    /**
+     * Get salario
+     *
+     * @return Fnx\AdminBundle\Entity\Salario 
+     */
+    public function getSalario()
+    {
+        return $this->salario;
     }
 }

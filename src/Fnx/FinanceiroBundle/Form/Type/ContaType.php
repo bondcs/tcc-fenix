@@ -17,6 +17,10 @@ class ContaType extends AbstractType
                   'label' => 'Descrição:',
                   'required' => false
             ))
+            ->add('valor', 'text', array(
+                  'label' => 'Valor:',
+                  'required' => false
+            ))
             ->add('instancia','entity', array(
                   'label' => 'Instância:*',
                   'class' => 'FnxFinanceiroBundle:Instancia',

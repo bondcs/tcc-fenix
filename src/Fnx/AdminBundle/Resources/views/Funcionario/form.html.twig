@@ -33,23 +33,43 @@
                 <div> 
                     {{ form_errors(form.telefone)}}
                     {{ form_label(form.telefone)}}    
-                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone'}})}}
+                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone', 'style' : 'width:30%'}})}}
                 </div>
             
-                <div class="timepicker"> 
-                    {{ form_errors(form.escalaDiariaInicio)}}
-                    {{ form_label(form.escalaDiariaInicio)}}    
-                    {{ form_widget(form.escalaDiariaInicio)}}
+                <div> 
+                    {{ form_errors(form.cpf)}}
+                    {{ form_label(form.cpf)}}    
+                    {{ form_widget(form.cpf, {'attr' : {'class' : 'cpf', 'style' : 'width:30%'}})}}
+                </div>
+                
+                <div> 
+                    {{ form_errors(form.rg)}}
+                    {{ form_label(form.rg)}}    
+                    {{ form_widget(form.rg, {'attr' : {'class' : 'rg', 'style' : 'width:30%'}})}}
                 </div>
             
-                <div class="timepicker"> 
-                    {{ form_errors(form.escalaDiariaFinal)}}
-                    {{ form_label(form.escalaDiariaFinal)}}    
-                    {{ form_widget(form.escalaDiariaFinal)}}
+                <div> 
+                    {{ form_errors(form.dependentes)}}
+                    {{ form_label(form.dependentes)}}    
+                    {{ form_widget(form.dependentes, {'attr' : {'style' : 'width:10%'}})}}
                 </div>
- 
+            
+                <div> 
+                    {{ form_errors(form.salario.salario)}}
+                    {{ form_label(form.salario.salario)}}    
+                    {{ form_widget(form.salario.salario,{'attr' : {'class' : 'moeda', 'style' : 'width:20%'}})}}
+                </div>
+            
+                <div class="checkbox">
+                    <fieldset>
+                        <legend>Permissão</legend>
+                            {{ form_errors(form.categorias)}}    
+                            {{ form_widget(form.categorias)}}
+                    </fieldset>
+                </div>
+
     </div>
-                {{ form_rest(form)}}
+                {{ form_row(form._token) }}
             <input type="submit" value="Submit"/>
     </form>
     </div>  

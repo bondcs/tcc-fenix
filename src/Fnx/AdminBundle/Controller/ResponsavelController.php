@@ -198,11 +198,9 @@ class ResponsavelController extends Controller{
         $responsaveis['aaData'] = array();
         foreach ($responsaveisObjetos as $key => $value) {
            
-              $array[0] = $value->getNome();
-              $array[1] = $value->getTelefone();
-              $array[2] = $value->getUsuario() ? $value->getUsuario()->getUsername() : "";
-              $array[3] = $value->getId();
-              $responsaveis['aaData'][] = $array;
+              $value['cpf'] = $value['cpf'] ? $value['cpf'] : "-";
+              $value['usuario'] = $value['usuario'] != null ? $value['usuario']['username'] : "-";
+              $responsaveis['aaData'][] = $value;
         }
         
         $response = new Response(json_encode($responsaveis));

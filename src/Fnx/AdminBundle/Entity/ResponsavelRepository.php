@@ -17,10 +17,13 @@ class ResponsavelRepository extends EntityRepository {
     
     public function loadResponsavel($id){   
         return $this->getEntityManager()
-                ->createQuery('SELECT r
-                               FROM FnxAdminBundle:Responsavel r WHERE r.cliente = :id')
+                ->createQuery('SELECT r,u
+                               FROM FnxAdminBundle:Responsavel r
+                               LEFT JOIN r.usuario u
+                               WHERE r.cliente = :id'
+                               )
                 ->setParameter("id", $id)
-                ->getResult();
+                ->getArrayResult();
     }
 
 }

@@ -27,6 +27,13 @@ class Local
     private $id;
     
     /**
+     * @var string $bairro
+     *
+     * @ORM\Column(name="descricao", type="string", length=45, nullable=true)
+     */
+    private $descricao;
+    
+    /**
      * @var objeto $cidade
      * 
      * @ORM\ManyToOne(targetEntity="Cidade")
@@ -259,5 +266,25 @@ class Local
     public function getAtividade()
     {
         return $this->atividade;
+    }
+
+    /**
+     * Set descricao
+     *
+     * @param string $descricao
+     */
+    public function setDescricao($descricao)
+    {
+        $this->descricao = $descricao;
+    }
+
+    /**
+     * Get descricao
+     *
+     * @return string 
+     */
+    public function getDescricao()
+    {
+        return $this->descricao;
     }
 }

@@ -16,6 +16,8 @@ function onTableAjaxParcela(){
             "bProcessing": true,
             "sAjaxSource": Routing.generate("ajaxParcela", {'id' : atividadeId}),
             "aoColumns": [
+                { "mDataProp": "numero",
+                    "sClass": "control center"},
                 { "mDataProp": "movimentacao.data",
                     "sClass": "control center"},
                 { "mDataProp": "movimentacao.formaPagamento.nome" },
@@ -47,7 +49,7 @@ function onTableAjaxParcela(){
                     "sLast":     "Último"
                 }
             },
-            "aoColumnDefs": [{"bVisible": false, "aTargets": [6]}],
+            "aoColumnDefs": [{"bVisible": false, "aTargets": [7]}],
             "bAutoWidth": false,
             "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
                 var totalValor = 0;
@@ -81,7 +83,9 @@ function onTableAjaxParcela(){
                             "sExtends": "text",
                             "sButtonText": "Adicionar",
                             "fnClick" : function(){
-                                 ajaxLoadDialog(Routing.generate("parcelaNew", {'id' : atividadeId}));
+                                 if (clickTableTerminate()){
+                                    ajaxLoadDialog(Routing.generate("parcelaNew", {'id' : atividadeId}));
+                                 }
                             }
                         },
                         
@@ -90,10 +94,13 @@ function onTableAjaxParcela(){
                             "sButtonText": "Finalizar",
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
-                                 var aaData = this.fnGetSelectedData()
-                                 id = aaData[0]['movimentacao']["id"];
-                                 $( "#dialog-confirm-parcela" ).dialog("open");
+                                 if (clickTableTerminate()){
+                                    var aaData = this.fnGetSelectedData()
+                                    id = aaData[0]['movimentacao']["id"];
+                                    $( "#dialog-confirm-parcela" ).dialog("open");
+                                 }
                                  return false;
+                                 
                                  
                             }
                         },
@@ -103,9 +110,11 @@ function onTableAjaxParcela(){
                             "sButtonText": "Editar",
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
-                                 var aaData = this.fnGetSelectedData()
-                                 id = aaData[0]['movimentacao']["id"];
-                                 ajaxLoadDialogParcela(Routing.generate("parcelaEdit", {'id' : id}));
+                                 if (clickTableTerminate()){
+                                    var aaData = this.fnGetSelectedData()
+                                    id = aaData[0]['movimentacao']["id"];
+                                    ajaxLoadDialogParcela(Routing.generate("parcelaEdit", {'id' : id}));
+                                 }
                                  
                             }
                         },
@@ -115,18 +124,20 @@ function onTableAjaxParcela(){
                             "sButtonText": "Deletar",
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
-                                 var aaData = this.fnGetSelectedData()
-                                 id = aaData[0]['movimentacao']["id"];
-                                 $( "#dialog-confirm" ).dialog("open");
-                                 $( "#dialog-confirm" ).dialog("option", "buttons", {
-                                     "Deletar": function() {
-                                            ajaxDeleteParcela(Routing.generate("removeParcela", {"id" : id})); 
-                                            $(this).dialog("close");
-                                     },
-                                     "Cancelar": function(){
-                                            $(this).dialog("close");
-                                     }
-                                 } );
+                                 if (clickTableTerminate()){
+                                    var aaData = this.fnGetSelectedData()
+                                    id = aaData[0]['movimentacao']["id"];
+                                    $( "#dialog-confirm" ).dialog("open");
+                                    $( "#dialog-confirm" ).dialog("option", "buttons", {
+                                        "Deletar": function() {
+                                               ajaxDeleteParcela(Routing.generate("removeParcela", {"id" : id})); 
+                                               $(this).dialog("close");
+                                        },
+                                        "Cancelar": function(){
+                                               $(this).dialog("close");
+                                        }
+                                    } );
+                                 }
                                  return false;
                                  
                             }
@@ -228,10 +239,18 @@ function notifityParcela(tipo){
         }); 
     }
     
+    if (tipo == 'erro04'){
+        $.pnotify({
+            title: 'Erro!',
+            text: 'Saldo insuficiente na conta.',
+            type: 'error'
+        });
+    }
+    
     if (tipo == 'success'){
         $.pnotify({
             title: 'Sucesso!',
-            text: 'Parcela finalizada.',
+            text: 'Registro finalizado.',
             type: 'info'
         }); 
     }
@@ -239,7 +258,7 @@ function notifityParcela(tipo){
 }
 
 function ajaxDeleteParcela(url){
-    
+
     $.ajax({
             type: 'POST',
             url: url,

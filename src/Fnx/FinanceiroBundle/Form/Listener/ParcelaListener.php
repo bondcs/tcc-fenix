@@ -24,7 +24,7 @@ class ParcelaListener implements EventSubscriberInterface{
     private $em;
 
 
-    public function __construct(EntityManager $em) {
+    public function __construct($em) {
         $this->em = $em;
     }
     
@@ -39,6 +39,10 @@ class ParcelaListener implements EventSubscriberInterface{
          $registro = $data->getParcela()->getRegistro();
          
          if (!$data->getId()){
+             return;
+         }
+         
+         if ($this->em == null){
              return;
          }
          
@@ -58,6 +62,7 @@ class ParcelaListener implements EventSubscriberInterface{
              $movimentacao->setParcela($parcela);
              $registro->addParcela($parcela);
              $parcela->setRegistro($registro);
+             $parcela->setNumero($registro->getParcelas()->count()+1);
              $data->setValor($data->getValorPago());
 //             $this->em->persist($registro);
 //             $this->em->flush();

@@ -11,7 +11,18 @@ function onTableResponsavel(){
             "bRetrieve": true,
             "bProcessing": true,
             "sAjaxSource": urlSource,
-            "aoColumnDefs": [{"bVisible": false, "aTargets": [3]}],
+            "aoColumns": [
+                { "mDataProp": "nome" },
+                { "mDataProp": "telefone",
+                    "sClass": "center"},
+                { "mDataProp": "cpf",
+                    "sClass": "center"},
+                { "mDataProp": "usuario",
+                    "sClass": "center"},
+                { "mDataProp": "id" },
+                    
+             ],
+            "aoColumnDefs": [{"bVisible": false, "aTargets": [4]}],
             "bAutoWidth": false,
             "oLanguage": {
                 "sProcessing":   "Processando...",
@@ -49,7 +60,7 @@ function onTableResponsavel(){
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
                                  var aaData = this.fnGetSelectedData()
-                                 id = aaData[0][aaData[0].length-1];
+                                 id = aaData[0]['id'];
                                  ajaxLoadDialog(Routing.generate(routeEdit, {"id" : id}));
                                  
                             }
@@ -61,7 +72,7 @@ function onTableResponsavel(){
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
                                  var aaData = this.fnGetSelectedData()
-                                 id = aaData[0][aaData[0].length-1];
+                                 id = aaData[0]['id'];
                                  ajaxLoadDialog(Routing.generate(routeUsuario, {"id" : id}));
                                  
                             }
@@ -73,7 +84,7 @@ function onTableResponsavel(){
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
                                  var aaData = this.fnGetSelectedData()
-                                 id = aaData[0][aaData[0].length-1];
+                                 id = aaData[0]['id'];
                                  $( "#dialog-confirm" ).dialog("open");
                                  $( "#dialog-confirm" ).dialog("option", "buttons", {
                                      "Deletar": function() {
