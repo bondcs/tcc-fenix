@@ -1,34 +1,12 @@
-<div class="box-form-dialog">
-    <form novalidate="" id="form" action="{{ funcionario.id ? path('funcionarioSalarioEdit', { 'id' : funcionario.id}) : path('funcionarioAdd')}}" method="post" class="cms ajaxFormTable">
+<div class="box-form-dialog" style="padding-bottom: 60px;">
+    <form novalidate="" id="form" action="{{ path('funcionarioSalarioEdit', { 'pagamentoId' : pagamentoId})}}" method="post" class="cms ajaxFormTable">
     <div class="myform">
-            {{ form_errors(form) }}
-
                 <div>
-                    {{ form_errors(form.nome)}}
-                    {{ form_label(form.nome)}}    
-                    {{ form_widget(form.nome, {'attr' : {'readonly' : 'readonly'}})}}
+                    <label>Acrescentar:</label>
+                    <input type="text" value="0" name="valor" class="moeda zero" style="width: 41%">
                 </div>
-            
-                <div> 
-                    {{ form_errors(form.telefone)}}
-                    {{ form_label(form.telefone)}}    
-                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone', 'readonly' : 'readonly', 'style' : 'width:30%'}})}}
-                </div>
-            
-                <div> 
-                    {{ form_errors(form.salarioPago)}}
-                    {{ form_label(form.salarioPago)}}    
-                    {{ form_widget(form.salarioPago,{'attr' : {'class' : 'moeda', 'style' : 'width:20%', 'readonly' : 'readonly'}})}}
-                </div>
-            
-                <div> 
-                    {{ form_errors(form.bonus)}}
-                    {{ form_label(form.bonus)}}    
-                    {{ form_widget(form.bonus,{'attr' : {'class' : 'moeda', 'style' : 'width:20%'}})}}
-                </div>
-
     </div>
-                {{ form_row(form._token) }}
+            <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
             <input type="submit" value="Submit"/>
     </form>
 </div>

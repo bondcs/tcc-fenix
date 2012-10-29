@@ -10,16 +10,20 @@ function onTableAjaxTransacaoGeral(){
         oTableTransacaoGeral = $('.tableTransacoesGeral').dataTable({
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
+            "bSortClasses": false,
             "bPaginate": true,
             "bInfo": false,
             "bRetrieve": true,
             "bProcessing": true,
+            "iDisplayLength": 30,
             "aaSorting": [[0,'desc']],
             "sAjaxSource": Routing.generate("ajaxTransacaoGeral", {'inicio' : $(".inicio").val(),
                                                 'fim' : $(".fim").val(),
                                                 'tipo' : $(".tipo").val(),
                                                 'data' : $(".tipoData input:checked").val(),
-                                                'conta' : $(".conta").val()
+                                                'conta' : $(".conta").val(),
+                                                'categoria' : $(".categoria").val() ? $(".categoria").val() : 0,
+                                                'doc' : $(".doc").val() ? $(".doc").val() : 0
             }),
             "aoColumns": [
                 { "mDataProp": "parcela.registro.id" },
@@ -56,7 +60,8 @@ function onTableAjaxTransacaoGeral(){
                     "sLast":     "Último"
                 }
             },
-            "aoColumnDefs": [{"bVisible": false, "aTargets": [9]}],
+            "aoColumnDefs": [{"bVisible": false, "aTargets": [9]},
+                             {"bVisible": false, "aTargets": [8]}],
             "bAutoWidth": false,
 //            "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
 //                var valor = 0;
@@ -71,7 +76,11 @@ function onTableAjaxTransacaoGeral(){
                
                 if (aData['parcela']['finalizado'])
                 {
-                  $(nRow).addClass('riscado');
+                  $(nRow).addClass('verde');
+                }else{
+                    if (aData['situacao'] == 'Em atraso'){
+                        $(nRow).addClass('vermelho');
+                    }
                 }
      
                 
@@ -179,7 +188,9 @@ function filtrarGeral(){
                              'fim' : $(".fim").val(),
                              'tipo' : $(".tipo").val(),
                              'data' : $(".tipoData input:checked").val(),    
-                             'conta' : $(".conta").val()
+                             'conta' : $(".conta").val(),
+                             'categoria' : $(".categoria").val() ? $(".categoria").val() : 0,
+                             'doc' : $(".doc").val() ? $(".doc").val() : 0
                             }));
                             
         oTableTransacaoGeral.dataTable().fnReloadAjax();

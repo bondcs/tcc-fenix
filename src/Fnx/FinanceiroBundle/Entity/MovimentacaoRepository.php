@@ -62,8 +62,7 @@ class MovimentacaoRepository extends EntityRepository
         
     }
     
-    public function getMovimentacoesGerais($inicio, $fim, $tipo, $data, $conta  ){
-        
+    public function getMovimentacoesGerais($inicio, $fim, $tipo, $data, $conta, $categoria, $doc){
         
         $inicio = new \DateTime($this->conv_data_to_us($inicio));
         $inicio->format("Y-m-d");
@@ -90,6 +89,16 @@ class MovimentacaoRepository extends EntityRepository
             case "v":
                 $qb->where('p.dt_vencimento > :inicio AND p.dt_vencimento < :fim');
                 break;
+        }
+        
+        if ($categoria != 0){
+            $qb->andWhere("r.categoria = :categoria")
+            ->setParameter("categoria", $categoria);
+        }
+        
+        if ($doc != 0){
+            $qb->andWhere("r.id = :doc")
+            ->setParameter("doc", $doc);
         }
         
         $dayAgo = new \DateTime("-1 day");

@@ -564,6 +564,24 @@ function notifity(tipo){
             text: 'Atividade arquivada.',
             type: 'error'
         });
+    }else if (tipo == 'noSelected'){
+        $.pnotify({
+            title: 'Erro!',
+            text: 'Nenhum registro selecionado.',
+            type: 'error'
+        });
+    }else if (tipo == 'gerado'){
+        $.pnotify({
+            title: 'Erro!',
+            text: 'Pagamentos já foram gerados.',
+            type: 'error'
+        });
+    }else if (tipo == 'gerar'){
+        $.pnotify({
+            title: 'Sucesso!',
+            text: 'Pagamentos gerados.',
+            type: 'notice'
+        });
     }
 
 }

@@ -10,6 +10,12 @@
             </div>
             
             <div>
+                {{ form_errors(form.parcela.registro.categoria)}}
+                {{ form_label(form.parcela.registro.categoria)}}    
+                {{ form_widget(form.parcela.registro.categoria)}}
+            </div>
+            
+            <div>
                 {{ form_errors(form.parcela.registro.descricao)}}
                 {{ form_label(form.parcela.registro.descricao)}}    
                 {{ form_widget(form.parcela.registro.descricao)}}

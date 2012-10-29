@@ -117,6 +117,13 @@ class Atividade
     
     /**
      * 
+     * @ORM\OneToMany(targetEntity="Servico", mappedBy="atividade", cascade={"all"})
+     * @var ArrayCollection $locais
+     */
+    private $servicos;
+    
+    /**
+     * 
      * @ORM\OneToOne(targetEntity="Galeria", mappedBy="atividade", cascade={"all"})
      * @var ArrayCollection $galerias
      */
@@ -156,14 +163,14 @@ class Atividade
     /**
      * @var string $bairro
      *
-     * @ORM\Column(name="bairro", type="string", length=45)
+     * @ORM\Column(name="bairro", type="string", length=45, nullable=true)
      */
     private $bairro;
 
     /**
      * @var string $rua
      *
-     * @ORM\Column(name="rua", type="string", length=80)
+     * @ORM\Column(name="rua", type="string", length=80, nullable=true)
      */
     private $rua;
 
@@ -641,5 +648,25 @@ class Atividade
     public function getCep()
     {
         return $this->cep;
+    }
+
+    /**
+     * Add servicos
+     *
+     * @param Fnx\AdminBundle\Entity\Servico $servicos
+     */
+    public function addServico(\Fnx\AdminBundle\Entity\Servico $servicos)
+    {
+        $this->servicos[] = $servicos;
+    }
+
+    /**
+     * Get servicos
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getServicos()
+    {
+        return $this->servicos;
     }
 }

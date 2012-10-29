@@ -80,6 +80,7 @@ li{list-style: none;}
 .note-show-link > span {background-image: url("../images/note-ico.png");}
 .arquive-link > span {background-image: url("../images/unarquive-ico.png");}
 .unarquive-link > span {background-image: url("../images/arquivar-ico.png");}
+.config-link > span {background-image: url("../images/manu-ico.png");}
 
 
 
@@ -123,6 +124,8 @@ form.cms .myform .close {margin-left: 10px;}
 
 form.endereco .myform div > label{width: 130px;}
 form.endereco .myform div ul {margin-left: 142px;}
+form.salario .myform div > label{width: 150px;}
+form.salario .myform div ul {margin-left: 162px;}
 .hide {display: none;}
 
 /* fix checkbox */
@@ -270,10 +273,13 @@ div.innerRow{display: none; }
 .empty-title{height: 17px;}
 .riscado{text-decoration: line-through;}
 .verde{background-color: #99ff99 !important}
+.vermelho{background-color: lightsalmon !important}
+.amarelo{background-color: lightyellow !important}
 .bold > label{font-weight: bold;}
 #status { font-weight: bold; }
 .verdeCel {color: #0a0}
 .vermelhoCel {color:#ff0000}
+#responsavel legend {display: block}
 
 /*.box-table thead tr th:last-child{display: none !important;}
 .box-table tbody tr td:last-child{display: none !important;}*/
@@ -305,9 +311,9 @@ div.innerRow{display: none; }
     -webkit-box-shadow:0 0 10px #000;
 }
 
-.box-filter {margin-left: 3px; margin-top: 0.5%}
+.box-filter {margin-left: 3px; margin-top: 0.5%; width: 80%}
 .inicio,.fim {height: 20px}
-.filter div {display: inline; margin-right: 1%}
-.filter .picker > input {width: 9%;}
+.filter div {display: inline-block; padding-right: 2px; margin-bottom: 7px;}
+.filter .picker > input {width: 110px;}
 .filter input[type="button"]{padding: 0px;}
 .tipoData input{margin-right: 0.5em; margin-left: 0.2em}

@@ -45,9 +45,9 @@ class FuncionarioType extends AbstractType{
                     'free' => "Free-lancer"
                )
             ))
-            ->add('categorias', 'entity', array(
+            ->add('servicos', 'entity', array(
                'label' => 'Tipo:',
-               'class' => 'FnxAdminBundle:Categoria',
+               'class' => 'FnxAdminBundle:ServicoEscala',
                'expanded' => true,
                'multiple' => true,
                'property' => 'nome',

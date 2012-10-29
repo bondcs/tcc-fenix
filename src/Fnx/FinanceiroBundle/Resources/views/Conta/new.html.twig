@@ -4,7 +4,7 @@
 
 {% block menuContent %}
     <div id="menuContent">
-        <h3>Formulário de Conta</h3>
+        <h3>Financeiro: Formulário de Conta</h3>
         <ul>
             <li><a class="back-link" href="{{ path('financeiro_conta')}}"><span></span>Voltar</a></li>
         </ul> 
@@ -27,6 +27,12 @@
                      {{ form_errors(form.instancia)}}
                      {{ form_label(form.instancia)}}    
                      {{ form_widget(form.instancia)}}
+                </div>
+                
+                <div>
+                     {{ form_errors(form.valor)}}
+                     {{ form_label(form.valor)}}    
+                     {{ form_widget(form.valor, {'attr' : {'class' : 'moeda', 'style' : 'width:20%'}})}}
                 </div>
                     
                 <div>

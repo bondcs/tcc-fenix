@@ -90,7 +90,6 @@ class ContaController extends Controller
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-           $entity->setValor(0);
            $em = $this->getDoctrine()->getEntityManager();
            $em->persist($entity);
            $em->flush();

@@ -15,6 +15,16 @@
 
 {% endblock %}
 
+{% block subMenu %} 
+<div id="subMenu">
+    <ul>
+        <li><a href="{{ path("financeiro_instancia")}}">Instâncias</a></li>
+        <li><a href="{{ path("financeiro_conta")}}">Contas</a></li>
+        <li><a href="{{ path("categoriaHome")}}">Categorias</a></li>
+    </ul>
+</div>
+{% endblock %}
+
 {% block conteudo %}
     {% include 'FnxFinanceiroBundle:Movimentacao:tableTransacoes.html.twig' %}
 

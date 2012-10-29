@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
         <link rel="shortcut icon" href="{{ asset('bundles/fnx/admin/images/faviconr.ico') }}" />
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>{% block title %}Home{% endblock %} - Fenix</title>
         <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -29,6 +29,7 @@
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableEscalas.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableLocais.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tablePropriedade.js') }}"></script>
+        <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableServicoAdmin.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableSalario.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxfinanceiro/js/tables/tableParcelas.js') }}"></script>
         <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxfinanceiro/js/tables/tableTransacoes.js') }}"></script>
@@ -67,14 +68,17 @@
                             <li><a href='{{ path('funcionarioHome')}}'><span>Funcionário</span></a></li>
                             <li><a href='{{ path('clienteHome')}}'><span>Cliente</span></a></li>
                             <li><a href='{{ path('atividadeHome')}}'><span>Atividade</span></a></li>
+                             <li><a href='{{ path('adm_fornecedor')}}'><span>Fornecedor</span></a></li>
                         </ul>
                     </li>
                     <li class='has-sub '><a href='{{path('financeiroShow')}}'><span>Financeiro</span></a>
-                        <ul>
+                        {#<ul>
                             <li><a href='{{ path('financeiro_instancia')}}'><span>Instância</span></a></li>
                             <li><a href='{{ path('financeiro_conta')}}'><span>Conta</span></a></li>
-                        </ul>
+                            <li><a href='{{ path('categoriaHome')}}'><span>Categoria</span></a></li>
+                        </ul>#}
                     </li>
+                    <li class='has-sub '><a href='#'><span>Patrulhamento</span></a></li>
 		    <li class='has-sub '><a href='{{path('PedidoListar')}}'><span>Pedidos</span></a></li>
                     </ul>
                         <div id="info">

@@ -31,8 +31,8 @@ class ResponsavelController extends Controller{
     public function removeAction($id){
         
         $responsavel = $this->getDoctrine()->getRepository("FnxAdminBundle:Responsavel")
-                                                            ->find($id);
-        
+                                                          ->find($id);
+       
         if (!$responsavel){throw $this->createNotFoundException("Responsável não encontrado.");}
         $em = $this->getDoctrine()->getEntityManager();
         $em->remove($responsavel);

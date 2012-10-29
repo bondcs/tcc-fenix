@@ -38,7 +38,17 @@ class Categoria
      * @Assert\NotBlank()
      */
     private $descricao;
+    
+    /**
+     *  
+     * @var boolean $editavel
+     * @ORM\Column(name="editavel", type="boolean")
+     */
+    private $editavel;
 
+    public function __construct() {
+        $this->editavel = true;
+    }
 
     /**
      * Get id
@@ -91,5 +101,25 @@ class Categoria
             return substr($this->descricao, 0, $length);
         }
         return $this->descricao;
+    }
+
+    /**
+     * Set editavel
+     *
+     * @param boolean $editavel
+     */
+    public function setEditavel($editavel)
+    {
+        $this->editavel = $editavel;
+    }
+
+    /**
+     * Get editavel
+     *
+     * @return boolean 
+     */
+    public function getEditavel()
+    {
+        return $this->editavel;
     }
 }

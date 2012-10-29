@@ -1,9 +1,9 @@
 {% extends "FnxAdminBundle::layout.html.twig" %}
-{% block title %} Categoria Manager {% endblock %}
+{% block title %} Categoria {% endblock %}
 {% block menuContent %}
 
     <div id="menuContent">
-        <h3>Gerenciamento: Lista de serviços</h3>
+        <h3>Financeiro: Lista de Categorias</h3>
         <ul>
             <li><a class="new-link" href="{{ path('categoriaNew')}}"><span ></span>Novo</a></li>
             <li><a route="categoriaEdit" class="edit-link" href="#"><span></span>Editar</a></li>
@@ -16,8 +16,7 @@
 {% block subMenu %} 
 <div id="subMenu">
     <ul>
-        <li><a href="{{ path("funcionarioHome")}}">Funcionários</a></li>
-        <li><a href="{{ path("escalaFunIndex")}}">Escalas</a></li>
+        <li><a href="{{ path("financeiroShow")}}">Financeiro</a></li>
     </ul>
 </div>
 {% endblock %}

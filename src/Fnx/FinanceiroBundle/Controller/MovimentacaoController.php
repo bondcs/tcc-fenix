@@ -179,10 +179,10 @@ class MovimentacaoController extends Controller{
     
     /**
      *
-     * @Route("/ajaxTransacaoGeral/{inicio}//{fim}/{tipo}/{data}/{conta}", name="ajaxTransacaoGeral", options={"expose" = true},requirements={"inicio" = ".+", "fim" = ".+"})
+     * @Route("/ajaxTransacaoGeral/{inicio}//{fim}/{tipo}/{data}/{conta}/{categoria}/{doc}", name="ajaxTransacaoGeral", options={"expose" = true},requirements={"inicio" = ".+", "fim" = ".+"})
      */
-    public function ajaxTransacaoGeralAction($inicio, $fim, $tipo, $data, $conta){
-        $movimentacoesBanco = $this->getDoctrine()->getRepository("FnxFinanceiroBundle:Movimentacao")->getMovimentacoesGerais($inicio, $fim, $tipo, $data, $conta);
+    public function ajaxTransacaoGeralAction($inicio, $fim, $tipo, $data, $conta, $categoria, $doc){
+        $movimentacoesBanco = $this->getDoctrine()->getRepository("FnxFinanceiroBundle:Movimentacao")->getMovimentacoesGerais($inicio, $fim, $tipo, $data, $conta, $categoria, $doc);
         //var_dump($movimentacoesBanco);die();
         $movimentacoes['aaData'] = array();
         

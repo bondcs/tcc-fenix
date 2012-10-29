@@ -7,9 +7,9 @@ $(document).ready(function() {
 
 function onTableAjaxEscalaFun(){
         
-        var categoria = $(".categoria").val();
-        if (!$(".categoria").val()){
-             categoria = 0;
+        var servico = $(".servico").val();
+        if (!$(".servico").val()){
+             servico = 0;
         }
         
         
@@ -43,16 +43,16 @@ function onTableAjaxEscalaFun(){
 //                                                'inicio' : $(".inicio").val(),
 //                                                'fim' : $(".fim").val(),
                                                 'status' : $(".status").val(),
-                                                'categoria' : categoria
+                                                'servico' : servico
             }),
             "aoColumns": [
                 { "mDataProp": "funcionariosString" },
                 
 //                { "mDataProp": "escalaN",
 //                    "sClass": "center"},
-                { "mDataProp": "categoria.nome"},
-                { "mDataProp": "descricao"},
+                { "mDataProp": "servicoEscala.nome"},
                 { "mDataProp": "local" },
+                { "mDataProp": "descricao"},
                 { "mDataProp": "escalaEx",
                     "sClass": "center"},
                 { "mDataProp": "ativo",
@@ -161,9 +161,9 @@ function filtrarEscalas(){
     
     $('#filtrarEscala').click(function(){
         
-        var categoria = $(".categoria").val();
-        if (!$(".categoria").val()){
-            categoria = 0;
+        var servico = $(".servico").val();
+        if (!$(".servico").val()){
+            servico = 0;
         }
 
         var flag = false;
@@ -185,7 +185,7 @@ function filtrarEscalas(){
 //                                                'inicio' : $(".inicio").val(),
 //                                                'fim' : $(".fim").val(),
                                                 'status' : $(".status").val(),
-                                                'categoria' : categoria
+                                                'servico' : servico
                         }));
                             
         oTableEscalaFun.dataTable().fnReloadAjax();

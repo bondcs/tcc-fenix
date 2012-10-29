@@ -3,12 +3,14 @@
 namespace Fnx\AdminBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Fnx\AdminBundle\Entity\Salario
  *
  * @ORM\Table(name="salario")
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks()
  */
 class Salario
 {
@@ -25,47 +27,81 @@ class Salario
      * @var float $salario
      *
      * @ORM\Column(name="salario", type="float")
+     * @Assert\NotBlank()
      */
     private $salario;
 
     /**
-     * @var float $salarioPago
-     *
-     * @ORM\Column(name="salarioPago", type="float")
-     */
-    private $salarioPago;
-
-    /**
-     * @var float $bonus
-     *
-     * @ORM\Column(name="bonus", type="float")
-     */
-    private $bonus;
-
-    /**
      * @var float $valorHora
      *
-     * @ORM\Column(name="valorHora", type="float")
+     * @ORM\Column(name="valorHora", type="float", nullable=true)
      */
     private $valorHora;
     
     /**
      *
-     * @var datetime $dataPagamento
-     * 
-     * @ORM\Column(name="dataPagamento", type="datetime")
+     * @ORM\Column(name="ativo", type="boolean")
      */
-    private $dataPagamento;
-
+    private $ativo;
+    
+    /**
+     * @var datetime $ultimoPagamento
+     *
+     * @ORM\Column(name="ultimoPagamento", type="datetime", nullable=true)
+     */
+    private $ultimoPagamento;
+    
+    /**
+     *
+     * @var object $salario
+     * @ORM\OneToOne(targetEntity="Funcionario", mappedBy="salario", cascade={"persist"})
+     */
+    private $funcionario;
+    
+    /**
+     *
+     * @var Array Collection
+     * 
+     * @ORM\OneToMany(targetEntity="SalarioPagamento", mappedBy="salario", cascade={"persist"}, orphanRemoval=true) 
+     */
+    private $pagamentos;
 
     public function __construct() {
-        $this->salarioPago = $this->salario;
-        $this->dataPagamento = new \DateTime();
-        $this->bonus = 0;
-        
+        $this->pagamentos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ativo = true;
     }
+    
+    public function verificaPagamentos($mes, $ano){
+        
+        $inicio = new \DateTime($ano . "-" . $mes . "-01");
+        $hoje = new \DateTime();
+        $fimInicial = new \DateTime($ano . "-" . $mes);
+        $fim = new \DateTime($fimInicial->format("Y-m-t"));
+     
+        foreach ($this->pagamentos as $pagamento){
+            //var_dump($pagamento->getData() >= $inicio && $pagamento->getData());
+            //var_dump($pagamento->getData() >= $inicio && $pagamento->getData() || $fim && $this->funcionario->getRegistro() >= $inicio);
+            //var_dump($inicio);
+            
+            if ($pagamento->getData() >= $inicio && $pagamento->getData() || $fim && $this->funcionario->getRegistro() >= $inicio){
+                return false;
+            }
+            
+        }
 
-                /**
+        return true;
+    }
+    
+   
+
+    /**
+     * @ORM\PrePersist @ORM\PreUpdate
+     */
+    public function formataDinheiro(){
+        $this->salario =is_string($this->salario) ? substr(str_replace(",", ".", $this->salario),3) : $this->salario;
+    }
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -93,46 +129,6 @@ class Salario
     public function getSalario()
     {
         return $this->salario;
-    }
-
-    /**
-     * Set salarioPago
-     *
-     * @param float $salarioPago
-     */
-    public function setSalarioPago($salarioPago)
-    {
-        $this->salarioPago = $salarioPago;
-    }
-
-    /**
-     * Get salarioPago
-     *
-     * @return float 
-     */
-    public function getSalarioPago()
-    {
-        return $this->salarioPago;
-    }
-
-    /**
-     * Set bonus
-     *
-     * @param float $bonus
-     */
-    public function setBonus($bonus)
-    {
-        $this->bonus = $bonus;
-    }
-
-    /**
-     * Get bonus
-     *
-     * @return float 
-     */
-    public function getBonus()
-    {
-        return $this->bonus;
     }
 
     /**
@@ -175,23 +171,64 @@ class Salario
         return $this->funcionario;
     }
 
+
     /**
-     * Set dataPagamento
+     * Add pagamentos
      *
-     * @param datetime $dataPagamento
+     * @param Fnx\AdminBundle\Entity\SalarioPagamento $pagamentos
      */
-    public function setDataPagamento($dataPagamento)
+    public function addSalarioPagamento(\Fnx\AdminBundle\Entity\SalarioPagamento $pagamentos)
     {
-        $this->dataPagamento = $dataPagamento;
+        $this->pagamentos[] = $pagamentos;
     }
 
     /**
-     * Get dataPagamento
+     * Get pagamentos
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getPagamentos()
+    {
+        return $this->pagamentos;
+    }
+
+    /**
+     * Set ativo
+     *
+     * @param boolean $ativo
+     */
+    public function setAtivo($ativo)
+    {
+        $this->ativo = $ativo;
+    }
+
+    /**
+     * Get ativo
+     *
+     * @return boolean 
+     */
+    public function getAtivo()
+    {
+        return $this->ativo;
+    }
+
+    /**
+     * Set ultimoPagamento
+     *
+     * @param datetime $ultimoPagamento
+     */
+    public function setUltimoPagamento($ultimoPagamento)
+    {
+        $this->ultimoPagamento = $ultimoPagamento;
+    }
+
+    /**
+     * Get ultimoPagamento
      *
      * @return datetime 
      */
-    public function getDataPagamento()
+    public function getUltimoPagamento()
     {
-        return $this->dataPagamento;
+        return $this->ultimoPagamento;
     }
 }

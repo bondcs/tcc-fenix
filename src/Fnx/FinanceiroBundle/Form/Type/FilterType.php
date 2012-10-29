@@ -10,12 +10,19 @@ class FilterType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
+        $hoje = new \DateTime("now");
+        $ano = $hoje->format("Y");
+        for ($i = 2012; $i <= ($ano+1); $i++){
+             $anos[$i] = $i;
+             
+        }
+        
         $builder
             ->add('inicio', 'date', array(
                         'label' => 'Início:',
                         'input' => 'datetime',
                         'widget' => 'single_text',
-                        'format' => 'dd/MM/yyyy',
+                        'format' => 'dd/MM/yyyy HH:mm:ss',
                         'data' => new \Datetime('-1 days'),
              ))
             ->add('inicioTime', 'date', array(
@@ -43,42 +50,82 @@ class FilterType extends AbstractType
                         'data' => new \Datetime('-1 days')
                 ))
             ->add('tipo', 'choice', array(
-                        'label' => 'Tipo:',
-                        'choices' => $options['choices']
+                'label' => 'Tipo:',
+                'choices' => $options['choices']
              ))
             ->add('tipo_data', 'choice', array(
-                        'label' => 'Tipo de data:',
-                        'expanded' => true,
-                        'multiple' => false,
-                        'choices' => array('r' => 'Registrado', 'p' => 'Pagamento', 'v' => 'Vencimento'),
-                        'attr' => array('class' => 'tipoData'),
-                        'data' => 'r'
+                'label' => 'Tipo de data:',
+                'expanded' => true,
+                'multiple' => false,
+                "required" => false,
+                'choices' => array('r' => 'Registrado', 'p' => 'Pagamento', 'v' => 'Vencimento'),
+                'attr' => array('class' => 'tipoData'),
+                'data' => 'r'
              ))
            ->add('conta', 'entity', array(
-                        'label' => 'Conta:',
-                        'class' => 'FnxFinanceiroBundle:Conta',
-                        'property' => 'nome',
-                        'query_builder' => function(EntityRepository $er) {
-                            return $er->createQueryBuilder('c')
-                                ->orderBy('c.nome', 'ASC');
-                        },
+                'label' => 'Conta:',
+                'class' => 'FnxFinanceiroBundle:Conta',
+                'property' => 'nome',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.nome', 'ASC');
+                },
              ))
-           ->add('categoria', 'entity', array(
-                        'empty_value' => "Todos os serviços",
-                        'label' => 'Serviço:',
-                        'class' => 'FnxAdminBundle:Categoria',
-                        'property' => 'nome',
-                        'query_builder' => function(EntityRepository $er) {
-                            return $er->createQueryBuilder('c')
-                                ->orderBy('c.nome', 'ASC');
-                        },
+           ->add('servico', 'entity', array(
+                'empty_value' => "Todos os serviços",
+                'label' => 'Serviço:',
+                "required" => false,
+                'class' => 'FnxAdminBundle:ServicoEscala',
+                'property' => 'nome',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.nome', 'ASC');
+                },
+             ))
+            ->add('categoria', 'entity', array(
+                'empty_value' => "Todas",
+                'label' => 'Categoria:',
+                "required" => false,
+                'class' => 'FnxAdminBundle:Categoria',
+                'property' => 'nome',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->orderBy('c.nome', 'ASC');
+                },
              ))
             ->add('status', 'choice', array(
-                        'label' => 'Status:',
-                        'choices' => array("t" => "Todos",
-                                           "a" => "Ativo",
-                                           "c" => "Concluído")
+                'label' => 'Status:',
+                'choices' => array("t" => "Todos",
+                                   "a" => "Em andamento",
+                                   "c" => "Concluído"),
+                'data' => "a"
              ))
+            ->add('meses', 'choice', array(
+                'label' => 'Mês:',
+                "required" => false,
+                'choices' => array( 01 => "Janeiro",
+                                    02 => "Fevereiro",
+                                    03 => "Março",
+                                    04 => "Abril",
+                                    05 => "Maio",
+                                    06 => "Junho",
+                                    07 => "Julho",
+                                    08 => "Agosto",
+                                    09 => "Setembro",
+                                    10 => "Outubro",
+                                    11 => "Novembro",
+                                    12 => "Dezembro"),
+                'data' => $hoje->format("m")
+             ))
+             ->add("ano","choice", array(
+                 "label" => "Ano:",
+                 "choices" => $anos
+             ))
+             ->add("doc","text", array(
+                 "label" => "Doc:",
+                 "required" => false,
+             ))
+             
         ;
     }
 

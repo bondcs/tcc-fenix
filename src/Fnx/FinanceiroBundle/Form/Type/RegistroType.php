@@ -17,7 +17,7 @@ class RegistroType extends AbstractType
                   'label' => 'Conta:*',
                   'class' => 'FnxFinanceiroBundle:Conta',
                   'empty_value' => 'Selecione uma conta'
-            ))
+            )) 
             ->add('valor', 'text', array(
                   'label' => 'Valor:*',
                   'attr' => array('class' => 'moeda'),

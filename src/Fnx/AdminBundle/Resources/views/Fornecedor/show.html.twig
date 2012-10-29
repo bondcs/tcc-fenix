@@ -1,0 +1,57 @@
+<h1>Fornecedor</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Nome</th>
+            <td>{{ entity.nome }}</td>
+        </tr>
+        <tr>
+            <th>Telefone</th>
+            <td>{{ entity.telefone }}</td>
+        </tr>
+        <tr>
+            <th>Cep</th>
+            <td>{{ entity.cep }}</td>
+        </tr>
+        <tr>
+            <th>Bairro</th>
+            <td>{{ entity.bairro }}</td>
+        </tr>
+        <tr>
+            <th>Rua</th>
+            <td>{{ entity.rua }}</td>
+        </tr>
+        <tr>
+            <th>Numero</th>
+            <td>{{ entity.numero }}</td>
+        </tr>
+        <tr>
+            <th>Complemento</th>
+            <td>{{ entity.complemento }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('adm_fornecedor') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('adm_fornecedor_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('adm_fornecedor_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

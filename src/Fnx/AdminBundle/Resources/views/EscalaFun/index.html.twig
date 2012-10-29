@@ -27,7 +27,6 @@
 <div id="subMenu">
     <ul>
         <li><a href="{{ path("funcionarioHome")}}">Funcionários</a></li>
-        <li><a href="{{ path("categoriaHome")}}">Serviços</a></li>
     </ul>
 </div>
 {% endblock %}
@@ -56,9 +55,9 @@
             </div> 
                    
             <div class='bold'>
-                   {{ form_errors(formFilter.categoria)}}
-                   {{ form_label(formFilter.categoria)}}    
-                   {{ form_widget(formFilter.categoria,{'attr' : {'class' : 'categoria'}})}}
+                   {{ form_errors(formFilter.servico)}}
+                   {{ form_label(formFilter.servico)}}    
+                   {{ form_widget(formFilter.servico,{'attr' : {'class' : 'servico'}})}}
             </div> 
 
             <input id="filtrarEscala" type="button" value="Filtrar">

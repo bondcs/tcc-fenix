@@ -51,12 +51,14 @@ class ParcelaListener implements EventSubscriberInterface{
          if ($valor > $valorPago && $valorPago != 0){
              
              $diferenca = $valor - $valorPago ;
+             //var_dump($diferenca);
+             //var_dump($data->getMovimentacao());die();
              $parcela = new Parcela();
              $parcela->setDtVencimento($data->getParcela()->getDtVencimento());
              $movimentacao = new Movimentacao();
              $movimentacao->setData(new \Datetime());
              $movimentacao->setFormaPagamento($data->getFormaPagamento());
-             $movimentacao->setMovimentacao("r");
+             $movimentacao->setMovimentacao($data->getMovimentacao());
              $movimentacao->setValor($diferenca);
              $parcela->setMovimentacao($movimentacao);
              $movimentacao->setParcela($parcela);
