@@ -1,5 +1,5 @@
 <div class="box-form-dialog">
-    <form novalidate="" id="form" action="{{path('localCreate', {'id' : id})}}" method="post" class="cms ajaxFormTable formEscala endereco">
+    <form novalidate="" id="form" action="{{path('funcionario_servico_admin_create', {'id' : id})}}" method="post" class="cms ajaxFormTable formEscala endereco">
     <div class="myform">         
                     {{ form_errors(form) }}
                     <div>
@@ -7,41 +7,17 @@
                         {{ form_label(form.descricao)}}    
                         {{ form_widget(form.descricao)}}
                     </div>
+                    
+                    <div>
+                        {{ form_errors(form.fornecedor)}}
+                        {{ form_label(form.fornecedor)}}    
+                        {{ form_widget(form.fornecedor)}}
+                    </div>
             
                     <div>
-                        {{ form_errors(form.cidade)}}
-                        {{ form_label(form.cidade)}}    
-                        {{ form_widget(form.cidade)}}
-                    </div>
-
-                    <div>
-                        {{ form_errors(form.bairro)}}
-                        {{ form_label(form.bairro)}}    
-                        {{ form_widget(form.bairro)}}
-                    </div>
-
-                    <div>
-                        {{ form_errors(form.rua)}}
-                        {{ form_label(form.rua)}}    
-                        {{ form_widget(form.rua)}}
-                    </div>
-
-                    <div>
-                        {{ form_errors(form.numero)}}
-                        {{ form_label(form.numero)}}    
-                        {{ form_widget(form.numero)}}
-                    </div>
-
-                    <div>
-                        {{ form_errors(form.complemento)}}
-                        {{ form_label(form.complemento)}}    
-                        {{ form_widget(form.complemento)}}
-                    </div>
-                
-                    <div>
-                        {{ form_errors(form.custo)}}
-                        {{ form_label(form.custo)}}    
-                        {{ form_widget(form.custo,{'attr' : { 'style' : 'width:20%','class':'moeda'}})}}
+                        {{ form_errors(form.valor)}}
+                        {{ form_label(form.valor)}}    
+                        {{ form_widget(form.valor,{'attr' : { 'style' : 'width:20%','class':'moeda'}})}}
                     </div>    
     </div>                   
              {{ form_row(form._token) }} 

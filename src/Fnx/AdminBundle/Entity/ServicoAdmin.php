@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class ServicoAdmin
 {
@@ -52,6 +53,13 @@ class ServicoAdmin
      * @ORM\ManyToOne(targetEntity="Atividade", inversedBy="servicos", cascade={"persist"}, fetch="LAZY")
      */
     private $atividade;
+    
+    /**
+     * @ORM\PrePersist @ORM\PreUpdate
+     */
+    public function formataDinheiro(){
+        $this->valor =is_string($this->valor) ? substr(str_replace(",", ".", $this->valor),3) : $this->salario;
+    }
 
         /**
      * Get id

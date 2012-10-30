@@ -36,7 +36,6 @@ class MovimentacaoType extends AbstractType
             ->add('lembrar')
             ->add('validado')
             ->add('formaPagamento', 'entity', array(
-                  'empty_value' => 'Selecione uma opção',
                   'class' => 'FnxFinanceiroBundle:FormaPagamento',
                   'label' => 'Pagamento:*'
             ))

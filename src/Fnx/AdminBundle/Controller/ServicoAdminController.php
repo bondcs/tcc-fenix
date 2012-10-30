@@ -27,17 +27,16 @@ class ServicoAdminController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $entities = $em->getRepository('FnxAdminBundle:ServicoAdmin')->findAll();
-
         return array('entities' => $entities);
     }
 
     /**
      * Displays a form to create a new ServicoAdmin entity.
      *
-     * @Route("/new", name="funcionario_servico_admin_new")
+     * @Route("/new/{id}", name="funcionario_servico_admin_new", options={"expose" = true})
      * @Template()
      */
-    public function newAction()
+    public function newAction($id)
     {
         $entity = new ServicoAdmin();
         
@@ -45,18 +44,19 @@ class ServicoAdminController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView()
+            'form'   => $form->createView(),
+            'id' => $id
         );
     }
 
     /**
      * Creates a new ServicoAdmin entity.
      *
-     * @Route("/create", name="funcionario_servico_admin_create")
+     * @Route("/create/{id}", name="funcionario_servico_admin_create")
      * @Method("post")
      * @Template("FnxAdminBundle:ServicoAdmin:new.html.twig")
      */
-    public function createAction()
+    public function createAction($id)
     {
         $entity  = new ServicoAdmin();
         $request = $this->getRequest();
@@ -65,6 +65,8 @@ class ServicoAdminController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getEntityManager();
+            $atividade = $em->find("FnxAdminBundle:Atividade", $id);
+            $entity->setAtividade($atividade);
             $em->persist($entity);
             $em->flush();
             
@@ -102,7 +104,7 @@ class ServicoAdminController extends Controller
         $editForm = $this->createForm(new ServicoAdminType(), $entity);
 
         return array(
-            'entity'      => $entity,
+            'id'      => $id,
             'form'   => $editForm->createView(),
         );
     }
@@ -127,7 +129,7 @@ class ServicoAdminController extends Controller
         $editForm   = $this->createForm(new ServicoAdminType(), $entity);
 
         $request = $this->getRequest();
-
+        
         $editForm->bindRequest($request);
 
         if ($editForm->isValid()) {
@@ -137,11 +139,11 @@ class ServicoAdminController extends Controller
                   'dialogName' => '.simpleDialog',
                   'message' => 'edit'
             );
-            $this->responseAjax($responseSuccess);
+            return $this->responseAjax($responseSuccess);
         }
 
         return array(
-            'entity'      => $entity,
+            'id'      => $id,
             'form'   => $editForm->createView(),
         );
     }
@@ -183,8 +185,8 @@ class ServicoAdminController extends Controller
         
         $servicos['aaData'] = array();
         foreach ($servicoBanco as $servico){
-            $servico['valorNumber'] = $servico['servico'];
-            $servico['valor'] = number_format($servico['servico'],2,',','.');
+            $servico['valorNumber'] = $servico['valor'];
+            $servico['valor'] = number_format($servico['valor'],2,',','.');
             $servicos['aaData'][] = $servico;
         }
     

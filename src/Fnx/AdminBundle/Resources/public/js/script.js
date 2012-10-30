@@ -26,8 +26,17 @@ $(document).ready(function() {
         onSubmitFormPagamento();
         translateHtml5Validation();
         sempreZero();
+        button();
+        
+        
         
 } );
+
+function button(){
+    $( "input[type=submit],button, input[type=button], .button " ).button({
+    });
+    return false;
+}
 
 $(document).ajaxStart(function(){
      $(".ajaxLoader").show();
@@ -58,6 +67,7 @@ function onReadyAjax(){
         onSubmitFormPagamento();
         translateHtml5Validation();
         sempreZero();
+        button();
 
 
 }
@@ -407,7 +417,7 @@ function initDatepicker() {
 //	    changeYear: true
 //        });
 
-    $('.datepicker input')
+    $('.datepickerImage input')
         .datetimepicker({
             showOn: "button",
 	    buttonImage: imageUrl+"calendar.gif",

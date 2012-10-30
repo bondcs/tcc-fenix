@@ -28,7 +28,7 @@
                 <li><a href="#tabs-3">Atividades</a></li>
     </ul>
   <div id="tabs-1">
-  <div class="ui-panel-content ui-widget-content " style="width:auto">
+  <div class="ui-panel-content ui-widget-content" style="width:600px; height: 12.5em">
       <h4 class="ui-panel-title ui-widget-header empty-title"></h4>
       <table class="infos">
             <tr>
@@ -59,7 +59,11 @@
                     <td>Jurídico</td>
                 <tr>
             {% endif %}
-
+      </table>
+  </div>
+   <div class="ui-panel-content ui-widget-content " style="width:39.4%;; ">
+      <h4 class="ui-panel-title ui-widget-header empty-title"></h4>
+      <table class="infos">
             <tr>
                 <th>Cep:</th>
                 <td>{{cliente.cep|default("-")}}</td>

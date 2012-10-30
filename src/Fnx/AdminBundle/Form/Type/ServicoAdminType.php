@@ -1,6 +1,6 @@
 <?php
 
-namespace Fnx\AdminBundle\Type\Form;
+namespace Fnx\AdminBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
@@ -16,7 +16,11 @@ class ServicoAdminType extends AbstractType
             ->add('valor','text',array(
                   'label' => 'Valor:*'
             ))
-            ->add('fornecedor')
+            ->add('fornecedor','entity', array(
+                 'label' => 'Fornecedor:*',
+                 'class' => 'FnxAdminBundle:Fornecedor',
+                 'property' => 'nome'
+            ))
         ;
     }
 

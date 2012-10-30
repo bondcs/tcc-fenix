@@ -33,25 +33,23 @@ function onTableAjaxServicoAdmin(){
             "bProcessing": true,
             "sAjaxSource": Routing.generate("ajaxServicoAdmin", {"id" : $(".tableServicoAdmin").attr("atividade")}),
             "aoColumns": [
-                { "mDataProp": null},
-                { "mDataProp": "nome" },
+                { "mDataProp": "descricao" },
                 { "mDataProp": "valor"},
                 { "mDataProp": "fornecedor.nome"},
                 { "mDataProp": "id" },
                     
              ],
             "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
-//                 if (aData['salario']['pagamento']['pago']){
-//                      $('td:eq(0)', nRow).html('<input disabled="disabled" type="checkbox" name="pagamentos[]" value="'+aData['salario']['pagamento']['id']+'">');
-//                      $(nRow).addClass('riscado');
-//                 }else{
-//                      $('td:eq(0)', nRow).html('<input type="checkbox" name="pagamentos[]" value="'+aData['salario']['pagamento']['id']+'">');
-//                 }
-//                 $('td:eq(2)', nRow).html(formataDinheiro(aData['salario']['salario']+""));
-//                 $('td:eq(3)', nRow).html(formataDinheiro(aData['salario']['pagamento']['bonus']+""));
-//                 $('td:eq(4)', nRow).html(aData['dependentes']+" x "+formataDinheiro(aData['valorDependente']+""));
-//                 $('td:eq(6)', nRow).html(formataDinheiro(aData['dependentes']*aData['valorDependente']+aData['salario']['salario']+aData['salario']['pagamento']['bonus']+""));
-//                 
+                 $('td:eq(1)', nRow).html(formataDinheiro(aData['valor']+""));
+            },
+            "fnFooterCallback": function ( nRow, aaData, iStart, iEnd, aiDisplay ) {
+                var valor = 0;
+                for (var i=0; i < aaData.length; i++){
+                    valor += parseFloat(aaData[i]["valorNumber"]);
+                }
+                
+                var nCells = nRow.getElementsByTagName('th');
+                nCells[1].innerHTML = formataDinheiro(valor+"");
             },
             "aoColumnDefs": [{"bVisible": false, "aTargets": [3]}],
             "bAutoWidth": false,
@@ -65,7 +63,7 @@ function onTableAjaxServicoAdmin(){
                             "sButtonText": "Adicionar",
                             "fnClick" : function(){
                                 if (clickTableTerminate()){
-                                   //ajaxLoadDialog(urlAdd);
+                                    ajaxLoadDialog(Routing.generate("funcionario_servico_admin_new",{"id" : $(".tableServicoAdmin").attr("atividade")}));
                                 }
                             }
                         },
@@ -78,7 +76,7 @@ function onTableAjaxServicoAdmin(){
                                if (clickTableTerminate()){
                                  var aaData = this.fnGetSelectedData()
                                  id = aaData[0]["id"];
-                                // ajaxLoadDialog(Routing.generate(routeEdit, {"id" : id}));
+                                 ajaxLoadDialog(Routing.generate("funcionario_servico_admin_edit", {"id" : id}));
                                }
                                  
                             }
@@ -95,7 +93,7 @@ function onTableAjaxServicoAdmin(){
                                  $( "#dialog-confirm" ).dialog("open");
                                  $( "#dialog-confirm" ).dialog("option", "buttons", {
                                      "Deletar": function() {
-                                           // ajaxDelete(Routing.generate(routeDelete, {"id" : id})); 
+                                            ajaxDelete(Routing.generate("funcionario_servico_admin_delete", {"id" : id})); 
                                             $(this).dialog("close");
                                      },
                                      "Cancelar": function(){
