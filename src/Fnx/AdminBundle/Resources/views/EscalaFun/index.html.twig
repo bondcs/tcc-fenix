@@ -11,19 +11,19 @@
      <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery.form.js') }}"></script>
 
 {% endblock %}
-     
+
 {% block menuContent %}
 
     <div id="menuContent">
         <h3>Gerenciamento: Escala de Funcionários</h3>
         <ul>
             <li><a class="back-link" href="{{ path('funcionarioHome')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 
 {% endblock %}
 
-{% block subMenu %} 
+{% block subMenu %}
 <div id="subMenu">
     <ul>
         <li><a href="{{ path("funcionarioHome")}}">Funcionários</a></li>
@@ -37,40 +37,28 @@
        <div class="box-filter">
            <form novalidate="novalidate" class="filter" method="POST" action="">
             {{form_errors(formFilter)}}
-            {#<input id="habilitarEscala" name="habilitar" style="margin-right: 2px;" type="checkbox" value="h">
-            <div class='datepicker bold'>
-                   {{ form_errors(formFilter.inicioTime)}}
-                   {{ form_label(formFilter.inicioTime)}}    
-                   {{ form_widget(formFilter.inicioTime,{'attr' : {'class' : 'inicio', 'disabled' : 'disabled'}})}}
-            </div>
-
-            <div class='datepicker bold'>
-                   {{ form_errors(formFilter.fimTime)}}
-                   {{ form_label(formFilter.fimTime)}}    
-                   {{ form_widget(formFilter.fimTime,{'attr' : {'class' : 'fim', 'disabled' : 'disabled' }})}}
-            </div> #}
             <div class='bold'>
                    {{ form_errors(formFilter.status)}}
-                   {{ form_label(formFilter.status)}}    
-                   {{ form_widget(formFilter.status,{'attr' : {'class' : 'status'}})}}
-            </div> 
-                   
+                   {{ form_label(formFilter.status)}}
+                   {{ form_widget(formFilter.status,{'attr' : {'class' : 'status'} })}}<br>
+            </div>
+
             <div class='bold'>
                    {{ form_errors(formFilter.categoria)}}
-                   {{ form_label(formFilter.categoria)}}    
-                   {{ form_widget(formFilter.categoria,{'attr' : {'class' : 'categoria'}})}}
-            </div> 
+                   {{ form_label(formFilter.categoria)}}
+                   {{ form_widget(formFilter.categoria,{'attr' : {'class' : 'categoria'} })}}<br>
+            </div>
 
             <input id="filtrarEscala" type="button" value="Filtrar">
         </form>
-       </div> 
+       </div>
        <hr style="margin-top: 1%; margin-bottom:1%">
        <div class="box-table">
-            <table class="tableEscalaFun redraw">
+            <table class="tableEscalaFun redraw data">
                 <thead>
                     <tr>
                         <th rowspan="2" class="left">Nome</th>
-                        
+
                         <th colspan="4" class="ui-state-default">Escala</th>
                         <th rowspan="2"> </th>
                         <th rowspan="2">id</th>
@@ -83,10 +71,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                </tbody>  
+                </tbody>
             </table>
          </div>
-    </div>  
-     
+    </div>
+
 
 {% endblock %}

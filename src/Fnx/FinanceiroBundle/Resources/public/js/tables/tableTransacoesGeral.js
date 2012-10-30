@@ -1,14 +1,13 @@
 $(document).ready(function() {
     onTableAjaxTransacaoGeral();
     filtrarGeral();
-    
-    
+
+
 })
 
 function onTableAjaxTransacaoGeral(){
 
         oTableTransacaoGeral = $('.tableTransacoesGeral').dataTable({
-            "bJQueryUI": true,
             "sPaginationType": "full_numbers",
             "bPaginate": true,
             "bInfo": false,
@@ -37,7 +36,7 @@ function onTableAjaxTransacaoGeral(){
                     "sClass": "center"},
                 { "mDataProp": "situacao" },
                 { "mDataProp": "id" },
-                    
+
              ],
              "oLanguage": {
                 "sProcessing":   "Processando...",
@@ -63,18 +62,18 @@ function onTableAjaxTransacaoGeral(){
 //                for (var i=0; i < aaData.length; i++){
 //                    valor += parseFloat(aaData[i]["valorNumber"]);
 //                }
-//                
+//
 //                var nCells = nRow.getElementsByTagName('th');
 //                nCells[1].innerHTML = formataDinheiro(valor+"");
 //            },
             "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-               
+
                 if (aData['parcela']['finalizado'])
                 {
                   $(nRow).addClass('riscado');
                 }
-     
-                
+
+
             },
             "sDom": '<"H"Tfr>t<"F"ip>',
                 "oTableTools": {
@@ -99,7 +98,7 @@ function onTableAjaxTransacaoGeral(){
                                  ajaxLoadDialog(Routing.generate("movimentacaoNew"));
                             }
                         },
-                        
+
                         {
                             "sExtends": "select_single",
                             "sButtonText": "Finalizar",
@@ -109,10 +108,10 @@ function onTableAjaxTransacaoGeral(){
                                  id = aaData[0]["id"];
                                  $( "#dialog-confirm-parcela" ).dialog("open");
                                  return false;
-                                 
+
                             }
                         },
-                        
+
                         {
                             "sExtends": "select_single",
                             "sButtonText": "Editar",
@@ -121,10 +120,10 @@ function onTableAjaxTransacaoGeral(){
                                  var aaData = this.fnGetSelectedData()
                                  id = aaData[0]["id"];
                                  ajaxLoadDialogParcela(Routing.generate("parcelaGeralEdit", {'id' : id}));
-                                 
+
                             }
                         },
-                        
+
                         {
                             "sExtends": "select_single",
                             "sButtonText": "Deletar",
@@ -135,7 +134,7 @@ function onTableAjaxTransacaoGeral(){
                                  $( "#dialog-confirm" ).dialog("open");
                                  $( "#dialog-confirm" ).dialog("option", "buttons", {
                                      "Deletar": function() {
-                                            ajaxDeleteParcela(Routing.generate("removeParcelaGeral", {"id" : id})); 
+                                            ajaxDeleteParcela(Routing.generate("removeParcelaGeral", {"id" : id}));
                                             $(this).dialog("close");
                                      },
                                      "Cancelar": function(){
@@ -143,20 +142,20 @@ function onTableAjaxTransacaoGeral(){
                                      }
                                  } );
                                  return false;
-                                 
+
                             }
                         }
-                       
+
                     ]
                 }
         });
-        
-   
+
+
 }
 
 
 function filtrarGeral(){
-    
+
     $('#filtrarGeral').click(function(){
 
         var flag = false;
@@ -164,31 +163,31 @@ function filtrarGeral(){
             notifityParcela('erro01');
             flag = true;
         }
-        
+
         if ($(".fim").val() == ""){
             notifityParcela('erro02')
             flag = true
         }
-        
+
         if (flag){
             return false;
         }
-        
+
         oTableTransacaoGeral.fnNewAjax(Routing.generate("ajaxTransacaoGeral",
                             {'inicio' : $(".inicio").val(),
                              'fim' : $(".fim").val(),
                              'tipo' : $(".tipo").val(),
-                             'data' : $(".tipoData input:checked").val(),    
+                             'data' : $(".tipoData input:checked").val(),
                              'conta' : $(".conta").val()
                             }));
-                            
+
         oTableTransacaoGeral.dataTable().fnReloadAjax();
 
         return false;
     })
-    
-    
-} 
+
+
+}
 
 
 

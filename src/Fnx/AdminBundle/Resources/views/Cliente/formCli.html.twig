@@ -7,7 +7,7 @@
         <h3>Gerenciamento: Formulário de Cliente</h3>
         <ul>
             <li><a class="back-link" href="{{ path('clienteHome')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 {% endblock %}
 
@@ -15,84 +15,84 @@
  <div class="ui-panel-content ui-widget-content " style="width:auto">
       <h4 class="ui-panel-title ui-widget-header ">Cliente</h4>
  <div id="box-form">
-    
+
     <form novalidate="" id="form" action="{{ cliente.id ? path('clienteEdit', { 'id' : cliente.id}) : path('clienteAdd')}}" method="post" class="cms">
-    <div class="myform">         
+    <div class="myform">
             {{ form_errors(form) }}
-          
-          <fieldset style="margin-bottom: 20px;"> 
+
+          <fieldset style="margin-bottom: 20px;">
                 <legend>Cliente</legend>
-                
+
                 <div style="text-align: right; {{ cliente.id ? "display:none" : "" }}" >
-                        {{ form_errors(form.pessoa)}} 
-                        {{ form_widget(form.pessoa,{ 'id':'pessoa'})}}
-                </div>  
-                
-                <div> 
-                    {{ form_errors(form.nome)}}
-                    {{ form_label(form.nome)}}    
-                    {{ form_widget(form.nome)}}
+                        {{ form_errors(form.pessoa)}}
+                        {{ form_widget(form.pessoa,{ 'id':'pessoa'})}}<br>
                 </div>
 
-                <div> 
+                <div>
+                    {{ form_errors(form.nome)}}
+                    {{ form_label(form.nome)}}
+                    {{ form_widget(form.nome)}}<br>
+                </div>
+
+                <div>
                     {{ form_errors(form.telefone)}}
-                    {{ form_label(form.telefone)}}    
-                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone'}})}}
+                    {{ form_label(form.telefone)}}
+                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone'}})}}<br>
                 </div>
-                
+
                 <div id="juridico">
-                    <div> 
+                    <div>
                         {{ form_errors(form.cnpj)}}
-                        {{ form_label(form.cnpj)}}    
-                        {{ form_widget(form.cnpj, {'attr' : {'class' : 'cnpj'}})}}
+                        {{ form_label(form.cnpj)}}
+                        {{ form_widget(form.cnpj, {'attr' : {'class' : 'cnpj'}})}}<br>
                     </div>
                 </div>
-                
+
                 <div id="fisico">
-                    <div> 
+                    <div>
                         {{ form_errors(form.cpf)}}
-                        {{ form_label(form.cpf)}}    
-                        {{ form_widget(form.cpf, {'attr' : {'class' : 'cpf'}})}}
+                        {{ form_label(form.cpf)}}
+                        {{ form_widget(form.cpf, {'attr' : {'class' : 'cpf'}})}}<br>
                     </div>
                 </div>
-                
-                <div> 
+
+                <div>
                     {{ form_errors(form.cep)}}
-                    {{ form_label(form.cep)}}    
-                    {{ form_widget(form.cep, {'attr' : {'class' : 'cep'}})}}
+                    {{ form_label(form.cep)}}
+                    {{ form_widget(form.cep, {'attr' : {'class' : 'cep'}})}}<br>
                 </div>
-                
-                <div> 
+
+                <div>
                     {{ form_errors(form.estado)}}
-                    {{ form_label(form.estado)}}    
-                    {{ form_widget(form.estado, {'id': 'estado'})}}
+                    {{ form_label(form.estado)}}
+                    {{ form_widget(form.estado, {'id': 'estado'})}}<br>
                 </div>
-                
-                <div> 
+
+                <div>
                     {{ form_errors(form.cidade)}}
-                    {{ form_label(form.cidade)}}    
-                    {{ form_widget(form.cidade, {'id': 'cidade'})}}
+                    {{ form_label(form.cidade)}}
+                    {{ form_widget(form.cidade, {'id': 'cidade'})}}<br>
                 </div>
-                
-                <div> 
+
+                <div>
                     {{ form_errors(form.bairro)}}
-                    {{ form_label(form.bairro)}}    
-                    {{ form_widget(form.bairro)}}
+                    {{ form_label(form.bairro)}}
+                    {{ form_widget(form.bairro)}}<br>
                 </div>
-                
-                <div> 
+
+                <div>
                     {{ form_errors(form.rua)}}
-                    {{ form_label(form.rua)}}    
-                    {{ form_widget(form.rua)}}
+                    {{ form_label(form.rua)}}
+                    {{ form_widget(form.rua)}}<br>
                 </div>
-                
-                <div> 
+
+                <div>
                     {{ form_errors(form.numero)}}
-                    {{ form_label(form.numero)}}    
-                    {{ form_widget(form.numero)}}
+                    {{ form_label(form.numero)}}
+                    {{ form_widget(form.numero)}}<br>
                 </div>
-                 
-               
+
+
             </fieldset>
             <div id="responsavel">
             <fieldset>
@@ -100,27 +100,27 @@
                 {% for responsavel in form.responsaveis %}
                     <div>
                         {{ form_errors(responsavel.nome)}}
-                        {{ form_label(responsavel.nome)}}    
-                        {{ form_widget(responsavel.nome)}}
+                        {{ form_label(responsavel.nome)}}
+                        {{ form_widget(responsavel.nome)}}<br>
                     </div>
-                
+
                     <div>
                         {{ form_errors(responsavel.telefone)}}
-                        {{ form_label(responsavel.telefone)}}    
-                        {{ form_widget(responsavel.telefone, {'attr' : {'class' : 'telefone'}})}}
+                        {{ form_label(responsavel.telefone)}}
+                        {{ form_widget(responsavel.telefone, {'attr' : {'class' : 'telefone'} })}}<br>
                     </div>
-                
+
                     <div>
                         {{ form_errors(responsavel.cpf)}}
-                        {{ form_label(responsavel.cpf)}}    
-                        {{ form_widget(responsavel.cpf, {'attr' : {'class' : 'cpf'}})}}
+                        {{ form_label(responsavel.cpf)}}
+                        {{ form_widget(responsavel.cpf, {'attr' : {'class' : 'cpf'} })}}<br>
                     </div>
                 {% endfor %}
             </fieldset>
             </div>
-     </div>         
-             {{ form_row(form._token) }} 
-            <input type="submit" value="Submit"/>
+     </div>
+             {{ form_row(form._token) }}
+            <input type="submit" value="Submit"/><br>
     </form>
 </div>
 </div>

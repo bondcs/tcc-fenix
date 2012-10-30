@@ -1,0 +1,25 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+
+{% block menu %}
+<ul>
+    <li class='has-sub '><a href='{{ path('adminHome')}}'><span>Home</span></a>
+	<ul>
+	    <li><a href='#'><span>Alterar Senha</span></a></li>
+	</ul>
+    </li>
+    <li class='has-sub '><a href='#'><span>Gerência</span></a>
+	<ul>
+	    <li><a href='{{ path('funcionarioHome')}}'><span>Funcionário</span></a></li>
+	    <li><a href='{{ path('clienteHome')}}'><span>Cliente</span></a></li>
+	    <li><a href='{{ path('atividadeHome')}}'><span>Atividade</span></a></li>
+	</ul>
+    </li>
+    <li class='has-sub '><a href='#'><span>Financeiro</span></a>
+	<ul>
+	    <li><a href='{{ path('financeiro_instancia')}}'><span>Instância</span></a></li>
+	    <li><a href='{{ path('financeiro_conta')}}'><span>Conta</span></a></li>
+	</ul>
+    </li>
+    <li class='has-sub '><a href='{{path('PedidoListar')}}'><span>Pedidos</span></a></li>
+</ul>
+{% endblock %}

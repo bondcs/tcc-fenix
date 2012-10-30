@@ -3,40 +3,40 @@
         {{form_errors(formFilter)}}
         <div class="bold tipoData">
                {{ form_errors(formFilter.tipo_data)}}
-               {{ form_label(formFilter.tipo_data)}}    
+               {{ form_label(formFilter.tipo_data)}}
                {{ form_widget(formFilter.tipo_data)}}
-        </div>      
-            
+        </div>
+
         <div class='picker bold'>
                {{ form_errors(formFilter.inicio)}}
-               {{ form_label(formFilter.inicio)}}    
+               {{ form_label(formFilter.inicio)}}
                {{ form_widget(formFilter.inicio,{'attr' : {'class' : 'inicio data'}})}}
         </div>
-  
+
         <div class='picker bold'>
                {{ form_errors(formFilter.fim)}}
-               {{ form_label(formFilter.fim)}}    
+               {{ form_label(formFilter.fim)}}
                {{ form_widget(formFilter.fim,{'attr' : {'class' : 'fim data'}})}}
-        </div> 
-            
+        </div>
+
         <div class="bold">
                {{ form_errors(formFilter.conta)}}
-               {{ form_label(formFilter.conta)}}    
+               {{ form_label(formFilter.conta)}}
                {{ form_widget(formFilter.conta,{'attr' : {'class' : 'conta'}})}}
         </div>
-            
+
         <div class="bold">
                {{ form_errors(formFilter.tipo)}}
-               {{ form_label(formFilter.tipo)}}    
+               {{ form_label(formFilter.tipo)}}
                {{ form_widget(formFilter.tipo,{'attr' : {'class' : 'tipo'}})}}
         </div>
-            
+
         <input id="filtrarGeral" type="button" value="Filtrar">
     </form>
 </div>
 <hr style="margin-top: 1%; margin-bottom:1%">
 <div class="box-table" >
-    <table class="tableTransacoesGeral redraw">
+    <table class="tableTransacoesGeral redraw data">
         <thead>
             <tr>
                 <th>Doc</th>
@@ -49,7 +49,7 @@
                 <th>Pagamento</th>
                 <th>Situação</th>
                 <th class="hide">id</th>
-                
+
             </tr>
         </thead>
         <tbody>
@@ -58,7 +58,7 @@
            <tr>
               <th colspan="4" style="text-align: right">Total:</th>
               <th colspan="1" style="text-align: center"></th>
-           </tr>  
+           </tr>
         </tfoot>#}
     </table>
 </div>

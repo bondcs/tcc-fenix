@@ -1,0 +1,313 @@
+/* 
+    Document   : style
+    Created on : 21/07/2012, 17:25:30
+    Author     : bondcs
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+*{margin:0px; padding: 0px; font-family: arial, helvetica, serif;}
+root {display: block;}
+
+li{list-style: none;}
+
+/*Header*/
+#wrapper{margin:8px; border-radius: 10px; border: solid 1px;}
+#header{background-color: #ABC6DD; border-top-left-radius: 10px; border-top-right-radius:10px;}
+#header div:first-child{padding-top: 15px; padding-left: 25px;}
+#header a{font-size:15pt;font-weight: bold; color: #ffffff; text-decoration: none;}
+#header a:hover{text-decoration:underline;}
+#header div:last-child{margin-top: 10px; height: 10px; background-color: #3399ff;}
+
+/* Menu */
+#cssmenu{ height:37px; display:block; padding:0; margin:0px auto;  border:1px solid;} 
+#cssmenu > ul {list-style:inside none; padding:0; margin:0;} 
+#cssmenu > ul > li {list-style:inside none; padding:0; margin:0; float:left; display:block; position:relative;} 
+#cssmenu > ul > li > a{ outline:none; display:block; position:relative; padding:12px 20px; font:bold 13px/100% Arial, Helvetica, sans-serif; text-align:center; text-decoration:none; text-shadow:1px 1px 0 rgba(0,0,0, 0.4); } 
+#cssmenu > ul > li:first-child > a{border-radius:5px 0 0 5px;} 
+#cssmenu > ul > li > a:after{ content:''; position:absolute; border-right:1px solid; top:-1px; bottom:-1px; right:-2px; z-index:99; } 
+#cssmenu ul li.has-sub:hover > a:after{top:0; bottom:0;} 
+#cssmenu > ul > li.has-sub > a:before{ content:''; position:absolute; top:18px; right:6px; border:5px solid transparent; border-top:5px solid #fff; } 
+#cssmenu > ul > li.has-sub:hover > a:before{top:19px;} 
+#cssmenu ul li.has-sub:hover > a{ background:#3f3f3f; border-color:#3f3f3f; padding-bottom:13px; padding-top:13px; top:-1px; z-index:999; } 
+#cssmenu ul li.has-sub:hover > ul, #cssmenu ul li.has-sub:hover > div{display:block;} 
+#cssmenu ul li.has-sub > a:hover{background:#3f3f3f; border-color:#3f3f3f;} 
+#cssmenu ul li > ul, #cssmenu ul li > div{ display:none; width:auto; position:absolute; top:38px; padding:10px 0; background:#3f3f3f; border-radius:0 0 5px 5px; z-index:999; } 
+#cssmenu ul li > ul{width:200px;} 
+#cssmenu ul li > ul li{display:block; list-style:inside none; padding:0; margin:0; position:relative;} 
+#cssmenu ul li > ul li a{ outline:none; display:block; position:relative; margin:0; padding:8px 20px; font:10pt Arial, Helvetica, sans-serif; color:#fff; text-decoration:none; text-shadow:1px 1px 0 rgba(0,0,0, 0.5); } 
+#cssmenu, #cssmenu > ul > li > ul > li a:hover{ background:#3e698c; background:-moz-linear-gradient(top,  #3e698c 0%, #30576e 100%); background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#3e698c), color-stop(100%,#30576e)); background:-webkit-linear-gradient(top,  #3e698c 0%,#30576e 100%); background:-o-linear-gradient(top, #3e698c 0%,#30576e 100%); background:-ms-linear-gradient(top, #3e698c 0%,#30576e 100%); background:linear-gradient(top,  #3e698c 0%,#30576e 100%); filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e698c', endColorstr='#30576e',GradientType=0 ); } 
+#cssmenu{border-color:#1b313d;} 
+#cssmenu > ul > li > a{border-right:1px solid #1b313d; color:#fff;} 
+#cssmenu > ul > li > a:after{border-color:#6696bd;} 
+#cssmenu > ul > li > a:hover{background:#436f93;} 
+#info{float:right;}
+#logout img{ margin-top: 6px; margin-right: 5px;}
+.username {color:white; margin-bottom: 50px; position: relative; bottom: 8px; font-weight: bold; font-size: 13px;}
+
+/* menu inicial */
+#all-menu {margin: 20px;}
+#all-menu a {text-decoration: none; color: #025A8D; margin-right: 15px;}
+.box-menu{ display: inline-block; height: 100px; width: 130px; background-color: #ffffff; border: 1px solid #cccccc; padding-top: 10px;}
+.box-menu:hover{border-color: black}
+.img {text-align: center;}
+.label{text-align: center;}
+
+
+
+/* menu conteudo */
+#menuContent{padding: 5px 5px 10px 5px; background-color: #F4F4F4; margin: 8px; min-height: 80px; border: 1px solid #CCCCCC; border-radius: 0px}
+#menuContent > h3, h2 {display: inline; vertical-align: middle; }
+#menuContent > ul {list-style: none; float:right}
+#menuContent > ul > li {text-align: center; display: block; float:left; width: 48px; height: 60px; padding: 10px}
+/*#menuContent > ul > li:hover {border-bottom: 1px solid gray; border-right: 1px solid gray; border-top: 1px solid white; border-left: 1px solid white;}*/
+#menuContent > ul > li > a {font-size: 13px; text-decoration: none; text-align: center}
+#menuContent > ul > li > a > span{display: block; height: 48px; width: 48px;}
+
+.new-link > span {background-image: url("../images/new-ico2.png");}
+.edit-link > span {background-image: url("../images/edit-ico2.png");}
+.delete-link > span {background-image: url("../images/delete-ico3.png");}
+.publi-link > span {background-image: url("../images/publi-ico.png");}
+.unpubli-link > span {background-image: url("../images/unpubli-ico.png");}
+.archive-link > span {background-image: url("../images/archive-ico.png");}
+.save-link > span{background-image: url("../images/save-ico.png");}
+.back-link > span{background-image: url("../images/back-ico.png");}
+.show-link > span{background-image: url("../images/profile-ico2.png");}
+.addUser-link > span{background-image: url("../images/adduser-ico.png");}
+.remove-user-link > span{background-image: url("../images/remove-user-ico.png");}
+.key-link > span{background-image: url("../images/key-ico.png");}
+.respo-link > span{background-image: url("../images/respo4-ico.png");}
+.note-show-link > span {background-image: url("../images/note-ico.png");}
+.arquive-link > span {background-image: url("../images/unarquive-ico.png");}
+.unarquive-link > span {background-image: url("../images/arquivar-ico.png");}
+
+
+
+/* subMenu */
+#subMenu{font-size: 0.95em; padding: 5px 0px 5px 0px; background-color: #F4F4F4; margin: 8px; min-height: 20px; border: 1px solid #CCCCCC; border-radius: 0px}
+#subMenu a {}
+#subMenu li {display: inline; border-right: 1px solid; padding-right: 10px; padding-left: 5px;}
+
+
+/* forms */
+#box-form{padding: 10px; margin: 10px; display: inline-block}
+.box-form-dialog{padding:10px 10px 50px 10px; background-color: #DADCFF}
+form.cms .myform { font-size: 16px; }
+form.cms .myform div{ clear: left; margin-bottom: 10px;}
+form.cms .myform .inputExtendido input {width: 435px !important}
+form.cms .myform div > label{ float: left; margin-right: 10px; text-align: right; width: 100px; font-weight: bold; vertical-align: top; padding-top: 10px;}
+form.cms .myform #pessoa > label{ float:none; margin-left: 5px; padding: 0;}
+form.cms .myform div > input[type="text"],
+form.cms .myform div > input[type="email"],
+form.cms .myform div > input[type="password"],
+form.cms .myform div > input[type="checkbox"],
+form.cms .myform div > input[type="file"]
+    { width: 345px; line-height: 26px; font-size: 16px; min-height: 26px; padding-left: 4px;}
+    
+form.cms .myform select{min-height: 23px; padding-top: 0.5%}
+    
+form.cms .myform input[type="checkbox"] {margin-top: 2%}
+form.cms .myform input[type="file"]
+    { width: 250px; line-height: 20px; font-size: 12.5pt; min-height: 26px;  }  
+form.cms .myform textarea {width: 435px; height: 250px; line-height: 26px; font-size: 16px; padding-left: 4px;}
+form.cms input[type="submit"],
+form.cms input[type="button"]
+    {float: right; width: 118px; line-height: 26px; font-size: 20px; min-height: 26px; margin-top: 10px; margin-left: 4px;}
+form.cms .myform ul li { color: #ff0000; margin-bottom: 5px; }
+form.cms .myform fieldset{padding: 15px; border: 1px solid #9FAFD1}
+form.cms .myform fieldset legend {padding: 0.2em 0.5em; border:1px solid; font-size:90%; text-align:right; display: none;}
+
+form.cms .myform a.button{margin-left: 5px; color: black; text-decoration: none; background-color: #ADD8E6; padding: 3.5px; border:1px solid #3399ff;}
+
+form.cms .myform .close {margin-left: 10px;}
+
+form.endereco .myform div > label{width: 130px;}
+form.endereco .myform div ul {margin-left: 142px;}
+.hide {display: none;}
+
+/* fix checkbox */
+form.cms .myform > .checkbox {margin-top: 20px; margin-bottom: 20px;}
+form.cms .myform > .cliente input[type="checkbox"]:first-child {display: none;}
+form.cms .myform > .cliente label:first-of-type {display: none;} 
+form.cms .myform > .checkbox fieldset {padding: 10px; margin-top: 20px;}
+form.cms .myform > .checkbox ul {margin-left: 4px;}
+form.cms .myform > .checkbox fieldset input[type="checkbox"] {margin-top: 0.5%;}
+form.cms .myform > .checkbox label {width: 300px; float: left; margin-right: 5px; font-weight: normal;text-align:left; vertical-align: auto; padding-top: 0} 
+form.cms .myform > .checkbox input {float: left; clear: left; margin-right: 5px;}
+
+.title-artigo{width: 500px !important;}
+/* erros */
+form.cms .myform ul {margin-left: 115px;}
+
+/* fix erros campos repitidos */
+form.cms .myform > .repeats > ul{margin-left: 26%;}
+
+/* tniyEditor */
+.box-tiny{margin-top: 5.5%;}
+
+/* flash messages */
+.flash-error, .flash-success{text-align: center; border: 2px solid; padding: 5px; margin: 4px; margin-left: 10px; margin-right: 10px;}
+.flash-error {border-color: #ff0000; background-color: wheat;}
+.flash-success {border-color: #0a0; background-color: palegreen;}
+
+/* login */
+#wrapper-login{margin-left: 30%; display:inline-block }
+#header-login{font-size: 16pt; padding-top: 5px; text-align: center; background-color: #6696bd; margin-top: 5%; border: 1px solid; height: 30px; vertical-align: middle; border-bottom: 0px;}
+#box-login{border: 1px solid;padding: 30px; background-color: #ffffff}
+#box-login input[type="submit"]{float: none; margin-left: 26%;}
+.error{margin-left: 26%; margin-bottom: 4px; font-weight: bold; color:red;}
+
+/* tabela */
+.box-table {font-size: 14px; background-color: #ABC6DD;}
+.table-expander {border:1px solid #025A8D;}
+.table-expander .fg-toolbar {border-top-left-radius: 0px !important; border-top-right-radius: 0px !important;}
+.box-table tbody {cursor: pointer}
+.link-name {color: #025A8D !important}
+.link-name:link{color: #025A8D !important ;outline: medium none;text-decoration: none; }
+.link-name:hover{text-decoration: underline;}
+.publicado, .unpublicado {display: block; height: 24px; width: 24px;}
+.publicado {background-image: url("../images/ok-ico2.png")}
+.unpublicado {background-image: url("../images/close-ico2.png")}
+
+.row_selected{background-color: #9FAFD1 ! important;}
+.row_selected td{background-color: #9FAFD1 ! important;}
+
+.info_row{background-color: #D1CFD0;border: 2px solid #A19B9E; cursor: default}
+
+/* hidden id e doubleclick*/
+.id {display: none;}
+.doubleclick thead th:last-child{display: none;}
+/* menu tabela */
+
+.menuDialog {}
+.menuDialog ul {}
+.menuDialog li {display: inline;}
+.menuDialog a{
+        display: block; 
+        padding: 3px 7px; 
+        -moz-border-radius: 3px; 
+        -webkit-border-radius: 3px; 
+        float:right; 
+        background-color: #ADD8E6;
+        margin: 2px 2px 3px 3px;
+        text-decoration: none;
+        font-weight: bold;
+        border: 1px solid;
+        border: 1px solid #3e698c;
+
+}
+
+/* informações tabela */
+.infos {font-size: 16px; padding: 10px;}
+.infos th{text-align: left; min-width: 100px;}
+.infos th,td {padding: 5px;}
+.toolbar01, .toolbar02{text-align: center; margin-left: 15%; font-size: 1.1em}
+
+
+.menuDialog a:hover, .menuDialogForm a:hover{
+        background-color: #E6FF99;
+}
+
+.menuDialogForm {margin-bottom: 15px; text-align: right}
+.menuDialogForm li{
+        display: inline;
+}
+.menuDialogForm a{
+        margin: 2px;
+        background-color: #ADD8E6;
+        padding: 3px 7px;
+        font-weight: bold;
+        text-decoration: none;
+        border: 1px solid #3e698c;
+}
+
+/* Conteudo */
+.main-col{background-color: #F4F4F4; margin: 8px; min-height: 400px; border: 1px solid #CCCCCC; border-radius: 0px; padding:3px; padding-bottom: 40px;}
+
+/* ajax */
+.simpleDialog {margin:0; padding:2px 0 0 0 !important;}
+
+/* Footer */
+#footer{text-align: center; padding: 5px; background-color: #F4F4F4; margin: 8px; min-height: 60px; border: 1px solid #CCCCCC; border-radius: 0px}
+
+
+/* SmartTwig */
+
+.ui-expander-content{ padding: 5px 5px !important;}
+.ui-panel-content{margin: 10px; background: #E0E2FF !important}
+
+/* DataTables */
+
+.DTTT_button{padding: 5px !important; margin-right: 10px !important;}
+.DTTT_button:hover{border: 1px solid !important;}
+.DTTT_disabled{display: none !important;}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+/* multiselect */
+.multiselect {width: 98%;height: 300px;}
+.ui-multiselect{padding: 0px !important; border: 1px solid #ADD8E6 !important; }
+.available{border-color:#ADD8E6 !important}
+.erro-multiselect ul{color: red; font-size: 16px;}
+.timepicker div{clear: none !important}
+.linhaEscala{margin-bottom: 5px; margin-top: 1px; }
+
+
+/* específicos */
+
+.funcionario{width: 80.7% !important; margin-bottom: 4px;}
+#funcionario-container{margin-left: 23.7%;}
+div.innerRow{display: none; }
+.ui-panel-content{ margin: 0px !important}
+.pointer{cursor: default}
+.pointer a{text-decoration: none; color: black}
+.empty-title{height: 17px;}
+.riscado{text-decoration: line-through;}
+.verde{background-color: #99ff99 !important}
+.bold > label{font-weight: bold;}
+#status { font-weight: bold; }
+.verdeCel {color: #0a0}
+.vermelhoCel {color:#ff0000}
+
+/*.box-table thead tr th:last-child{display: none !important;}
+.box-table tbody tr td:last-child{display: none !important;}*/
+
+/* ajax Loading */
+
+.ajaxLoader {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -32px; 
+    margin-top: -32px;  
+    display: block; 
+    z-index: 99;
+}
+
+.tooltip {
+    background-color:#000;
+    border:1px solid #fff;
+    padding:10px 15px;
+    width:200px;
+    display:none;
+    color:#fff;
+    text-align:left;
+    font-size:12px;
+ 
+    /* outline radius for mozilla/firefox only */
+    -moz-box-shadow:0 0 10px #000;
+    -webkit-box-shadow:0 0 10px #000;
+}
+
+.box-filter {margin-left: 3px; margin-top: 0.5%}
+.inicio,.fim {height: 20px}
+.filter div {display: inline; margin-right: 1%}
+.filter .picker > input {width: 9%;}
+.filter input[type="button"]{padding: 0px;}
+.tipoData input{margin-right: 0.5em; margin-left: 0.2em}

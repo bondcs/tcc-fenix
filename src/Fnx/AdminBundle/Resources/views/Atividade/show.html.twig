@@ -14,17 +14,13 @@
      <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/multiselect/js/ui.multiselect.js') }}"></script>
      <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/multiselect/js/plugins/scrollTo/jquery.scrollTo-min.js') }}"></script>
      <link href="{{ asset('bundles/fnxadmin/multiselect/css/ui.multiselect.css') }}" type="text/css" rel="stylesheet" />#}
-     
-     
-   
-    
 {% endblock %}
 
 {% block menuContent %}
     <div id="menuContent">
         <h3>Atividade : {{ atividade.nome }}</h3>
         <ul>
-           
+
             {% if (atividade.arquivado) %}
                 <li><a class="unarquive-link confirm-link" href="{{ path('atividadeAtivar',{'id' : atividade.id})}}"><span></span>Ativar</a></li>
                 <li><a class="back-link" href="{{ path('atividadeArquivado')}}"><span></span>Voltar</a></li>
@@ -32,7 +28,7 @@
                 <li><a class="arquive-link confirm-link" href="{{ path('atividadeArquivar',{'id' : atividade.id})}}"><span></span>Arquivar</a></li>
                 <li><a class="back-link" href="{{ path('atividadeHome')}}"><span></span>Voltar</a></li>
             {% endif %}
-        </ul> 
+        </ul>
     </div>
 {% endblock %}
 
@@ -40,11 +36,11 @@
     {% if atividade.servico.nome == 'Segurança de Evento'%}
         {% include 'FnxAdminBundle:Servico:segurancadeevento.html.twig' %}
     {% endif %}
-     
+
     {% if atividade.servico.nome == 'Vigilância Eletrônica'%}
         {% include 'FnxAdminBundle:Servico:monitoramento.html.twig' %}
     {% endif %}
-     
+
     {% if atividade.servico.nome == 'Verificação de Propriedade'%}
         {% include 'FnxAdminBundle:Servico:verificacao.html.twig' %}
     {% endif %}

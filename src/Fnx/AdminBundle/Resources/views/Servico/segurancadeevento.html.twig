@@ -1,17 +1,17 @@
-{% include "FnxAdminBundle:Atividade:informacoes.html.twig" %} 
+{% include "FnxAdminBundle:Atividade:informacoes.html.twig" %}
 <div class="tabs">
     <ul>
         <li><a href="#tabs-2">Escalas</a></li>
         <li><a href="#tabs-3">Pagamento</a></li>
     </ul>
-    
+
     <div id="tabs-1">
-      
+
     </div>
-    
+
     <div id="tabs-2" style="padding: 0px;">
         <div class="box-table" style="margin: 10px 0px 10px 0px">
-                <table class="tableEscalas redraw">
+                <table class="tableEscalas redraw data">
                     <thead>
                         <tr>
                            <th></th>
@@ -28,7 +28,7 @@
                          <tr>
                              <th colspan="5" style="text-align: right">Total:</th>
                              <th colspan="1" style="text-align: left;"s></th>
-                         </tr>  
+                         </tr>
                      </tfoot>
                </table>
         </div>
@@ -41,15 +41,15 @@
         </script>
 
     </div>
-    
+
     <div id="tabs-3">
        <div class="box-form-ajax">
         {% if (atividade.registro == null) %}
-            {% render 'FnxFinanceiroBundle:Pagamento:new' with {'id' : atividade.id} %}    
+            {% render 'FnxFinanceiroBundle:Pagamento:new' with {'id' : atividade.id} %}
         {% else %}
             {% render 'FnxFinanceiroBundle:Pagamento:edit' with {'id' : atividade.id} %}
         {% endif%}
-        </div> 
+        </div>
     </div>
 
 

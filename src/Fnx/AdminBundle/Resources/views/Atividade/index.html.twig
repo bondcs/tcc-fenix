@@ -9,12 +9,12 @@
          <li><a route="atividadeShow" class="note-show-link" href="#"><span></span>Profile</a></li>
          <li><a route="atividadeEdit" class="edit-link" href="#"><span></span>Editar</a></li>
          <li><a route="atividadeDelete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
-      </ul> 
+      </ul>
 </div>
 
 {% endblock %}
 
-{% block subMenu %} 
+{% block subMenu %}
 <div id="subMenu">
     <ul>
         <li><a href="{{ path("atividadeArquivado")}}">Arquivados</a></li>
@@ -25,10 +25,10 @@
 
 {% block conteudo %}
 <div class="box-table">
-    <table class="tablePlugin doubleclick" route="atividadeShow">
+    <table class="tablePlugin doubleclick data" route="atividadeShow">
     <thead>
         <tr>
-            
+
             <th style="width: 400px;">Nome</th>
             <th>Serviço</th>
             <th>Cliente</th>

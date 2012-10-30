@@ -7,12 +7,11 @@
         <ul>
             <li><a class="addUser-link ajax-link" href="{{ path('usuarioManagerFuncionario', {'id' : funcionario.id})}}"><span></span>Usuário</a></li>
             <li><a class="back-link" href="{{ path('funcionarioHome')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 {% endblock %}
 
 {% block conteudo %}
     {% include 'FnxAdminBundle:Funcionario:padrao.html.twig' %}
-
 {% endblock %}
 

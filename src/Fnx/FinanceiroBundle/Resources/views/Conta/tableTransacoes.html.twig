@@ -3,27 +3,27 @@
         {{form_errors(formFilter)}}
         <div class='picker'>
                {{ form_errors(formFilter.inicio)}}
-               {{ form_label(formFilter.inicio)}}    
+               {{ form_label(formFilter.inicio)}}
                {{ form_widget(formFilter.inicio,{'attr' : {'class' : 'inicio data'}})}}
         </div>
-            
+
         <div class='picker'>
                {{ form_errors(formFilter.fim)}}
-               {{ form_label(formFilter.fim)}}    
+               {{ form_label(formFilter.fim)}}
                {{ form_widget(formFilter.fim,{'attr' : {'class' : 'fim data'}})}}
         </div>
-            
+
         <div>
                {{ form_errors(formFilter.tipo)}}
-               {{ form_label(formFilter.tipo)}}    
+               {{ form_label(formFilter.tipo)}}
                {{ form_widget(formFilter.tipo,{'attr' : {'class' : 'tipo'}})}}
         </div>
-            
+
         <input id="filtrar" type="button" value="Filtrar">
     </form>
-</div>    
+</div>
 <div style="margin: 3px 3px; margin-top: 1.5%;" class="box-table" >
-    <table class="tableTransacoes redraw" conta="{{entity.id}}">
+    <table class="tableTransacoes redraw data" conta="{{entity.id}}">
         <thead>
             <tr>
                 <th>Data</th>
@@ -40,7 +40,7 @@
            <tr>
               <th colspan="4" style="text-align: right">Total:</th>
               <th colspan="1" style="text-align: center"></th>
-           </tr>  
+           </tr>
         </tfoot>
     </table>
 </div>

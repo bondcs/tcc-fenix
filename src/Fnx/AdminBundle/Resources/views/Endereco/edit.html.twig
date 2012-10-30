@@ -7,40 +7,40 @@
 
             <div>
                 {{ form_errors(form.estado)}}
-                {{ form_label(form.estado)}}    
-                {{ form_widget(form.estado, {'id' : 'estado'})}}
+                {{ form_label(form.estado)}}
+                {{ form_widget(form.estado, {'id' : 'estado'})}}<br>
             </div>
-                
+
             <div>
                 {{ form_errors(form.cidade)}}
-                {{ form_label(form.cidade)}}    
-                {{ form_widget(form.cidade, {'id' : 'cidade'})}}
+                {{ form_label(form.cidade)}}
+                {{ form_widget(form.cidade, {'id' : 'cidade'})}}<br>
             </div>
-                
+
             <div>
                 {{ form_errors(form.bairro)}}
-                {{ form_label(form.bairro)}}    
-                {{ form_widget(form.bairro)}}
+                {{ form_label(form.bairro)}}
+                {{ form_widget(form.bairro)}}<br>
             </div>
 
             <div>
                 {{ form_errors(form.rua)}}
-                {{ form_label(form.rua)}}    
-                {{ form_widget(form.rua)}}
+                {{ form_label(form.rua)}}
+                {{ form_widget(form.rua)}}<br>
             </div>
-            
+
             <div>
                 {{ form_errors(form.numero)}}
-                {{ form_label(form.numero)}}    
-                {{ form_widget(form.numero)}}
+                {{ form_label(form.numero)}}
+                {{ form_widget(form.numero)}}<br>
             </div>
-                
+
             <div>
                 {{ form_errors(form.complemento)}}
-                {{ form_label(form.complemento)}}    
-                {{ form_widget(form.complemento)}}
+                {{ form_label(form.complemento)}}
+                {{ form_widget(form.complemento)}}<br>
             </div>
-        </div>    
+        </div>
             {{ form_row(form._token) }}
             <input style="margin-bottom: 15px;" type="submit" value="Submit"/>
         </form>

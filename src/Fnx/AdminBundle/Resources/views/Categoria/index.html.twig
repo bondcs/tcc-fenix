@@ -8,12 +8,12 @@
             <li><a class="new-link" href="{{ path('categoriaNew')}}"><span ></span>Novo</a></li>
             <li><a route="categoriaEdit" class="edit-link" href="#"><span></span>Editar</a></li>
             <li><a route="categoriaDelete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
-        </ul> 
+        </ul>
     </div>
 
 {% endblock %}
 
-{% block subMenu %} 
+{% block subMenu %}
 <div id="subMenu">
     <ul>
         <li><a href="{{ path("funcionarioHome")}}">Funcionários</a></li>
@@ -24,10 +24,10 @@
 
 {% block conteudo %}
 <div class="box-table">
-<table class="tablePlugin">
+<table class="tablePlugin data">
     <thead>
         <tr>
-            
+
             <th style="width: 400px;">Nome</th>
             <th>Descrição</th>
             <th class="hide">Id</th>

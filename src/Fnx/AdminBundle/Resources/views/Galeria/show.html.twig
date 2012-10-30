@@ -1,20 +1,20 @@
 <div style="display: inline-block">
-    
+
         <ul style="text-align: right;">
                 <li style="display: inline;"><a class="add-foto-ico ajax-link" href="{{path("galeriaAdd", {"id" : id})}}" title="Adicionar foto"><img src="{{asset("bundles/fnxadmin/images/foto-ico-add.png")}}" alt="Adicionar foto"></a></li>
-                {% if (galeria) %} 
-                    <li style="display: inline;"><a class="confirm-link dialog-confirm-link" href="{{path("galeriaRemove", {"id" : id})}}" title="Excluir galeria"><img src="{{asset("bundles/fnxadmin/images/photo-delete-ico.png")}}" alt="Excluir galeria"></a></li>
+                {% if (galeria) %}
+                <li style="display: inline;"><a class="confirm-link dialog-confirm-link" href="{{path("galeriaRemove", {"id" : id})}}" title="Excluir galeria"><img src="{{asset("bundles/fnxadmin/images/photo-delete-ico.png")}}" alt="Excluir galeria"></a></li>
                 {% endif %}
         </ul>
-    
+
     <ul class="gallery">
     {% if (galeria) %}
         {% for imagem in galeria.imagens %}
                 <li><img src="{{asset('uploads/images/'~imagem.caminho)}}"></li>
         {% endfor %}
-        
+
     {% endif %}
     </ul>
-    
+
 </div>
 

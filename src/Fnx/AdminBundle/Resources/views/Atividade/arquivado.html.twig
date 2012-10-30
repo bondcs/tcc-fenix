@@ -7,12 +7,12 @@
       <ul>
          <li><a route="atividadeDelete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
          <li><a class="back-link" href="{{ path("atividadeHome")}}"><span></span>Voltar</a></li>
-      </ul> 
+      </ul>
 </div>
 
 {% endblock %}
 
-{% block subMenu %} 
+{% block subMenu %}
 <div id="subMenu">
     <ul>
         <li><a href="{{ path("atividadeHome")}}">Ativos</a></li>
@@ -22,10 +22,10 @@
 
 {% block conteudo %}
 <div class="box-table">
-<table class="tablePlugin doubleclick" route="atividadeShow">
+<table class="tablePlugin doubleclick data" route="atividadeShow">
     <thead>
         <tr>
-            
+
             <th style="width: 400px;">Nome</th>
             <th>Serviço</th>
             <th>Cliente</th>

@@ -1,20 +1,20 @@
 <div class="box-table" style="margin: 10px 0px 10px 0px;">
-                <table class="tablePlugin">
-                    <thead>
-                        <tr>
-                            <th>Atividade</th>
-                            <th>Início</th>
-                            <th>Fim</th>
-                         </tr>
-                     </thead>
-                     <tbody>
-                     {% for escala in escalas %}
-                          <tr>
-                              <td><a style="color:blue" href="{{path("atividadeShow", {"id" : escala.atividade.id})}}">{{escala.atividade.nome}}</a></td>
-                              <td style="text-align: center">{{escala.dtInicio|date('d/m/Y H:i:s')}}</td>
-                              <td style="text-align: center">{{escala.dtFim|date('d/m/Y H:i:s')}}</td>
-                          </tr>
-                     {% endfor %}
-                     </tbody>
-               </table>
+    <table class="tablePlugin data">
+	<thead>
+	    <tr>
+		<th>Atividade</th>
+		<th>Início</th>
+		<th>Fim</th>
+	     </tr>
+	 </thead>
+	 <tbody>
+	 {% for escala in escalas %}
+	      <tr>
+		  <td><a style="color:blue" href="{{path("atividadeShow", {"id" : escala.atividade.id})}}">{{escala.atividade.nome}}</a></td>
+		  <td style="text-align: center">{{escala.dtInicio|date('d/m/Y H:i:s')}}</td>
+		  <td style="text-align: center">{{escala.dtFim|date('d/m/Y H:i:s')}}</td>
+	      </tr>
+	 {% endfor %}
+	 </tbody>
+   </table>
 </div>

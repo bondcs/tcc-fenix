@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	<title>{% block title %}Grupo Phoenix{% endblock %}</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/fnxadmin/css/jquery-ui/jquery-ui-1.9.1.custom.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/fnxadmin/css/style.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/fnxadmin/pnotify/jquery.pnotify.default.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/fnxadmin/pnotify/jquery.pnotify.default.icons.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/fnxadmin/css/ui.multiselect.css') }}"/>
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/fnxadmin/gallery/css/jquery.galleryview-3.0-dev.css') }}"/>
+	{% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+	<div id="toolbar">
+	    <a href="{{ path('adminHome') }}" class="logo">Grupo Phoenix</a>
+
+	    <div id="toolbar_options">
+		{% block _toolbar_options %}{% endblock %}
+	    </div>
+	</div>
+	{% block _conteudo_layout_simples %}
+	<div>
+	    {% if app.session.hasFlash('success') %}
+		<div class="flash-success">
+		    {{ app.session.flash('success') }}{{ app.session.removeFlash('success') }}
+		</div>
+	    {% endif %}
+	    {% if app.session.hasFlash('error') %}
+		<div class="flash-error">
+		    {{ app.session.flash('error') }}{{ app.session.removeFlash('error') }}
+		</div>
+	    {% endif %}
+	    <div id="conteudo">
+		    {% block conteudo %}{% endblock %}
+	    </div>
+	    {% endblock %}
+	 </div>
+	<div id="footer">
+	{% block footer %}
+	    <span>Sistema por: Luan Luiz Correa e Jomaro Correa Rodrigues</span>
+	{% endblock %}
+	</div>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery.jquery.ui.cookie.min.js') }}"></script>
+	    {#<script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery.tools.min.js') }}"></script>#}
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/timepicker.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery.form.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/gallery/js/jquery.galleryview-3.0-dev.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/gallery/js/jquery.timers-1.2.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/js/jquery.dataTables.Tools.Notify.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/table/tools/js/fnReloadAjax.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableEscalas.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableLocais.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tablePropriedade.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/tables/tableSalario.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxfinanceiro/js/tables/tableParcelas.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxfinanceiro/js/tables/tableTransacoes.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxfinanceiro/js/tables/tableTransacoesGeral.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/multiselect/js/ui.multiselect.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/multiselect/js/plugins/scrollTo/jquery.scrollTo-min.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/jquery.maskedinput-1.3.min.js') }}"></script>
+	    <script type="text/javascript" language="javascript" src="{{ asset('bundles/fnxadmin/js/script.js') }}"></script>
+
+    {% block dialogCofirm %}
+	<div id="dialog-confirm" title="">
+	    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 0px 0;"></span>Você tem certeza?</p>
+	</div>
+    {% endblock %}
+	<div class="simpleDialog"></div>
+
+    {% block _javascript %}
+	<script type="text/javascript">
+	    $(document).ready(function(){
+		$(document)
+		    .ajaxStart(function(){ $(".ajaxLoader").show(); })
+		    .ajaxStop(function(){ $(".ajaxLoader").hide(); });
+	    });
+
+	    var url_dominio = "tcc-fenix";
+	    var urlSource = "";
+	    var imageUrl = '{{ asset('bundles/fnxadmin/images/')}}';
+	</script>
+    {% endblock %}
+    {% block javascripts %}{% endblock %}
+    {% block javascript_defer %}{% endblock %}
+	<img class="ajaxLoader" src="{{ asset('bundles/fnxadmin/images/335.gif') }}"/>
+    </body>
+</html>

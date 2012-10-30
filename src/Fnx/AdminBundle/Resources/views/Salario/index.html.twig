@@ -7,12 +7,12 @@
         <h3>Gerenciamento: Salário de Funcionários</h3>
         <ul>
             <li><a class="back-link" href="{{ path('funcionarioHome')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 
 {% endblock %}
 
-{% block subMenu %} 
+{% block subMenu %}
 <div id="subMenu">
     <ul>
         <li><a href="{{ path("funcionarioHome")}}">Funcionários</a></li>
@@ -23,7 +23,7 @@
 {% block conteudo %}
      <div>
        <div class="box-table">
-           <table class="tableSalario redraw">
+           <table class="tableSalario redraw data">
                 <thead>
                     <tr>
                         <th style="width: 3%"></th>
@@ -35,10 +35,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                </tbody>  
+                </tbody>
             </table>
          </div>
-    </div>  
-     
+    </div>
+
 
 {% endblock %}

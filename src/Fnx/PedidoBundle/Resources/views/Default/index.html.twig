@@ -43,11 +43,43 @@ $.fn.dataTableExt.afnFiltering.push(
 
     $("#extra_filter").submit(function(){ oTable.fnDraw(); return false;});
 
+    $(document).ready(function(){
+
+	$('#extra_filter').detach().appendTo($('.cdefi:first'));
+
+        $("#table_pedidos tbody").on('dblclick', 'tr', function(){
+            window.location.href = $('a:first',this).get(0).href;
+        });
+
+	var optTable = {};
+
+	$.extend(optTable, defaultTable, {"sDom" : '<"filter_table fleft"f><"cdefi fleft"><"TTolls fright"T>t<"table_info fleft"i><"table_length fleft"l><"table_paginate fright"p>',"oTableTools": {
+		"aButtons": [
+		     {
+			"sExtends":    "link",
+			"sButtonText": "Novo",
+			"sPath" : "{{ path("PedidoCadastrar") }}"
+		    },
+		    {
+			"sExtends":    "link",
+			"sButtonText": "Editar",
+			"sPath" : "{{ path('PedidoEditar', {'id' : '$("tr.row_selected:first").attr("href")' }) }}"
+		    },
+		   {
+			"sExtends":    "link",
+			"sButtonText": "Remover"
+		    },
+		]
+	    }});
+
+	$('#table_pedidos').DataTable(optTable);
+    });
+
+
 </script>
 {% endblock %}
 
 {% block conteudo %}
-<a href="{{ path("PedidoCadastrar") }}">Novo</a>
 
 <form id="extra_filter">
     <label>Filtrar: </label>
@@ -61,7 +93,7 @@ $.fn.dataTableExt.afnFiltering.push(
     <input type="submit" value="Ir" style="padding: 1px 8px;">
 </form>
 
-<table id="table_pedidos" class="tablePlugin">
+<table id="table_pedidos" class="data">
     <thead>
         <tr>
             <th>Cliente</th>
@@ -85,15 +117,4 @@ $.fn.dataTableExt.afnFiltering.push(
         {% endfor %}
     </tbody>
 </table>
-
-<script>
-
-    $(document).ready(function(){
-        $("#table_pedidos").find("tbody tr").live('dblclick',function(){
-            window.location.href = $(this).find('a:first').attr('href');
-        });
-    });
-
-</script>
-
 {% endblock %}

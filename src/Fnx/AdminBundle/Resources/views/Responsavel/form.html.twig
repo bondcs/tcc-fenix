@@ -1,25 +1,25 @@
 <div class="box-form-dialog">
     <form novalidate="" id="form" action="{{ responsavel.id ? path('responsavelEdit', { 'id' : responsavel.id}) : path('responsavelAdd', { 'id' : clienteId})}}" method="post" class="cms ajaxFormTable">
-    <div class="myform">         
+    <div class="myform">
             {{ form_errors(form) }}
                     <div>
                         {{ form_errors(form.nome)}}
-                        {{ form_label(form.nome)}}    
-                        {{ form_widget(form.nome)}}
+                        {{ form_label(form.nome)}}
+                        {{ form_widget(form.nome)}}<br>
                     </div>
-                
+
                     <div>
                         {{ form_errors(form.telefone)}}
-                        {{ form_label(form.telefone)}}    
-                        {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone'}})}}
+                        {{ form_label(form.telefone)}}
+                        {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone'} })}}<br>
                     </div>
-                
+
                     <div>
                         {{ form_errors(form.cpf)}}
-                        {{ form_label(form.cpf)}}    
-                        {{ form_widget(form.cpf, {'attr' : {'class' : 'cpf'}})}}
+                        {{ form_label(form.cpf)}}
+                        {{ form_widget(form.cpf, {'attr' : {'class' : 'cpf'} })}}<br>
                     </div>
-        
+
              {{ form_row(form._token) }}
        </div>
         <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>

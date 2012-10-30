@@ -1,17 +1,12 @@
 {% extends "FnxAdminBundle::layout.html.twig" %}
 {% block title %} {{ entity.nome }} {% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-
-{% endblock %}
-     
 {% block menuContent %}
     <div id="menuContent">
         <h3>Conta : {{ entity.nome }}</h3>
         <ul>
             <li><a class="back-link" href="{{ path('financeiro_conta')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 {% endblock %}
 

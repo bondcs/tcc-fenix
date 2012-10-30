@@ -8,7 +8,7 @@
         <h3>Gerenciamento: Formulário de Serviço</h3>
         <ul>
             <li><a class="back-link" href="{{ path('categoriaHome')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 {% endblock %}
 
@@ -21,18 +21,18 @@
         <div class="myform">
             <div class="inputExtendido">
                 {{ form_errors(form.nome)}}
-                {{ form_label(form.nome)}}    
-                {{ form_widget(form.nome)}}
+                {{ form_label(form.nome)}}
+                {{ form_widget(form.nome)}}<br>
             </div>
 
             <div>
                 {{ form_errors(form.descricao)}}
-                {{ form_label(form.descricao)}}    
-                {{ form_widget(form.descricao)}}
+                {{ form_label(form.descricao)}}
+                {{ form_widget(form.descricao)}}<br>
             </div>
-         </div>   
+         </div>
             {{ form_row(form._token) }}
-            <input type="submit" value="Submit"/>
+            <input type="submit" value="Submit"/><br>
         </form>
     </div>
 </div>

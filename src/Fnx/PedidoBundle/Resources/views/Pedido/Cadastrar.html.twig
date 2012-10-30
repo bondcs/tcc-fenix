@@ -1,55 +1,10 @@
 {% extends "FnxPedidoBundle:Default:index.html.twig" %}
 
-{% block stylesheets %}
-    <link href="{{ asset('Resources/css/TableTools.css') }}" type="text/css" rel="stylesheet" />
-    <link href="{{ asset('Resources/css/TableTools_JUI.css') }}" type="text/css" rel="stylesheet" />
-    <style>
-        .ui-button{
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        .ui-button img{
-            width: 16px;
-            height: 16px;
-            margin: 0;
-        }
-
-        .hidden{
-            visibility: hidden;
-            display: none;
-        }
-
-
-        fieldset{
-            margin: 15px;
-            padding: 15px 25px;
-        }
-
-        #modal_new_item label,
-        #modal_new_item .label,
-        #modal_new_item input,
-        #modal_new_item .input{
-            display: block;
-            width: 100px;
-            float: left;
-            height: 18px;
-            margin-bottom: 5px;
-        }
-
-	.clear{
-	    clear: both;
-	}
-    </style>
-{% endblock %}
-
 {% block javascripts %}
-    <script src="{{ asset('Resources/js/TableTools.js') }}"></script>
     <script src="{{ asset('Resources/js/ZeroClipboard.js') }}"></script>
 
 <script>
     var oTable = $('#tableItens').dataTable({
-        "bJQueryUI": true,
         "bPaginate": false,
         "bFilter": false,
         "bRetrieve": true,
@@ -247,7 +202,7 @@ $(document).ready(function(){
 <form onsubmit="confereformulario();" method="POST">
     <fieldset>
         <legend>Cliente</legend>
-	<table>
+	<table class="data">
 	    <thead>
 		<tr>
 		    <td>{{ form_label(form.cliente) }}: {{ form_errors(form.cliente) }}</td>
@@ -275,7 +230,7 @@ $(document).ready(function(){
 
     <hr style="margin: 15px;">
 
-    <table id="tableItens" class="tablePlugin2" data-col_totalizer=4 data-field_result="#sommatory" data-callback_append="addItem" >
+    <table id="tableItens" class="data">
         <thead>
             <tr>
                 <th>Item</th>
@@ -306,7 +261,7 @@ $(document).ready(function(){
 </div>
 
 <div id="modal_new_item" class="simple_dialog" title="Adicionar Item" style="width: 500px; height: 400px;">
-    <form id="form_new_item" class="ajax_form" action="{{ path('PedidoAdicionaItem') }}" method="POST">
+    <form id="form_new_item" action="{{ path('PedidoAdicionaItem') }}" method="POST">
 	<label for="form_item_nome">Item: </label>
 	<input id="form_item_nome" name="nome"><br class="clear">
 

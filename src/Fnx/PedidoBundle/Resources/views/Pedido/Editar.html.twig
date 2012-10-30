@@ -1,22 +1,63 @@
 {% extends "FnxPedidoBundle:Default:index.html.twig" %}
 
+{% block javascript %}
+<script type="text/javascript">
+
+var tableOpt = {};
+
+$.extend( tableOpt, defaultTable, {
+    "bInfo": false,
+    "bPaginate": false,});
+
+var u = {
+    "sDom" : '<"TTolls fright"T>t',
+    "bFilter": false,
+    "bInfo": false,
+    "bPaginate": false,
+    "oTableTools": {
+	"aButtons": [
+	     {
+		"sExtends":    "text",
+		"fnClick": function ( nButton, oConfig, oFlash ) {
+		    alert('novo')
+		},
+		"sButtonText": "Novo"
+	    },
+	    {
+		"sExtends":    "text",
+		"fnClick": function ( nButton, oConfig, oFlash ) {
+		    alert( 'Editar' );
+		},
+		"sButtonText": "Editar"
+	    },
+	    {
+		"sExtends":    "text",
+		"fnClick": function ( nButton, oConfig, oFlash ) {
+		    alert( 'Deletar' );
+		},
+		"sButtonText": "Deletar"
+	    }
+	]
+    }
+};
+
+$('#table_pedido_editar').DataTable(tableOpt);
+
+</script>
+{% endblock %}
+
 {% block conteudo %}
-<style>
-        #DataTables_Table_0_wrapper{
-            max-width: 450px;
-        }
-</style>
-<form>    
-    
+<form>
+
     {{ form_label(form.cliente) }}
     {{ form_errors(form.cliente) }}
-    {#{ form_widget(form.cliente) }#}<br/>
-    
+    {{ form_widget(form.cliente) }}<br><br>
+
     {{ form_label(form.previsao) }}
     {{ form_errors(form.previsao) }}
-    {% ui_datepicker dateFormat="dd/mm/yy"%}<br>
-    
-    <table class="tablePlugin">
+    {{ form_widget(form.previsao) }}<br><br>
+
+    <table id="table_pedido_editar" class="data">
         <thead>
             <tr>
                 <th>Descrição</th>

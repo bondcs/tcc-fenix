@@ -7,7 +7,7 @@
         <h3>Gerenciamento: Formulário de Funcionário</h3>
         <ul>
             <li><a class="back-link" href="{{ path('funcionarioHome')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 {% endblock %}
 
@@ -20,50 +20,50 @@
             {{ form_errors(form) }}
                 <div style="text-align: right">
                     {{ form_errors(form.tipo)}}
-                    {# form_label(form.tipo)#}    
-                    {{ form_widget(form.tipo)}}
+                    {# form_label(form.tipo)#}
+                    {{ form_widget(form.tipo)}}<br>
                 </div>
 
                 <div>
                     {{ form_errors(form.nome)}}
-                    {{ form_label(form.nome)}}    
-                    {{ form_widget(form.nome)}}
+                    {{ form_label(form.nome)}}
+                    {{ form_widget(form.nome)}}<br>
                 </div>
 
-                <div> 
+                <div>
                     {{ form_errors(form.telefone)}}
-                    {{ form_label(form.telefone)}}    
-                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone', 'style' : 'width:30%'}})}}
+                    {{ form_label(form.telefone)}}
+                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone', 'style' : 'width:30%'} })}}<br>
                 </div>
-            
-                <div> 
+
+                <div>
                     {{ form_errors(form.cpf)}}
-                    {{ form_label(form.cpf)}}    
-                    {{ form_widget(form.cpf, {'attr' : {'class' : 'cpf', 'style' : 'width:30%'}})}}
+                    {{ form_label(form.cpf)}}
+                    {{ form_widget(form.cpf, {'attr' : {'class' : 'cpf', 'style' : 'width:30%'} })}}<br>
                 </div>
-                
-                <div> 
+
+                <div>
                     {{ form_errors(form.rg)}}
-                    {{ form_label(form.rg)}}    
-                    {{ form_widget(form.rg, {'attr' : {'class' : 'rg', 'style' : 'width:30%'}})}}
+                    {{ form_label(form.rg)}}
+                    {{ form_widget(form.rg, {'attr' : {'class' : 'rg', 'style' : 'width:30%'} })}}<br>
                 </div>
-            
-                <div> 
+
+                <div>
                     {{ form_errors(form.dependentes)}}
-                    {{ form_label(form.dependentes)}}    
-                    {{ form_widget(form.dependentes, {'attr' : {'style' : 'width:10%'}})}}
+                    {{ form_label(form.dependentes)}}
+                    {{ form_widget(form.dependentes, {'attr' : {'style' : 'width:10%'} })}}<br>
                 </div>
-            
-                <div> 
+
+                <div>
                     {{ form_errors(form.salario.salario)}}
-                    {{ form_label(form.salario.salario)}}    
-                    {{ form_widget(form.salario.salario,{'attr' : {'class' : 'moeda', 'style' : 'width:20%'}})}}
+                    {{ form_label(form.salario.salario)}}
+                    {{ form_widget(form.salario.salario,{'attr' : {'class' : 'moeda', 'style' : 'width:20%'} })}}<br>
                 </div>
-            
+
                 <div class="checkbox">
                     <fieldset>
                         <legend>Permissão</legend>
-                            {{ form_errors(form.categorias)}}    
+                            {{ form_errors(form.categorias)}}
                             {{ form_widget(form.categorias)}}
                     </fieldset>
                 </div>
@@ -72,7 +72,7 @@
                 {{ form_row(form._token) }}
             <input type="submit" value="Submit"/>
     </form>
-    </div>  
+    </div>
 </div>
 
 

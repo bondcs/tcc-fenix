@@ -3,14 +3,13 @@ $(document).ready(function() {
     confirmDialogParcela();
     notifityParcelaTransacoes();
     filtrar();
-    
-    
+
+
 })
 
 function onTableAjaxTransacaoSistema(inicio, fim, tipo){
 
         oTableTransacao = $('.tableTransacoes').dataTable({
-            "bJQueryUI": true,
             "sPaginationType": "full_numbers",
             "bPaginate": true,
             "bInfo": false,
@@ -27,7 +26,7 @@ function onTableAjaxTransacaoSistema(inicio, fim, tipo){
                 { "mDataProp": "valor_pago",
                     "sClass": "center"},
                 { "mDataProp": "id" },
-                    
+
              ],
              "oLanguage": {
                 "sProcessing":   "Processando...",
@@ -53,12 +52,12 @@ function onTableAjaxTransacaoSistema(inicio, fim, tipo){
                 for (var i=0; i < aaData.length; i++){
                     valor += parseFloat(aaData[i]["valorNumber"]);
                 }
-                
+
                 var nCells = nRow.getElementsByTagName('th');
                 nCells[1].innerHTML = formataDinheiro(valor+"");
             },
 //            "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-//                
+//
 ////                if ( aData['movimentacao']['valor'] <= aData['movimentacao']['valor_pago'] )
 ////                {
 ////                  $(nRow).addClass('verde');
@@ -84,74 +83,74 @@ function onTableAjaxTransacaoSistema(inicio, fim, tipo){
                             "sPdfOrientation": "landscape",
                             "sPdfMessage": "Movimentações de Conta"
                         },
-                       
+
                     ]
                 }
         });
-        
-   
+
+
 }
 
 
 function filtrar(){
-    
+
     $('#filtrar').click(function(){
         var flag = false;
         if ($(".inicio").val() == ""){
             notifityParcela('erro01');
             flag = true;
         }
-        
+
         if ($(".fim").val() == ""){
             notifityParcela('erro02')
             flag = true
         }
-        
+
         if (flag){
             return false;
         }
-        
+
         $('.tableTransacoes').dataTable().fnNewAjax(Routing.generate("ajaxTransacao", {'inicio' : $(".inicio").val(), 'fim' : $(".fim").val(),'tipo' : $(".tipo").val(), 'conta' : $('.tableTransacoes').attr("conta")}));
         $('.tableTransacoes').dataTable().fnReloadAjax();
     })
-    
-} 
+
+}
 
 function notifityParcelaTransacoes(tipo){
     $.pnotify.defaults.styling = "jqueryui";
-    
+
     if (tipo == 'erro01'){
         $.pnotify({
             title: 'Atenção!',
             text: 'Data inicial inválida',
             type: 'info'
-        }); 
+        });
     }
-    
+
     if (tipo == 'erro02'){
         $.pnotify({
             title: 'Atenção!',
             text: 'Data final inválida',
             type: 'info'
-        }); 
+        });
     }
-    
+
     if (tipo == 'erro03'){
         $.pnotify({
             title: 'Atenção!',
             text: 'Insira uma data de pagamento.',
             type: 'info'
-        }); 
+        });
     }
-    
+
     if (tipo == 'success'){
         $.pnotify({
             title: 'Sucesso!',
             text: 'Parcela finalizada.',
             type: 'info'
-        }); 
+        });
     }
-    
+
 }
 
 

@@ -10,30 +10,30 @@
             <li><a route="financeiro_instancia_show" class="show-link" href="#"><span></span>Profile</a></li>
             <li><a route="financeiro_instancia_edit" class="edit-link" href="#"><span></span>Editar</a></li>
             <li><a route="financeiro_instancia_delete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
-        </ul> 
+        </ul>
     </div>
 
 {% endblock %}
 
 {% block conteudo %}
 <div class="box-table">
-<table class="tablePlugin">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th class="hide">Id</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for entity in entities %}
-        <tr>
-            <td>{{ entity.nome }}</td>
-            <td>{{ entity.descricao }}</td>
-            <td class="id">{{ entity.id }}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <table class="tablePlugin data">
+	<thead>
+	    <tr>
+		<th>Nome</th>
+		<th>Descrição</th>
+		<th class="hide">Id</th>
+	    </tr>
+	</thead>
+	<tbody>
+	{% for entity in entities %}
+	    <tr>
+		<td>{{ entity.nome }}</td>
+		<td>{{ entity.descricao }}</td>
+		<td class="id">{{ entity.id }}</td>
+	    </tr>
+	{% endfor %}
+	</tbody>
+    </table>
 </div>
 {% endblock %}

@@ -5,31 +5,31 @@
 
                 <div>
                     {{ form_errors(form.nome)}}
-                    {{ form_label(form.nome)}}    
-                    {{ form_widget(form.nome, {'attr' : {'readonly' : 'readonly'}})}}
+                    {{ form_label(form.nome)}}
+                    {{ form_widget(form.nome, {'attr' : {'readonly' : 'readonly'} })}}<br>
                 </div>
-            
-                <div> 
+
+                <div>
                     {{ form_errors(form.telefone)}}
-                    {{ form_label(form.telefone)}}    
-                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone', 'readonly' : 'readonly', 'style' : 'width:30%'}})}}
+                    {{ form_label(form.telefone)}}
+                    {{ form_widget(form.telefone, {'attr' : {'class' : 'telefone', 'readonly' : 'readonly', 'style' : 'width:30%'} })}}<br>
                 </div>
-            
-                <div> 
+
+                <div>
                     {{ form_errors(form.salarioPago)}}
-                    {{ form_label(form.salarioPago)}}    
-                    {{ form_widget(form.salarioPago,{'attr' : {'class' : 'moeda', 'style' : 'width:20%', 'readonly' : 'readonly'}})}}
+                    {{ form_label(form.salarioPago)}}
+                    {{ form_widget(form.salarioPago,{'attr' : {'class' : 'moeda', 'style' : 'width:20%', 'readonly' : 'readonly'} })}}<br>
                 </div>
-            
-                <div> 
+
+                <div>
                     {{ form_errors(form.bonus)}}
-                    {{ form_label(form.bonus)}}    
-                    {{ form_widget(form.bonus,{'attr' : {'class' : 'moeda', 'style' : 'width:20%'}})}}
+                    {{ form_label(form.bonus)}}
+                    {{ form_widget(form.bonus,{'attr' : {'class' : 'moeda', 'style' : 'width:20%'} })}}<br>
                 </div>
 
     </div>
                 {{ form_row(form._token) }}
-            <input type="submit" value="Submit"/>
+            <input type="submit" value="Submit"/><br>
     </form>
 </div>
 

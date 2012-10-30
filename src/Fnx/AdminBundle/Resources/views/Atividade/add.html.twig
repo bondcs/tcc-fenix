@@ -7,84 +7,76 @@
         <h3>Gerenciamento: Formulário de Atividade</h3>
         <ul>
             <li><a class="back-link" href="{{ path('atividadeHome')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 {% endblock %}
 
 {% block conteudo %}
 
- <div class="ui-panel-content ui-widget-content " style="width:auto">
-   <h4 class="ui-panel-title ui-widget-header ">Atividade</h4>
    <div id="box-form">
     <form novalidate="" class="cms" action="{{ path('atividadeCreate') }}" method="post" {{ form_enctype(form) }}>
-    <div class="myform">     
+    <div class="myform">
         {{form_errors(form)}}
-        
+
         <div class="inputExtendido">
             {{ form_errors(form.nome)}}
-            {{ form_label(form.nome)}}    
-            {{ form_widget(form.nome, {"id" : "nome"})}}
+            {{ form_label(form.nome)}}
+            {{ form_widget(form.nome, {"id" : "nome"})}}<br>
         </div>
-          
-        {#<div>
-            {{ form_errors(form.descricao)}}
-            {{ form_label(form.descricao)}}    
-            {{ form_widget(form.descricao, {"id" : "descricao"})}}
-        </div>
-            {% ui_tooltip for="#descricao" label="Descrição para atividade. <br/>ex: Será instalado câmeras para <br/>monitoramento da empresa." %}#}
+
         <div class="complete">
             {{ form_errors(form.cliente)}}
             {{ form_label(form.cliente)}}
-            {{ form_widget(form.cliente, {"id" : "cliente"})}} <a class="ajax-link button" href="{{ path("clienteAdd")}}" title="Cliente">Adicionar</a> 
+            {{ form_widget(form.cliente, {"id" : "cliente"})}} <a class="ajax-link button" href="{{ path("clienteAdd")}}" title="Cliente">Adicionar</a><br>
         </div>
-            
+
         <div>
             {{ form_errors(form.servico)}}
-            {{ form_label(form.servico)}}    
-            {{ form_widget(form.servico, {"id" : "servico"})}}
+            {{ form_label(form.servico)}}
+            {{ form_widget(form.servico, {"id" : "servico"})}}<br>
         </div>
-        
-        <div> 
+
+        <div>
             {{ form_errors(form.cep)}}
-            {{ form_label(form.cep)}}    
-            {{ form_widget(form.cep, {'attr' : {'class' : 'cep' ,'style' : 'width:20%' }})}}
+            {{ form_label(form.cep)}}
+            {{ form_widget(form.cep, {'attr' : {'class' : 'cep' ,'style' : 'width:20%' } })}}<br>
         </div>
 
-        <div> 
+        <div>
             {{ form_errors(form.estado)}}
-            {{ form_label(form.estado)}}    
-            {{ form_widget(form.estado, {'id': 'estado'})}}
+            {{ form_label(form.estado)}}
+            {{ form_widget(form.estado, {'id': 'estado'})}}<br>
         </div>
 
-        <div> 
+        <div>
             {{ form_errors(form.cidade)}}
-            {{ form_label(form.cidade)}}    
-            {{ form_widget(form.cidade, {'id': 'cidade'})}}
+            {{ form_label(form.cidade)}}
+            {{ form_widget(form.cidade, {'id': 'cidade'})}}<br>
         </div>
 
-        <div class="inputExtendido"> 
+        <div class="inputExtendido">
             {{ form_errors(form.bairro)}}
-            {{ form_label(form.bairro)}}    
-            {{ form_widget(form.bairro)}}
+            {{ form_label(form.bairro)}}
+            {{ form_widget(form.bairro)}}<br>
         </div>
 
-        <div class="inputExtendido"> 
+        <div class="inputExtendido">
             {{ form_errors(form.rua)}}
-            {{ form_label(form.rua)}}    
-            {{ form_widget(form.rua)}}
+            {{ form_label(form.rua)}}
+            {{ form_widget(form.rua)}}<br>
         </div>
 
-        <div class="inputExtendido"> 
+        <div class="inputExtendido">
             {{ form_errors(form.numero)}}
-            {{ form_label(form.numero)}}    
-            {{ form_widget(form.numero)}}
+            {{ form_label(form.numero)}}
+            {{ form_widget(form.numero)}}<br>
         </div>
     </div>
-         
+
         {{ form_row(form._token) }}
-        <input type="submit" value="Submit"/>
+        <input type="submit" value="Enviar"/><br>
     </form>
  </div>
-</div>
+
 {% endblock %}
 

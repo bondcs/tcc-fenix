@@ -1,48 +1,48 @@
 <div class="box-form-dialog">
     <form novalidate="" id="form" action="{{path('escalaFunCreate')}}" method="POST" class="cms ajaxFormTable">
-    <div class="myform">         
+    <div class="myform">
             {{ form_errors(form) }}
-                    
+
                     <div class="datepicker">
                         {{ form_errors(form.inicio)}}
-                        {{ form_label(form.inicio)}}    
-                        {{ form_widget(form.inicio)}}
+                        {{ form_label(form.inicio)}}
+                        {{ form_widget(form.inicio)}}<br>
                     </div>
-                
+
                     <div class="datepicker">
                         {{ form_errors(form.fim)}}
-                        {{ form_label(form.fim)}}    
-                        {{ form_widget(form.fim)}}
+                        {{ form_label(form.fim)}}
+                        {{ form_widget(form.fim)}}<br>
                     </div>
-                    
+
                     <div>
                         {{ form_errors(form.local)}}
-                        {{ form_label(form.local)}}    
-                        {{ form_widget(form.local)}}
+                        {{ form_label(form.local)}}
+                        {{ form_widget(form.local)}}<br>
                     </div>
-            
+
                     <div>
                         {{ form_errors(form.descricao)}}
-                        {{ form_label(form.descricao)}}    
-                        {{ form_widget(form.descricao)}}
+                        {{ form_label(form.descricao)}}
+                        {{ form_widget(form.descricao)}}<br>
                     </div>
-            
+
                     <div>
                         {{ form_errors(form.categoria)}}
-                        {{ form_label(form.categoria)}}    
-                        {{ form_widget(form.categoria)}}
+                        {{ form_label(form.categoria)}}
+                        {{ form_widget(form.categoria)}}<br>
                     </div>
-           </div>    
+           </div>
                     <h5 style="text-align: center; margin-bottom: 5px; font-size: 19px !important">{{ form_label(form.funcionarios)}}</h5>
                     <div class="erro-multiselect">
                     {{ form_errors(form.funcionarios)}}
                     </div>
                     <div>
-                    {{ form_widget(form.funcionarios, {'attr' : {'class' : 'multiselect'}})}}
+                    {{ form_widget(form.funcionarios, {'attr' : {'class' : 'multiselect'} })}}<br>
                     </div>
-                         
-             {{ form_row(form._token) }} 
+
+             {{ form_row(form._token) }}
         <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
         <input type="submit" value="Submit"/>
     </form>
-</div>    
+</div>
