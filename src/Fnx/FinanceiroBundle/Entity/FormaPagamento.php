@@ -42,6 +42,11 @@ class FormaPagamento
      */
     private $lembrar;
     
+    public function __construct() {
+        $this->validado = false;
+        $this->lembrar = false;
+    }
+
     public function __toString() {
         return $this->nome;
     }

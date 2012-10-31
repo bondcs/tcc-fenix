@@ -47,6 +47,8 @@ class RegistroFormHandler {
         
         $data = $this->form->getData();
         $registro->setConta($data['conta']);
+        $categoria = $this->em->createQuery("SELECT c FROM FnxAdminBundle:Categoria c WHERE c.nome = :param")->setParameter("param", "Atividade")->getSingleResult();
+        $registro->setCategoria($categoria);
 //        $registro->setDescricao($data['descricao']);
         
         for ($i = 0; $i < $data['parcela']; $i++){

@@ -4,7 +4,7 @@
 {% block menuContent %}
 
     <div id="menuContent">
-        <h3>Lista de Instâncias</h3>
+        <h3>Financeiro: Lista de Instâncias</h3>
         <ul>
             <li><a class="new-link" href="{{ path('financeiro_instancia_new')}}"><span ></span>Novo</a></li>
             <li><a route="financeiro_instancia_show" class="show-link" href="#"><span></span>Profile</a></li>
@@ -13,6 +13,14 @@
         </ul>
     </div>
 
+{% endblock %}
+
+{% block subMenu %} 
+<div id="subMenu">
+    <ul>
+        <li><a href="{{ path("financeiroShow")}}">Financeiro</a></li>
+    </ul>
+</div>
 {% endblock %}
 
 {% block conteudo %}

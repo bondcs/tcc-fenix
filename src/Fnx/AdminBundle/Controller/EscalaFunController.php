@@ -162,12 +162,12 @@ class EscalaFunController extends Controller{
     }
 
     /**
-     * @Route("/ajaxEscalaFun/{status}/{categoria}/", name="escalaFunAjax", options={"expose" = true},requirements={"inicio" = ".+", "fim" = ".+"})
+     * @Route("/ajaxEscalaFun/{status}/{servico}/", name="escalaFunAjax", options={"expose" = true},requirements={"inicio" = ".+", "fim" = ".+"})
      * @Template()
      */
-    public function ajaxAction($status, $categoria){
+    public function ajaxAction($status, $servico){
         
-        $escalasBanco = $this->getDoctrine()->getRepository("FnxAdminBundle:EscalaFun")->loadEscalaFun($status, $categoria);
+        $escalasBanco = $this->getDoctrine()->getRepository("FnxAdminBundle:EscalaFun")->loadEscalaFun($status, $servico);
         $escalas['aaData'] = array();
         
         foreach ($escalasBanco as $key => $value) {

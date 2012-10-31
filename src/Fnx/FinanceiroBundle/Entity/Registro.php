@@ -56,6 +56,13 @@ class Registro
      */
     private $parcelas;
     
+    /**
+     * @var object $categoria
+     * @ORM\ManyToOne(targetEntity="Fnx\AdminBundle\Entity\Categoria", cascade={"persist"}, fetch="LAZY")
+     */
+    private $categoria;
+
+
     public function __construct() {
         $this->parcelas = new \Doctrine\Common\Collections\ArrayCollection();
         $this->data = new \DateTime();
@@ -188,5 +195,25 @@ class Registro
     public function getAtivo()
     {
         return $this->ativo;
+    }
+
+    /**
+     * Set categoria
+     *
+     * @param Fnx\AdminBundle\Entity\Categoria $categoria
+     */
+    public function setCategoria(\Fnx\AdminBundle\Entity\Categoria $categoria)
+    {
+        $this->categoria = $categoria;
+    }
+
+    /**
+     * Get categoria
+     *
+     * @return Fnx\AdminBundle\Entity\Categoria 
+     */
+    public function getCategoria()
+    {
+        return $this->categoria;
     }
 }

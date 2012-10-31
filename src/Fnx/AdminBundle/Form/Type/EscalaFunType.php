@@ -35,10 +35,10 @@ class EscalaFunType extends AbstractType
                         'required' => false,
                         'max_length' => 60
                  ))
-            ->add('categoria','entity',array(
+            ->add('servicoEscala','entity',array(
                         'empty_value' => 'Selecione uma opcão',
                         'label' => 'Serviço:*',
-                        'class' => 'FnxAdminBundle:Categoria',
+                        'class' => 'FnxAdminBundle:ServicoEscala',
                         'property' => 'nome'
             ))
             ->add('funcionarios','entity',array(

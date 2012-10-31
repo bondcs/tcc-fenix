@@ -24,11 +24,9 @@ class SalarioType extends AbstractType{
         $builder->add('salario', 'text', array(
                'label' => 'Salário:',
             ))  
-            ->add('salarioPago', 'text', array(
-               'label' => 'Á pagar:',
-            ))
-            ->add('bonus', 'text', array(
+            ->add('valor', 'text', array(
                'label' => 'Valor:',
+               'property_path' => false
             ))
             ->add('valorHora', 'text', array(
                'label' => 'Valor/Hora:*',

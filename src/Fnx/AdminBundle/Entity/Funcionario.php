@@ -36,7 +36,7 @@ class Funcionario
     /**
      * @var string $cpf
      *
-     * @ORM\Column(name="cpf", type="string", length=45)
+     * @ORM\Column(name="cpf", type="string", length=45, nullable=true)
      */
     private $cpf;
     
@@ -58,11 +58,11 @@ class Funcionario
     
     /**
      *
-     * @var array collection $categorias
+     * @var array collection $servicos
      * 
-     * @ORM\ManyToMany(targetEntity="Categoria")
+     * @ORM\ManyToMany(targetEntity="ServicoEscala")
      */
-    private $categorias;
+    private $servicos;
 
 
     /**
@@ -109,26 +109,26 @@ class Funcionario
     /**
      *
      * @var object $salario
-     * @ORM\OneToOne(targetEntity="Salario", cascade={"all"})
+     * @ORM\OneToOne(targetEntity="Salario", inversedBy="funcionario", cascade={"all"})
      */
     private $salario;
+    
+    /**
+     * 
+     * @var object $registro
+     * @ORM\Column(name="registro", type="datetime")
+     */
+    private $registro;
     
     public function __construct() {
         
         $this->escalas = new \Doctrine\Common\Collections\ArrayCollection();
         $this->escalasEx = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->categorias = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->servicos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->registro = new \DateTime();
         $this->dependentes = 0;
     }
     
-    /**
-     * @ORM\PrePersist @ORM\PreUpdate
-     */
-    public function formataDinheiro(){
-        $this->salario = substr(str_replace(",", ".", $this->salario),3);
-
-    }
-
     /**
      * Get id
      *
@@ -373,5 +373,45 @@ class Funcionario
     public function getSalario()
     {
         return $this->salario;
+    }
+
+    /**
+     * Set registro
+     *
+     * @param datetime $registro
+     */
+    public function setRegistro($registro)
+    {
+        $this->registro = $registro;
+    }
+
+    /**
+     * Get registro
+     *
+     * @return datetime 
+     */
+    public function getRegistro()
+    {
+        return $this->registro;
+    }
+
+    /**
+     * Add servicos
+     *
+     * @param Fnx\AdminBundle\Entity\ServicoEscala $servicos
+     */
+    public function addServicoEscala(\Fnx\AdminBundle\Entity\ServicoEscala $servicos)
+    {
+        $this->servicos[] = $servicos;
+    }
+
+    /**
+     * Get servicos
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getServicos()
+    {
+        return $this->servicos;
     }
 }

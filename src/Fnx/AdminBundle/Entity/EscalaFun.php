@@ -59,10 +59,10 @@ class EscalaFun
      *
      * @var object $categoria
      * 
-     * @ORM\ManyToOne(targetEntity="Categoria", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="ServicoEscala", cascade={"persist"})
      * @Assert\NotBlank()
      */
-    private $categoria;
+    private $servicoEscala;
     
     /**
      *
@@ -156,26 +156,6 @@ class EscalaFun
     }
     
     /**
-     * Set categoria
-     *
-     * @param Fnx\AdminBundle\Entity\Categoria $categoria
-     */
-    public function setCategoria(\Fnx\AdminBundle\Entity\Categoria $categoria)
-    {
-        $this->categoria = $categoria;
-    }
-
-    /**
-     * Get categoria
-     *
-     * @return Fnx\AdminBundle\Entity\Categoria 
-     */
-    public function getCategoria()
-    {
-        return $this->categoria;
-    }
-
-    /**
      * Add funcionarios
      *
      * @param Fnx\AdminBundle\Entity\Funcionario $funcionarios
@@ -233,5 +213,25 @@ class EscalaFun
     public function getLocal()
     {
         return $this->local;
+    }
+
+    /**
+     * Set servicoEscala
+     *
+     * @param Fnx\AdminBundle\Entity\ServicoEscala $servicoEscala
+     */
+    public function setServicoEscala(\Fnx\AdminBundle\Entity\ServicoEscala $servicoEscala)
+    {
+        $this->servicoEscala = $servicoEscala;
+    }
+
+    /**
+     * Get servicoEscala
+     *
+     * @return Fnx\AdminBundle\Entity\ServicoEscala 
+     */
+    public function getServicoEscala()
+    {
+        return $this->servicoEscala;
     }
 }

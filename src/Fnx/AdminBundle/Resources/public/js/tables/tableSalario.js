@@ -1,6 +1,6 @@
 $(document).ready(function() {
     onTableAjaxSalario();
-//    filtrarSalarios();
+    filtrarSalarios();
   
 })
 
@@ -31,25 +31,37 @@ function onTableAjaxSalario(){
             "bInfo": false,
             "bRetrieve": true,
             "bProcessing": true,
-            "sAjaxSource": Routing.generate("escalaSalario"),
+            "sAjaxSource": Routing.generate("escalaSalario", {'mes' : $(".mes").val(),'ano' : $(".ano").val()}),
             "aoColumns": [
                 { "mDataProp": null},
                 { "mDataProp": "nome" },
-                { "mDataProp": "salario"},
-                { "mDataProp": "salarioPago"},
-                { "mDataProp": "dataPagamento",
+                { "mDataProp": "salario.salario"},
+                { "mDataProp": "salario.pagamento.bonus"},
+                { "mDataProp": "dependentes",
                     "sClass" : "center"},
+                { "mDataProp": "salario.ultimoPagamento",
+                    "sClass" : "center"},
+                { "mDataProp": null},
                 { "mDataProp": "id" },
+                { "mDataProp": "salario.pagamento.id"}
                     
              ],
             "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
-                 $('td:eq(0)', nRow).html('<input type="checkbox" name="fun[]" value="'+aData['id']+'">');
-                 $('td:eq(2)', nRow).html(formataDinheiro(aData['salario']+""));
-                 $('td:eq(3)', nRow).html(formataDinheiro(aData['salarioPago']+""));
+                 if (aData['salario']['pagamento']['pago']){
+                      $('td:eq(0)', nRow).html('<input disabled="disabled" type="checkbox" name="pagamentos[]" value="'+aData['salario']['pagamento']['id']+'">');
+                      $(nRow).addClass('riscado');
+                 }else{
+                      $('td:eq(0)', nRow).html('<input type="checkbox" name="pagamentos[]" value="'+aData['salario']['pagamento']['id']+'">');
+                 }
+                 $('td:eq(2)', nRow).html(formataDinheiro(aData['salario']['salario']+""));
+                 $('td:eq(3)', nRow).html(formataDinheiro(aData['salario']['pagamento']['bonus']+""));
+                 $('td:eq(4)', nRow).html(aData['dependentes']+" x "+formataDinheiro(aData['valorDependente']+""));
+                 $('td:eq(6)', nRow).html(formataDinheiro(aData['dependentes']*aData['valorDependente']+aData['salario']['salario']+aData['salario']['pagamento']['bonus']+""));
                  
             },
-            "aoColumnDefs": [{"bVisible": false, "aTargets": [5]},
-                              {"bSortable": false, "aTargets": [0]}],
+            "aoColumnDefs": [{"bVisible": false, "aTargets": [7]},
+                             {"bVisible": false, "aTargets": [8]},
+                             {"bSortable": false, "aTargets": [0]}],
             "bAutoWidth": false,
             "sDom": '<"H"Tfr<"toolbar02">>t<"F"ip>',
             "oTableTools": {
@@ -66,16 +78,60 @@ function onTableAjaxSalario(){
                             "sPdfMessage": "Escalas"
                         }, 
                         {
+                            "sExtends": "text",
+                            "sButtonText": "Pagar",
+                            "fnClick" : function(){
+                                  var form = $("#formSalario")
+                                  $.ajax({
+                                        type: 'POST',
+                                        url: Routing.generate("salarioPagamento"),
+                                        data: form.serialize(),
+                                        success: function(result){
+                                            notifity(result['notifity']);
+                                            if (result['notifity'] == 'noSelected'){
+                                                 return false;
+                                            }
+
+                                            onReadyAjax();
+                                            $('.tableSalario').dataTable().fnReloadAjax();
+                                        }
+                                  }) 
+                            }
+                        },
+                        {
+                            "sExtends": "text",
+                            "sButtonText": "Gerar",
+                            "fnClick" : function(){
+                                  var form = $("#formSalario")
+                                  $.ajax({
+                                        type: 'POST',
+                                        url: Routing.generate("salarioGerarPagamento", {'mes' : $(".mes").val(),'ano' : $(".ano").val()}),
+                                        data: form.serialize(),
+                                        success: function(result){
+                                            notifity(result['notifity']);
+                                            if (result['notifity'] == 'noSelected'){
+                                                 return false;
+                                            }
+
+                                            onReadyAjax();
+                                            $('.tableSalario').dataTable().fnReloadAjax();
+                                        }
+                                  }) 
+                            }
+                        },
+                        {
                             "sExtends": "select_single",
-                            "sButtonText": "Editar",
+                            "sButtonText": "Bônus",
                             "sButtonClass": "hidden",
                             "fnClick" : function(){
                                  var aaData = this.fnGetSelectedData()
-                                 id = aaData[0]["id"];
-                                 ajaxLoadDialog(Routing.generate("funcionarioSalarioEdit", {"id" : id}));
+                                 var id = aaData[0]["id"];
+                                 var pagamentoId = aaData[0]['salario']['pagamento']['id'];
+                                 ajaxLoadDialog(Routing.generate("funcionarioSalarioEdit", {"pagamentoId" : pagamentoId}));
                                  
                             }
-                        }
+                        }   
+                        
                     ]
                 }
         });
@@ -84,34 +140,29 @@ function onTableAjaxSalario(){
         
 }
 
-//function filtrarSalarios(){
-//    
-//    $('#filtrarEscala').click(function(){
-//        
-//        oTableSalario.fnNewAjax(Routing.generate("escalaSalario", {
-//                                                'inicio' : $(".inicio").val(),
-//                                                'fim' : $(".fim").val()
-//                        }));
-//                            
-//        oTableSalario.dataTable().fnReloadAjax();
-//
-//        return false;
-//    })
-//    
-//    
-//}
-
-$(".tableSalario tbody td.check").live("click", function(){
+function filtrarSalarios(){
     
-            var data = oTableSalario.fnGetData(this.parentNode);
-            var url = Routing.generate("escalaFunCheck", {"id" : data['id']})
-            $.ajax({
-                type: 'POST',
-                url: url,
-                success: function(){
-                    $('.redraw').dataTable().fnReloadAjax();
-                    onReadyAjax();  
-                    return false;
-                }
-            })
-})
+    $('.mes, .ano').change(function(){
+        
+        oTableSalario.fnNewAjax(Routing.generate("escalaSalario", {'mes' : $(".mes").val(),'ano' : $(".ano").val()}));                   
+        oTableSalario.dataTable().fnReloadAjax();
+        return false;
+    })
+    
+    
+}
+//
+//$(".tableSalario tbody td.check").live("click", function(){
+//    
+//            var data = oTableSalario.fnGetData(this.parentNode);
+//            var url = Routing.generate("escalaFunCheck", {"id" : data['id']})
+//            $.ajax({
+//                type: 'POST',
+//                url: url,
+//                success: function(){
+//                    $('.redraw').dataTable().fnReloadAjax();
+//                    onReadyAjax();  
+//                    return false;
+//                }
+//            })
+//})

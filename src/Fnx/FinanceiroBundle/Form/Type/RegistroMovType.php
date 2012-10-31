@@ -18,6 +18,12 @@ class RegistroMovType extends AbstractType
                   'class' => 'FnxFinanceiroBundle:Conta',
                  //'empty_value' => 'Selecione uma conta',
             ))
+            ->add('categoria', 'entity', array(
+                  'label' => 'Categoria:*',
+                  'property' => 'nome',
+                  'class' => 'FnxAdminBundle:Categoria',
+                  //'empty_value' => 'Selecione uma categoria'
+            ))
             ->add('descricao', 'text', array(
                   'label' => 'Decricão:*'
             ))
@@ -25,13 +31,13 @@ class RegistroMovType extends AbstractType
     }
     
     public function getDefaultOptions(array $options)
-    {
+    {        
         return array(
             'data_class' => 'Fnx\FinanceiroBundle\Entity\Registro',
         );
     }
-    
-    public function getName()
+   
+        public function getName()
     {
         return 'fnx_financeirobundle_registromovtype';
     }

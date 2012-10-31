@@ -45,26 +45,40 @@ $(document).ready(function() {
         onSubmitFormPagamento();
         translateHtml5Validation();
         sempreZero();
+        button();
 } );
 
-TableTools.BUTTONS.link = $.extend( true, TableTools.buttonBase, {
-	"sPath": "#",
-	"sText": "Link",
-	"sAnchor": null,
-	"sImage" : "",
-	"sButtonText" : "<img src='"+this.sImage+"'>"+this.sText,
-	"fnClick": function( nButton, oConfig ) {
-	    var path = "";
-	    if( oConfig.sPath && oConfig.sPath !== '/')
-		path = oConfig.sPath;
-	    else if(oConfig.sAnchor)
-		path = $(oConfig.sAnchor).attr('href');
-	    else
-		console.log('clicou em um botão de redirecionamento sem endereço declarado');
+	TableTools.BUTTONS.link = $.extend( true, TableTools.buttonBase, {
+		"sPath": "#",
+		"sText": "Link",
+		"sAnchor": null,
+		"sImage" : "",
+		"sButtonText" : "<img src='"+this.sImage+"'>"+this.sText,
+		"fnClick": function( nButton, oConfig ) {
+		    var path = "";
+		    if( oConfig.sPath && oConfig.sPath !== '/')
+			path = oConfig.sPath;
+		    else if(oConfig.sAnchor)
+			path = $(oConfig.sAnchor).attr('href');
+		    else
+			console.log('clicou em um botão de redirecionamento sem endereço declarado');
 
-	    document.location.href = path;
-	}
-} );
+		    document.location.href = path;
+		}
+	} );
+
+function button(){
+    $( "input[type=submit],button, input[type=button], .button " ).button({
+    });
+    return false;
+}
+
+$(document).ajaxStart(function(){
+     $(".ajaxLoader").show();
+}).ajaxStop(function(){
+     $(".ajaxLoader").hide();
+
+});
 
 function onReadyAjax(){
         simpleDialog();
@@ -87,12 +101,12 @@ function onReadyAjax(){
         onSubmitFormPagamento();
         translateHtml5Validation();
         sempreZero();
+        button();
 }
 
 function onTable(){
 
         oTable = $('table.tablePlugin').dataTable({
-            "bJQueryUI": true,
             "sPaginationType": "full_numbers",
             "bRetrieve": true,
             "oLanguage": {
@@ -433,7 +447,7 @@ function initDatepicker() {
 //	    changeYear: true
 //        });
 
-    $('.datepicker input')
+    $('.datepickerImage input')
         .datetimepicker({
             showOn: "button",
 	    buttonImage: imageUrl+"calendar.gif",
@@ -589,6 +603,24 @@ function notifity(tipo){
             title: 'Erro!',
             text: 'Atividade arquivada.',
             type: 'error'
+        });
+    }else if (tipo == 'noSelected'){
+        $.pnotify({
+            title: 'Erro!',
+            text: 'Nenhum registro selecionado.',
+            type: 'error'
+        });
+    }else if (tipo == 'gerado'){
+        $.pnotify({
+            title: 'Erro!',
+            text: 'Pagamentos já foram gerados.',
+            type: 'error'
+        });
+    }else if (tipo == 'gerar'){
+        $.pnotify({
+            title: 'Sucesso!',
+            text: 'Pagamentos gerados.',
+            type: 'notice'
         });
     }
 
@@ -814,6 +846,5 @@ function sempreZero(){
         $(this).val(0)
         }
     })
-
 }
 

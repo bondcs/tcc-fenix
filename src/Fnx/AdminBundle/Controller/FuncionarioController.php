@@ -46,6 +46,8 @@ class FuncionarioController extends Controller{
             $form->bindRequest($request);
             if ($form->isValid()){
                 $em = $this->getDoctrine()->getEntityManager();
+//                $config = $em->getRepository('FnxAdminBundle:Configuracao')->findOneBy(array("id" => $this->container->getParameter("configuracaoId")));
+//                $funcionario->getSalario()->setSalarioPago(substr(str_replace(",", ".", $funcionario->getSalario()->getSalario()),3) + $config->getValorDependente()*$funcionario->getDependentes());
                 $em->persist($funcionario);
                 $em->flush();
                 
@@ -68,15 +70,13 @@ class FuncionarioController extends Controller{
         if (!$funcionario){
             throw $this->createNotFoundException("Funcionário não encontrado.");
         }
-
+        
         $form = $this->createForm(new FuncionarioType, $funcionario);
         $request = $this->getRequest();
         if ($request->getMethod() == "POST"){
             $form->bindRequest($request);
             if ($form->isValid()){
                 $em = $this->getDoctrine()->getEntityManager();
-                $salario = $funcionario->getSalario();
-                $salario->setSalarioPago(substr(str_replace(",", ".", $salario->getSalario()),3) + $salario->getBonus());
                 $em->persist($funcionario);
                 $em->flush();
                 

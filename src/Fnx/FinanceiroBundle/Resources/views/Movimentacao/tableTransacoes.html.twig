@@ -31,6 +31,17 @@
                {{ form_widget(formFilter.tipo,{'attr' : {'class' : 'tipo'}})}}
         </div>
 
+        <div class="bold">
+               {{ form_errors(formFilter.categoria)}}
+               {{ form_label(formFilter.categoria)}}
+               {{ form_widget(formFilter.categoria,{'attr' : {'class' : 'categoria'}})}}
+        </div>
+
+        <div class="bold">
+               {{ form_errors(formFilter.doc)}}
+               {{ form_label(formFilter.doc)}}
+               {{ form_widget(formFilter.doc,{'attr' : {'class' : 'doc', 'style':'width:40px'}})}}
+        </div>
         <input id="filtrarGeral" type="button" value="Filtrar">
     </form>
 </div>

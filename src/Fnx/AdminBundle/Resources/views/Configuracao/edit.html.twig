@@ -1,0 +1,27 @@
+<div class="box-form-dialog">
+    <form novalidate="" class="cms ajaxForm" style="padding-bottom: 15px;" action="{{ path('configUpdate') }}" method="post" {{ form_enctype(form) }}>
+             {{form_errors(form)}}
+        <div class="myform">
+            <div>
+                {{ form_errors(form.valorDependente)}}
+                {{ form_label(form.valorDependente)}}    
+                {{ form_widget(form.valorDependente,{'attr' : {'class' : 'moeda', 'style' : 'width:53.2%'}})}}
+            </div>
+            
+            <div>
+                {{ form_errors(form.contaSalario)}}
+                {{ form_label(form.contaSalario)}}    
+                {{ form_widget(form.contaSalario)}}
+            </div>
+            
+             <div>
+                {{ form_errors(form.formaPagamentoSalario)}}
+                {{ form_label(form.formaPagamentoSalario)}}    
+                {{ form_widget(form.formaPagamentoSalario)}}
+            </div>
+        </div>    
+            {{ form_row(form._token) }}
+            <input class="close" type="button" onclick="dialogClose()" value="Fechar"/>
+            <input style="margin-bottom: 0px;" type="submit" value="Submit"/>
+        </form>
+</div>

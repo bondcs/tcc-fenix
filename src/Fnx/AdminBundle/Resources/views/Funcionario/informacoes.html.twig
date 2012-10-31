@@ -1,5 +1,5 @@
 
-<div class="ui-panel-content ui-widget-content " style="width:auto">
+<div class="ui-panel-content ui-widget-content " style="width:99.4%">
     <h4 class="ui-panel-title ui-widget-header ">Informações</h4>
     <table class="infos">
                 <tr>
@@ -16,15 +16,15 @@
                 </tr>
                 <tr>
                     <th>Rg:</th>
-                    <td>{{funcionario.rg|default("#")}}</td>
+                    <td>{{funcionario.rg|default("-")}}</td>
                 </tr>
                 <tr>
                     <th>Cpf:</th>
-                    <td>{{funcionario.cpf|default("#")}}</td>
+                    <td>{{funcionario.cpf|default("-")}}</td>
                 </tr>
-                <tr>
+                {#<tr>
                     <th>Dependentes:</th>
-                    <td>{{funcionario.dependentes|default("#")}}</td>
-                </tr>
+                    <td>{{funcionario.dependentes|default("-")}}</td>
+                </tr>#}
     </table>
 </div>

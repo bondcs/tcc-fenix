@@ -1,0 +1,53 @@
+{% extends "FnxAdminBundle::layout.html.twig" %}
+{% block title %} Gerenciamento de serviço {% endblock %}
+{% block menuContent %}
+
+    <div id="menuContent">
+        <h3>Gerenciamento: Lista de serviços</h3>
+        <ul>
+            <li><a class="new-link" href="{{ path('funcionario_servico_escala_new')}}"><span ></span>Novo</a></li>
+            <li><a route="funcionario_servico_escala_edit" class="edit-link" href="#"><span></span>Editar</a></li>
+            <li><a route="funcionario_servico_escala_delete" class="delete-link confirm-link" href="#"><span></span>Deletar</a></li>
+        </ul> 
+    </div>
+
+{% endblock %}
+
+{% block subMenu %} 
+<div id="subMenu">
+    <ul>
+        <li><a href="{{ path("funcionarioHome")}}">Funcionários</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+<div class="box-table">
+<table class="tablePlugin">
+    <thead>
+        <tr>
+            
+            <th style="width: 400px;">Nome</th>
+            <th>Descrição</th>
+            <th class="hide">Id</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for entity in entities %}
+        <tr>
+            <td>{{ entity.nome }}</td>
+            <td>
+                {% if entity.descricao|length > 100 %}
+                {{ entity.descricao(100)}} <a href="{{path("funcionario_servico_escala_edit", {"id" : entity.id})}}">...</a>
+                {% else %}
+                {{ entity.descricao(100)}}
+                {% endif %}
+            </td>
+            <td class="id">{{ entity.id }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+{% endblock %}

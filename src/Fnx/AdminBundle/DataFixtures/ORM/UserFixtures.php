@@ -5,7 +5,7 @@
  * and open the template in the editor.
  */
 
-namespace Acme\AdminBundle\DataFixtures\ORM;
+namespace Fnx\AdminBundle\DataFixtures\ORM;
  
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;

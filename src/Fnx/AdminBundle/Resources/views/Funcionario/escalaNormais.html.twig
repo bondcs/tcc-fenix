@@ -23,4 +23,28 @@
 	 {% endfor %}
 	 </tbody>
    </table>
+                <table class="tablePlugin data">
+                    <thead>
+                        <tr>
+                            <th>Serviço</th>
+                            <th>Descrição</th>
+                            <th>Local</th>
+                            <th>Início</th>
+                            <th>Fim</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                     {% for escala in funcionario.escalasEx %}
+                          {% if (escala.ativo)%}
+                          <tr>
+                              <td>{{escala.servicoEscala.nome}}</td>
+                              <td>{{escala.descricao}}</td>
+                              <td>{{escala.local}}</td>
+                              <td style="text-align: center">{{escala.inicio|date('d/m/Y H:i:s')}}</td>
+                              <td style="text-align: center">{{escala.fim|date('d/m/Y H:i:s')}}</td>
+                          </tr>
+                          {% endif %}
+                     {% endfor %}
+                     </tbody>
+               </table>
 </div>

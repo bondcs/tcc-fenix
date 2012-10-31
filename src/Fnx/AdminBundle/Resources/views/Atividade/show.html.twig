@@ -22,10 +22,10 @@
         <ul>
 
             {% if (atividade.arquivado) %}
-                <li><a class="unarquive-link confirm-link" href="{{ path('atividadeAtivar',{'id' : atividade.id})}}"><span></span>Ativar</a></li>
+                <li><a class="unarquive-link dialog-confirm-link" href="{{ path('atividadeAtivar',{'id' : atividade.id})}}"><span></span>Ativar</a></li>
                 <li><a class="back-link" href="{{ path('atividadeArquivado')}}"><span></span>Voltar</a></li>
             {% else %}
-                <li><a class="arquive-link confirm-link" href="{{ path('atividadeArquivar',{'id' : atividade.id})}}"><span></span>Arquivar</a></li>
+                <li><a class="arquive-link dialog-confirm-link" href="{{ path('atividadeArquivar',{'id' : atividade.id})}}"><span></span>Arquivar</a></li>
                 <li><a class="back-link" href="{{ path('atividadeHome')}}"><span></span>Voltar</a></li>
             {% endif %}
         </ul>
@@ -43,6 +43,10 @@
 
     {% if atividade.servico.nome == 'Verificação de Propriedade'%}
         {% include 'FnxAdminBundle:Servico:verificacao.html.twig' %}
+    {% endif %}
+
+    {% if atividade.servico.nome == 'Administração'%}
+        {% include 'FnxAdminBundle:Servico:admin.html.twig' %}
     {% endif %}
 {% endblock %}
 

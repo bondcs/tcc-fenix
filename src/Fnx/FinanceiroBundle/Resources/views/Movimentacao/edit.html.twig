@@ -10,6 +10,12 @@
             </div>
             
             <div>
+                {{ form_errors(form.parcela.registro.categoria)}}
+                {{ form_label(form.parcela.registro.categoria)}}    
+                {{ form_widget(form.parcela.registro.categoria)}}
+            </div>
+            
+            <div>
                 {{ form_errors(form.parcela.registro.descricao)}}
                 {{ form_label(form.parcela.registro.descricao)}}    
                 {{ form_widget(form.parcela.registro.descricao)}}
@@ -39,7 +45,7 @@
                 {{ form_widget(form.valor_pago, {'attr' : { 'style' : 'width:33%'}})}}
             </div>
             
-            <div class="datepicker">
+            <div class="datepickerImage">
                         {{ form_errors(form.data_pagamento)}}
                         {{ form_label(form.data_pagamento)}}    
                         {{ form_widget(form.data_pagamento)}}

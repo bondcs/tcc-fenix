@@ -12,15 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class EscalaFunRepository extends EntityRepository
 {
-       public function loadEscalaFun($status, $categoria){
+       public function loadEscalaFun($status, $servico){
         
 //        $inicio = new \DateTime($this->conv_data_to_us($inicio));   
 //        $fim = new \DateTime($this->conv_data_to_us($fim));
            
             $qb = $this->createQueryBuilder('e')
-                  ->select('e','f','c')
+                  ->select('e','f','s')
                   ->innerJoin('e.funcionarios', 'f')
-                  ->innerJoin('e.categoria', 'c');
+                  ->innerJoin('e.servicoEscala', 's');
 
             if ($status == "a"){
                 $qb->where("e.ativo = 1");
@@ -29,9 +29,9 @@ class EscalaFunRepository extends EntityRepository
                 $qb->where("e.ativo = 0");
             }
 
-            if ($categoria != 0){
-                $qb->andWhere("c.id = :categoria")
-                ->setParameter("categoria", $categoria);
+            if ($servico != 0){
+                $qb->andWhere("s.id = :servico")
+                ->setParameter("servico", $servico);
             }
 
             return $qb->getQuery()->getArrayResult();

@@ -1,11 +1,13 @@
-{% include "FnxAdminBundle:Atividade:informacoes.html.twig" %}
 <div class="tabs">
     <ul>
+        <li><a href="#tabs-1">Informações</a></li>
         <li><a href="#tabs-2">Propriedade</a></li>
         <li><a href="#tabs-3">Galeria</a></li>
         <li><a href="#tabs-4">Pagamento</a></li>
     </ul>
-
+    <div id="tabs-1">
+        {% include "FnxAdminBundle:Atividade:informacoes.html.twig" %}
+    </div>
     <div id="tabs-2">
       {% include "FnxAdminBundle:Propriedade:table.html.twig" %}
     </div>
