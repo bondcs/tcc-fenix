@@ -153,7 +153,6 @@ function ajaxDialog(){
 
                                /* hack para recarregar funcões previamente carregadas no onReady()*/
                                onReadyAjax();
-
                        }
                    })
             }
@@ -770,9 +769,9 @@ function formataDinheiroTabela(valor){
     return valor.toString().replace(".",",");
 }
 
-$(function() {
+(function($) {
      $( ".accordion" ).accordion();
-});
+})(jQuery);
 
 function tooltip(){
 

@@ -12,6 +12,7 @@
 	{% block stylesheets %}{% endblock %}
     </head>
     <body>
+	<div id="all">
 	<div id="toolbar">
 	    <a href="{{ path('adminHome') }}" class="logo">Grupo Phoenix</a>
 
@@ -36,6 +37,7 @@
 	    </div>
 	    {% endblock %}
 	 </div>
+	</div>
 	<div id="footer">
 	{% block footer %}
 	    <span>Sistema por: Luan Luiz Correa e Jomaro Correa Rodrigues</span>
@@ -80,11 +82,13 @@
 
 	    var url_dominio = "tcc-fenix";
 	    var urlSource = "";
-	    var imageUrl = '{{ asset('bundles/fnxadmin/images/')}}';
+	    var imageUrl = '{{ asset('bundles/fnxadmin/images/') }}';
 	</script>
     {% endblock %}
     {% block javascripts %}{% endblock %}
     {% block javascript_defer %}{% endblock %}
 	<img class="ajaxLoader" src="{{ asset('bundles/fnxadmin/images/335.gif') }}"/>
+
+
     </body>
 </html>

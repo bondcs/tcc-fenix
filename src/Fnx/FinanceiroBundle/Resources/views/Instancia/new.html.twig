@@ -7,7 +7,7 @@
         <h3>Formulário de Instância</h3>
         <ul>
             <li><a class="back-link" href="{{ path('financeiro_instancia')}}"><span></span>Voltar</a></li>
-        </ul> 
+        </ul>
     </div>
 {% endblock %}
 
@@ -19,17 +19,17 @@
             <div class="myform">
                 <div class='inputExtendido'>
                      {{ form_errors(form.nome)}}
-                     {{ form_label(form.nome)}}    
-                     {{ form_widget(form.nome)}}
+                     {{ form_label(form.nome)}}
+                     {{ form_widget(form.nome)}}<br>
                 </div>
                 <div>
                      {{ form_errors(form.descricao)}}
-                     {{ form_label(form.descricao)}}    
-                     {{ form_widget(form.descricao)}}
+                     {{ form_label(form.descricao)}}
+                     {{ form_widget(form.descricao)}}<br>
                 </div>
             </div>
 
-            {{ form_rest(form)}}
+            {{ form_rest(form)}}<br>
             <input type="submit" value="Submit"/>
         </form>
     </div>
